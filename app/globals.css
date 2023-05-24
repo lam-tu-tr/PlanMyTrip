@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -14,14 +14,28 @@
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-}
+} */
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-color: rgba(16, 16, 16, 1);
+  opacity: 1;
+  background-image: linear-gradient(#686868 5.4px, transparent 5.4px),
+    linear-gradient(90deg, #686868 5.4px, transparent 5.4px),
+    linear-gradient(#686868 2.7px, transparent 2.7px),
+    linear-gradient(90deg, #686868 2.7px, rgba(16, 16, 16, 1) 2.7px);
+  background-size: 135px 135px, 135px 135px, 27px 27px, 27px 27px;
+  background-position: -5.4px -5.4px, -5.4px -5.4px, -2.7px -2.7px,
+    -2.7px -2.7px;
+}
+
+form {
+  height: 16rem;
+}
+
+.temp {
+  height: 80vh;
+}
+
+.calendar {
+  background-color: aqua;
 }
