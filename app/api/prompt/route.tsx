@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest, res: NextResponse) {
   try {
+    console.log("Fetching Chat Completion");
     const { prompt } = await req.json();
 
     //fetch openai end point to create prompt Completion
@@ -42,12 +43,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
       tripList.push({ [location]: description });
     }
 
-    console.log("triplocation: " + tripLocation);
+    // console.log("triplocation: " + tripLocation);
     return NextResponse.json({
       aiResultText: aiResult.choices[0].text,
       tripLocation: tripLocation,
       tripList: tripList,
       model: aiResult.model,
+      prompt: prompt,
       status: 200,
     });
   } catch (err) {

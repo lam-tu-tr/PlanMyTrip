@@ -1,7 +1,7 @@
 import React, { useState, FC } from "react";
 import { DatePicker, Space } from "antd";
 
-import { RangePickerProps } from "antd/lib/date-picker/generatePicker";
+// import { RangePickerProps } from "antd/lib/date-picker/generatePicker";
 import { RangeValue } from "rc-picker/lib/interface";
 
 import dayjs, { Dayjs } from "dayjs";

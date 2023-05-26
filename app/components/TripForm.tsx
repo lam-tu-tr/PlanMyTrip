@@ -3,10 +3,7 @@
 import { useState, useEffect } from "react";
 import { handleSubmitPrompt } from "../helpers/handleSubmitPrompt";
 
-import { addDays } from "date-fns";
-
 import AntDateRange from "./AntDateRange";
-
 import { Message } from "../helpers/types";
 
 export default function TripForm() {
@@ -78,7 +75,7 @@ export default function TripForm() {
         <button
           className="text-lg bg-blue-400 h-14 w-40 p-2 py-1 rounded-md border-1"
           type="submit"
-          onClick={() => handleSubmit}
+          onClick={handleSubmitPrompt}
         >
           Submit Prompt
         </button>
