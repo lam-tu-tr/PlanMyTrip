@@ -24,7 +24,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
         presence_penalty: 0,
       }),
     });
-
+    if (!response.ok) {
+      throw new Error(`API request failed with status ${response.status}`);
+    }
     const aiResult = await response.json();
 
     //match 'index location description'
@@ -40,6 +42,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       tripList.push({ [location]: description });
     }
 
+    console.log("triplocation: " + tripLocation);
     return NextResponse.json({
       aiResultText: aiResult.choices[0].text,
       tripLocation: tripLocation,

@@ -1,4 +1,4 @@
-import { useState, FC } from "react";
+import React, { useState, FC } from "react";
 import { DatePicker, Space } from "antd";
 
 import { RangePickerProps } from "antd/lib/date-picker/generatePicker";
@@ -7,9 +7,13 @@ import { RangeValue } from "rc-picker/lib/interface";
 import dayjs, { Dayjs } from "dayjs";
 const { RangePicker } = DatePicker;
 
-const AntDateRange: FC = () => {
-  const [dates, setDates] = useState<string[]>([]);
-  console.log(dates);
+type AntDateRangeProps = {
+  setDate: React.Dispatch<React.SetStateAction<string[]>>;
+};
+
+function AntDateRange({ setDate }: AntDateRangeProps) {
+  // const [dates, setDates] = useState<string[]>([]);
+  // console.log(dates);
 
   return (
     <div className="bg-blue-500 w-96 h-14 flex flex-row justify-center items-center">
@@ -21,7 +25,7 @@ const AntDateRange: FC = () => {
             date: RangeValue<Dayjs>,
             formatString: [string, string]
           ) => {
-            setDates(
+            setDate(
               formatString.map((item) => {
                 return dayjs(item).format("MMM DD, YYYY");
               })
@@ -31,6 +35,6 @@ const AntDateRange: FC = () => {
       </Space>
     </div>
   );
-};
+}
 
 export default AntDateRange;
