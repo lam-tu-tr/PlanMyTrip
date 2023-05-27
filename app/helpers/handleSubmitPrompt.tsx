@@ -4,12 +4,14 @@ import React from "react";
 import { Message } from "./types";
 
 //this function processes directory
-export async function handleSubmitPrompt(e: any) {
-  // messages: object[],
-  // setMessages: React.Dispatch<React.SetStateAction<Message[]>>
+export async function handleSubmitPrompt(
+  messages: string,
+  setMessages: React.Dispatch<React.SetStateAction<Message[]>>
+) {
   // console.log("message: " + JSON.stringify(messages, null, 2));
-  e.preventDefault();
+
   console.log("inside handleSubmit");
+  console.log("messages in prompt" + JSON.stringify(messages));
   try {
     // const res = await fetch("/api/prompt", {
     //   method: "POST",
@@ -37,6 +39,7 @@ export async function handleSubmitPrompt(e: any) {
         prompt: "Recommend 2 places to checkout on my trip to LA",
       }),
     });
+
     console.log("after fetch");
     // if (!res.ok) {
     //   throw new Error("Failed to fetch API");

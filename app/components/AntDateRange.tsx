@@ -5,13 +5,15 @@ import { DatePicker, Space } from "antd";
 import { RangeValue } from "rc-picker/lib/interface";
 
 import dayjs, { Dayjs } from "dayjs";
+import { Message } from "../helpers/types";
 const { RangePicker } = DatePicker;
 
 type AntDateRangeProps = {
   setDate: React.Dispatch<React.SetStateAction<string[]>>;
+  setMessages: any;
 };
 
-function AntDateRange({ setDate }: AntDateRangeProps) {
+function AntDateRange({ setDate, setMessages }: AntDateRangeProps) {
   // const [dates, setDates] = useState<string[]>([]);
   // console.log(dates);
 
@@ -30,6 +32,20 @@ function AntDateRange({ setDate }: AntDateRangeProps) {
                 return dayjs(item).format("MMM DD, YYYY");
               })
             );
+
+            // setMessages((prev: any) => {
+            //   const user = prev.find((item: Message) => item.role === "user");
+
+            //   return [
+            //     ...prev,
+            //     {
+            //       ...user,
+            //       content: formatString.map((item) => {
+            //         return dayjs(item).format("MMM DD, YYYY");
+            //       }),
+            //     },
+            //   ];
+            // });
           }}
         />
       </Space>

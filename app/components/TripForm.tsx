@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { handleSubmitPrompt } from "../helpers/handleSubmitPrompt";
 
 import AntDateRange from "./AntDateRange";
@@ -28,30 +28,46 @@ export default function TripForm() {
     //spread over data, but change name: value of input
     // setForm({ ...form, [e.target.name]: e.target.value });
     setDestination(e.target.value);
+
+    // setMessages((prev): any => {
+    //   const user = prev.find((item: Message) => item.role === "user");
+    //   return [...prev, { ...user, content: e.target.value }];
+    // });
   }
 
+  const testMessage = useMemo(() => {
+    return `Create an itinerary for my trip to ${destination} from ${date[0]} to ${date[1]}`;
+  }, [destination, date]);
+
   //process user input and create a standardized initial prompt to submit to gpt
-  function handleSubmit() {
+  function handleSubmit(event: any) {
+    event.preventDefault();
     //iterate thru message and check for user role, then replace content
     //since initial, only one user object
     console.log("Destination: " + destination + "Date: " + date);
-    setMessages((prevMessages) =>
-      prevMessages.map((message) =>
-        message.role === "user"
-          ? {
-              ...message,
-              content: `Create an itinerary for my trip to ${destination} from `,
-            }
-          : message
-      )
-    );
+    // setMessages((prevMessages): any => {
+    //   console.log("prevmess" + prevMessages);
+    //   prevMessages.map((message) =>
+    //     message.role === "user"
+    //       ? {
+    //           ...message,
+    //           content: `Create an itinerary for my trip to ${destination} from ${date[0]} to ${}`,
+    //         }
+    //       : message
+    //   );
+
+    // const message = `Create an itinerary for my trip to ${destination} from ${date[0]} to ${date[1]}`;
+    // console.log(testMessage);
+    handleSubmitPrompt(testMessage, setMessages);
+    // });
+
     setInitialRender(false);
   }
 
   // useEffect(() => {
   //   if (!initialRender) {
   //     console.log("current message" + JSON.stringify(messages, null, 2));
-  //     handleSubmitPrompt(messages, setMessages);
+  //     // handleSubmitPrompt(messages, setMessages);
   //   }
   // }, [initialRender, messages]);
 
@@ -60,7 +76,10 @@ export default function TripForm() {
       <h1 className="text-3xl text-white">
         Simplify your trip planning with AI powered itineraries
       </h1>
-      <form className="flex flex-col justify-between items-center h- bg-red-700 p-2">
+      <form
+        className="flex flex-col justify-between items-center h- bg-red-700 p-2"
+        onSubmit={handleSubmit}
+      >
         <input
           className="bg-slate-500 p-2 py-1 w-96 h-14 rounded-lg border border-white"
           name="destination"
@@ -70,12 +89,11 @@ export default function TripForm() {
           onChange={handleLocationChange}
         />
 
-        <AntDateRange setDate={setDate} />
+        <AntDateRange setDate={setDate} setMessages={setMessages} />
 
         <button
           className="text-lg bg-blue-400 h-14 w-40 p-2 py-1 rounded-md border-1"
           type="submit"
-          onClick={handleSubmitPrompt}
         >
           Submit Prompt
         </button>
