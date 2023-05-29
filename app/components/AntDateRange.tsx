@@ -3,20 +3,16 @@ import { DatePicker, Space } from "antd";
 
 // import { RangePickerProps } from "antd/lib/date-picker/generatePicker";
 import { RangeValue } from "rc-picker/lib/interface";
+import { Dayjs } from "dayjs";
 
-import dayjs, { Dayjs } from "dayjs";
-import { Message } from "../helpers/types";
 const { RangePicker } = DatePicker;
 
 type AntDateRangeProps = {
-  setDate: React.Dispatch<React.SetStateAction<string[]>>;
-  setMessages: any;
+  setStartDate: React.Dispatch<React.SetStateAction<string>>;
+  setEndDate: React.Dispatch<React.SetStateAction<string>>;
 };
 
-function AntDateRange({ setDate, setMessages }: AntDateRangeProps) {
-  // const [dates, setDates] = useState<string[]>([]);
-  // console.log(dates);
-
+function AntDateRange({ setStartDate, setEndDate }: AntDateRangeProps) {
   return (
     <div className="bg-blue-500 w-96 h-14 flex flex-row justify-center items-center">
       <Space direction="vertical" size={12}>
@@ -27,25 +23,8 @@ function AntDateRange({ setDate, setMessages }: AntDateRangeProps) {
             date: RangeValue<Dayjs>,
             formatString: [string, string]
           ) => {
-            setDate(
-              formatString.map((item) => {
-                return dayjs(item).format("MMM DD, YYYY");
-              })
-            );
-
-            // setMessages((prev: any) => {
-            //   const user = prev.find((item: Message) => item.role === "user");
-
-            //   return [
-            //     ...prev,
-            //     {
-            //       ...user,
-            //       content: formatString.map((item) => {
-            //         return dayjs(item).format("MMM DD, YYYY");
-            //       }),
-            //     },
-            //   ];
-            // });
+            setStartDate(formatString[0]);
+            setEndDate(formatString[1]);
           }}
         />
       </Space>

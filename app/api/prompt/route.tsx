@@ -3,56 +3,72 @@ import { NextRequest, NextResponse } from "next/server";
 
 // const prisma = new PrismaClient();
 
+//------------------------------------------------------------------------------
+//POST a chat request to  openAI chatcompletion endpoint
+//reuseable for additional request for conversation
+//the req.prompt ill get more complex as more {content} object
+//    gets added to prompt by user and system
+//-----------------------------------------------------------------------------
+
 export async function POST(req: NextRequest, res: NextResponse) {
   try {
     console.log("Fetching Chat Completion");
-    const { prompt } = await req.json();
+    const prompt = await req.json();
+
+    console.log("POST Prompt" + JSON.stringify(prompt, null, 2));
+    console.log("prompt content: " + prompt.messages[0].content);
 
     //fetch openai end point to create prompt Completion
-    const response = await fetch("https://api.openai.com/v1/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-      },
+    // const response = await fetch("https://api.openai.com/v1/completions", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+    //   },
 
-      body: JSON.stringify({
-        model: "text-davinci-003",
-        prompt: prompt,
-        max_tokens: 100,
-        temperature: 0.3,
-        frequency_penalty: 0.5,
-        presence_penalty: 0,
-      }),
-    });
-    if (!response.ok) {
-      throw new Error(`API request failed with status ${response.status}`);
-    }
-    const aiResult = await response.json();
+    //   body: JSON.stringify({
+    //     model: "text-davinci-003",
+    //     prompt: "make an itinerary for a 2 day trip to los angeles",
+    //     max_tokens: 100,
+    //     temperature: 0.3,
+    //     frequency_penalty: 0.5,
+    //     presence_penalty: 0,
+    //   }),
+    // });
+    // // if (!response.ok) {
+    // //   throw new Error(`API request failed with status ${response.status}`);
+    // // }
+    // const aiResult = await response.json();
 
-    //match 'index location description'
-    const regex = /(\d+)\. ([^:]+): ([^\n]+) /g;
-    const tripLocation = [];
-    const tripList = [];
-    let match;
+    // console.log(aiResult);
+    // // //match 'index location description'
+    // // const regex = /(\d+)\. ([^:]+): ([^\n]+) /g;
+    // // const tripLocation = [];
+    // // const tripList = [];
+    // // let match;
 
-    //match regex to extract location and desc to store in object array
-    while ((match = regex.exec(aiResult.choices[0].text)) !== null) {
-      const [, index, location, description] = match;
-      tripLocation.push(location);
-      tripList.push({ [location]: description });
-    }
+    // // //match regex to extract location and desc to store in object array
+    // // while ((match = regex.exec(aiResult.choices[0].text)) !== null) {
+    // //   const [, index, location, description] = match;
+    // //   tripLocation.push(location);
+    // //   tripList.push({ [location]: description });
+    // // }
 
-    // console.log("triplocation: " + tripLocation);
+    // // console.log("triplocation: " + tripLocation);
     return NextResponse.json({
-      aiResultText: aiResult.choices[0].text,
-      tripLocation: tripLocation,
-      tripList: tripList,
-      model: aiResult.model,
-      prompt: prompt,
+      // aiResultText: aiResult.choices[0].text,
+      // tripLocation: tripLocation,
+      // tripList: tripList,
+      // model: aiResult.model,
+      // prompt: res.messages,
       status: 200,
     });
   } catch (err) {
-    NextResponse.json({ err, success: false, message: "post failed" });
+    NextResponse.json({
+      err: err,
+      success: false,
+      message: "post failed",
+      status: 500,
+    });
   }
 }
