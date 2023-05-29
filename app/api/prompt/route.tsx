@@ -15,32 +15,31 @@ export async function POST(req: NextRequest, res: NextResponse) {
     console.log("Fetching Chat Completion");
     const prompt = await req.json();
 
-    console.log("POST Prompt" + JSON.stringify(prompt, null, 2));
     console.log("prompt content: " + prompt.messages[0].content);
 
     //fetch openai end point to create prompt Completion
-    // const response = await fetch("https://api.openai.com/v1/completions", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-    //   },
+    const response = await fetch("https://api.openai.com/v1/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      },
 
-    //   body: JSON.stringify({
-    //     model: "text-davinci-003",
-    //     prompt: "make an itinerary for a 2 day trip to los angeles",
-    //     max_tokens: 100,
-    //     temperature: 0.3,
-    //     frequency_penalty: 0.5,
-    //     presence_penalty: 0,
-    //   }),
-    // });
-    // // if (!response.ok) {
-    // //   throw new Error(`API request failed with status ${response.status}`);
-    // // }
-    // const aiResult = await response.json();
+      body: JSON.stringify({
+        model: "text-davinci-003",
+        prompt: prompt.messages[0].content,
+        max_tokens: 100,
+        temperature: 0.3,
+        frequency_penalty: 0.5,
+        presence_penalty: 0,
+      }),
+    });
+    // if (!response.ok) {
+    //   throw new Error(`API request failed with status ${response.status}`);
+    // }
+    const aiResult = await response.json();
 
-    // console.log(aiResult);
+    console.log(aiResult.choices[0].text);
     // // //match 'index location description'
     // // const regex = /(\d+)\. ([^:]+): ([^\n]+) /g;
     // // const tripLocation = [];
