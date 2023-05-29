@@ -18,7 +18,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     console.log("prompt content: " + prompt.messages[0].content);
 
     //fetch openai end point to create prompt Completion
-    const response = await fetch("https://api.openai.com/v1/completions", {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,8 +26,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
       },
 
       body: JSON.stringify({
-        model: "text-davinci-003",
-        prompt: prompt.messages[0].content,
+        model: "gpt-3.5-turbo",
+        messages: prompt.messages,
+        // prompt: prompt.messages[0].content,
         max_tokens: 100,
         temperature: 0.3,
         frequency_penalty: 0.5,
@@ -39,7 +40,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     // }
     const aiResult = await response.json();
 
-    console.log(aiResult.choices[0].text);
+    console.log(aiResult.choices[0].message.content);
     // // //match 'index location description'
     // // const regex = /(\d+)\. ([^:]+): ([^\n]+) /g;
     // // const tripLocation = [];
