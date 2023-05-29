@@ -12,11 +12,11 @@ export default async function Trip() {
   const endDate = useSearchParams().get("endDate");
 
   const [messagePayload, setMessagePayload] = useState([
-    // {
-    //   role: "system",
-    //   content:
-    //     "You are TripGPT, you create itineraries for the user based on chosen destination and date range",
-    // },
+    {
+      role: "system",
+      content:
+        "You are TripGPT, you create itineraries for the user based on chosen destination and date range. You will give me the itinerary in an ordered list in this order: date>location> 3 things to do. The format for the answer is Date - Location and bullet list of things to do",
+    },
     {
       role: "user",
       content: `Create an itinerary for my trip to ${CapitalizeWords(
@@ -29,7 +29,7 @@ export default async function Trip() {
     async function handleChatRequest() {
       const res = await handleSubmitPrompt(messagePayload);
       const data = await res.json();
-      console.log("generatedText: " + data.statement);
+      console.log("generatedText: " + data.data.aiResultText);
       // Do something with the generated text
     }
 
