@@ -12,6 +12,7 @@ export default function Trip() {
   const startDate = useSearchParams().get("startDate");
   const endDate = useSearchParams().get("endDate");
   const [userMessage, setUserMessage] = useState("");
+  const [AiMessage, setAiMessage] = useState("");
   const [messagePayload, setMessagePayload] = useState([
     {
       role: "system",
@@ -25,31 +26,32 @@ export default function Trip() {
       )} from ${startDate} to ${endDate}`,
     },
   ]);
-  // console.log("messagePayload: " + JSON.stringify(messagePayload, null, 2));
-  // console.log("usermessage: " + userMessage);
 
   function handleConvo(event: any) {
     event.preventDefault();
 
     setMessagePayload((prevMessage) => [
       ...prevMessage,
+      { role: "system", content: AiMessage },
       { role: "user", content: userMessage },
     ]);
     setUserMessage("");
   }
   // console.log("destination" + destination);
+  //infinite loop here, messagepayload changes in handleSubmitPrompt
   useEffect(() => {
     console.log("inside useffect");
     async function handleChatRequest() {
-      const res = await handleSubmitPrompt(messagePayload);
+      const res = await handleSubmitPrompt(messagePayload, setMessagePayload);
       const data = await res.json();
-      console.log("generatedText: " + data?.data.aiResultText);
+      setAiMessage(data.data.aiResuitText);
+      // console.log("generatedText: " + data?.data.aiResultText);
       // Do something with the generated text
     }
 
     handleChatRequest();
   }, [messagePayload]);
-
+  console.log("messagePayload: " + JSON.stringify(messagePayload, null, 2));
   // console.log("payload: " + messagePayload[1].content);
 
   return (
