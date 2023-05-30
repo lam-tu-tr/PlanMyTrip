@@ -1,16 +1,17 @@
 //--------------------------/trip?destination=___ & date=______------------------------------------
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { handleSubmitPrompt } from "../helpers/handleSubmitPrompt";
 
 import { CapitalizeWords } from "../helpers/small_functions";
 
-export default async function Trip() {
+//DO NOT make a page function an async function
+export default function Trip() {
   const destination = useSearchParams().get("destination");
   const startDate = useSearchParams().get("startDate");
   const endDate = useSearchParams().get("endDate");
-
+  const [userMessage, setUserMessage] = useState("");
   const [messagePayload, setMessagePayload] = useState([
     {
       role: "system",
@@ -24,20 +25,51 @@ export default async function Trip() {
       )} from ${startDate} to ${endDate}`,
     },
   ]);
+  // console.log("messagePayload: " + JSON.stringify(messagePayload, null, 2));
+  // console.log("usermessage: " + userMessage);
+
+  function handleConvo(event: any) {
+    event.preventDefault();
+
+    setMessagePayload((prevMessage) => [
+      ...prevMessage,
+      { role: "user", content: userMessage },
+    ]);
+    setUserMessage("");
+  }
+  // console.log("destination" + destination);
   useEffect(() => {
     console.log("inside useffect");
     async function handleChatRequest() {
       const res = await handleSubmitPrompt(messagePayload);
       const data = await res.json();
-      console.log("generatedText: " + data.data.aiResultText);
+      console.log("generatedText: " + data?.data.aiResultText);
       // Do something with the generated text
     }
 
     handleChatRequest();
   }, [messagePayload]);
+
   // console.log("payload: " + messagePayload[1].content);
 
-  // useEffect(() => {}, [messagePayload]);
-
-  return <div>hello world</div>;
+  return (
+    <div className="temp flex flex-col justify-around p-8">
+      <form
+        className="flex flex-col justify-between items-center h- bg-red-700 p-2"
+        onSubmit={handleConvo}
+      >
+        <input
+          className="bg-slate-500 p-2 py-1 w-96 h-14 rounded-lg border border-white text-white"
+          type="text"
+          name="userMessage"
+          placeholder="Make adjustments"
+          value={userMessage}
+          onChange={({ target }) => setUserMessage(target.value)}
+        />
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  );
 }
+//Create a function that pushes newly entered user inputs
+//as an object to the messagePayload

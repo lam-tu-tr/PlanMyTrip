@@ -9,7 +9,7 @@ export default function Home() {
   const [destination, setDestination] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-
+  console.log("destination: " + destination);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 h-full">
       <div className="temp flex flex-col justify-around p-8">
@@ -18,7 +18,6 @@ export default function Home() {
         </h1>
         <form
           className="flex flex-col justify-between items-center h- bg-red-700 p-2"
-          // onSubmit={handleSubmit}
           action="./trip"
         >
           <input
