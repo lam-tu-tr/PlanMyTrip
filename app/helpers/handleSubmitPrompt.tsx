@@ -19,11 +19,11 @@ export async function handleSubmitPrompt(
       throw new Error("Failed to fetch API");
     }
     const data = await res.json();
-    console.log("aiResult in handleSubmitPrompt: " + data.aiResultText);
-    setMessagePayload((prevMessage) => [
-      ...prevMessage,
-      { role: "system", content: data.aiResuitText },
-    ]);
+    // console.log("aiResult in handleSubmitPrompt: " + data.aiResultText);
+    // setMessagePayload((prevMessage) => [
+    //   ...prevMessage,
+    //   { role: "system", content: data.aiResuitText },
+    // ]);
 
     // console.log("tripOptions: \n" + JSON.stringify(data.tripOptions));
     return NextResponse.json({ data: data, status: 200, statement: "good" });

@@ -26,16 +26,70 @@ body {
   background-size: 135px 135px, 135px 135px, 27px 27px, 27px 27px;
   background-position: -5.4px -5.4px, -5.4px -5.4px, -2.7px -2.7px,
     -2.7px -2.7px;
-}
-
-form {
-  height: 16rem;
-}
-
-.temp {
-  height: 80vh;
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: blue;
 }
 
 .calendar {
   background-color: aqua;
+}
+
+.MainNav {
+  height: 5vh;
+}
+
+.TripDetails {
+  height: 95vh;
+  display: flex;
+  flex-direction: row;
+}
+.TripDetails > form {
+  flex: 1;
+  flex-basis: 40%;
+  height: 95vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.6fr 10fr 1fr;
+  grid-template-areas:
+    "loc "
+    "chat "
+    "com ";
+}
+.TripDetails > form > div {
+  grid-area: loc;
+  background-color: blueviolet;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding-left: 1rem;
+}
+
+.TripDetails > form > aside {
+  grid-area: com;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+}
+.TripDetails > form > aside > textarea {
+  flex: 1;
+}
+.TripDetails > form > aside > button {
+  width: 100px;
+}
+
+.TripDetails > form > section {
+  overflow: auto;
+  padding: 1rem;
+  line-height: 2.7rem;
+  font-size: 1rem;
+}
+.TripDetails > figure {
+  flex: 1;
+  flex-basis: 60%;
 }

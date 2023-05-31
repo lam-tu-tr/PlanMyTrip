@@ -39,7 +39,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     // }
     const aiResult = await response.json();
 
-    console.log(aiResult.choices[0].message.content);
+    // console.log(aiResult.choices[0].message.content);
     // // //match 'index location description'
     // // const regex = /(\d+)\. ([^:]+): ([^\n]+) /g;
     // // const tripLocation = [];
@@ -59,7 +59,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
       // tripLocation: tripLocation,
       // tripList: tripList,
 
-      model: aiResult,
       // prompt: res.messages,
       status: 200,
     });
