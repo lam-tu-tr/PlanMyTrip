@@ -2,30 +2,56 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { handleSubmitPrompt } from "../helpers/handleSubmitPrompt";
+import { NextRequest, NextResponse } from "next/server";
+import { capitalizeWords } from "../helpers/helper-functions";
 
-import { CapitalizeWords } from "../helpers/small_functions";
+import { Message } from "../helpers/types";
+
+export async function handleSubmitPrompt(messages: Message[]) {
+  try {
+    const res = await fetch("/api/prompt", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        messages,
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch API");
+    }
+    const data = await res.json();
+
+    return NextResponse.json({ data: data, status: 200, statement: "good" });
+  } catch (err) {
+    return NextResponse.json({
+      error: err,
+      status: 500,
+      statement: "not good",
+    });
+  }
+}
 
 //DO NOT make a page function an async function
 export default function Trip() {
   const destination = useSearchParams().get("destination");
   const startDate = useSearchParams().get("startDate");
   const endDate = useSearchParams().get("endDate");
-  const [userMessage, setUserMessage] = useState("");
-  const [AiMessage, setAiMessage] = useState(
-    "Sure, here's your itinerary for your trip to Los Angeles from Jun 12, 2023 to Jun 16, 2023: 1. Jun 12, 2023 - Hollywood - Visit the Hollywood Walk of Fame and see the stars of famous celebrities - Take a tour of the TCL Chinese Theatre and see the handprints and footprints of famous actors - Hike up to the Hollywood Sign for a great view of the city 2. Jun 13, Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi est modi architecto repudiandae distinctio soluta sed ipsam suscipit? Cumque nam nobis voluptate totam, cupiditate ratione accusamus officia ab qui. Quae. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo at aperiam rerum quod. Porro eligendi perferendis quam necessitatibus, consequuntur aliquam corrupti nihil? Consectetur facere vero beatae sequi dolor. Maxime, ut Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere inventore sit, corporis, nulla autem facilis sapiente tempore enim, fugit consectetur voluptates aliquam vel perferendis! Perspiciatis voluptatum quibusdam dolores odit! Numquam! Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, voluptate. Eum quaerat nostrum iste iusto, repellat similique quod fugiat dolores necessitatibus praesentium repellendus repudiandae, eos itaque possimus labore dolor. Maiores? Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum maiores dolore officia eos dolores consectetur, deleniti at! Illo, corporis unde nesciunt tempore ducimus, molestiae, accusamus cumque beatae fugit facilis ea! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus asperiores quia facilis fuga at totam repellat adipisci? Quam tempora optio eos aspernatur voluptates ea perferendis non, tenetur ipsam. Architecto, sequi? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere assumenda eum ea consequatur exercitationem sapiente quod magnam ipsam pariatur perferendis culpa porro temporibus excepturi, accusantium officiis perspiciatis laboriosam numquam alias. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum necessitatibus explicabo odio laborum quos molestias nulla quidem minima qui! Possimus architecto repellendus dolorem ullam, explicabo dignissimos. Similique ex corrupti tenetur? Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, molestias nihil sed qui laborum illum iste eligendi rem. Dolor soluta blanditiis eos id beatae nulla atque et odio molestias nostrum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur ducimus cumque quo modi voluptatum odit aliquid tempore. Quia repellendus illum recusandae praesentium iure. Veniam ut qui quisquam, impedit ad quam? "
-  );
-  const [messagePayload, setMessagePayload] = useState([
+  const [userMessage, setUserMessage] = useState<string>("");
+  const [AiMessage, setAiMessage] = useState<string>("");
+  const [messagePayload, setMessagePayload] = useState<Message[]>([
     {
       role: "system",
       content:
-        "You are TripGPT, you create itineraries for the user based on chosen destination and date range. You will give me the itinerary in an ordered list in this order: date>location> 3 things to do. The format for the answer is Date - Location and bullet list of things to do",
+        "You are TripGPT, you create itineraries for the user based on chosen destination and date range. You will give me the itinerary in an ordered list in this order: date>location> 3 things to do. The format for the answer is Date - Location and bullet list of things to do. Wrap all locations in html <a> tag.",
     },
     {
       role: "user",
-      content: `Create an itinerary for my trip to ${CapitalizeWords(
+      content: `Create an itinerary for my trip to ${capitalizeWords(
         destination!
-      )} from ${startDate} to ${endDate}`,
+      )} from ${startDate} to ${endDate}. Wrap all the locations in an html <a target="_blank"></a> tag with an href to https://google.com/search?q={location}.`,
     },
   ]);
 
@@ -41,18 +67,47 @@ export default function Trip() {
   }
   // console.log("destination" + destination);
   //infinite loop here, messagepayload changes in handleSubmitPrompt
-  // useEffect(() => {
-  //   console.log("inside useffect");
-  //   async function handleChatRequest() {
-  //     const res = await handleSubmitPrompt(messagePayload, setMessagePayload);
-  //     const data = await res.json();
-  //     setAiMessage(data.data.aiResultText);
-  //     // console.log("generatedText: " + data?.data.aiResultText);
-  //     // Do something with the generated text
-  //   }
+  useEffect(() => {
+    console.log("inside useffect");
+    async function handleChatRequest() {
+      // const res = await handleSubmitPrompt(messagePayload);
+      // const data = await res.json();
 
-  //   handleChatRequest();
-  // }, []);
+      try {
+        const res = await fetch("/api/prompt", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            messagePayload,
+          }),
+        });
+
+        console.log(res);
+
+        // if (!res.ok) {
+        //   throw new Error("Failed to fetch API");
+        // }
+        const data = await res.json();
+
+        setAiMessage(data.data.aiResultText);
+        // return NextResponse.json({ data: data, status: 200, statement: "good" });
+      } catch (err) {
+        console.log(err);
+        // return NextResponse.json({
+        //   error: err,
+        //   status: 500,
+        //   statement: "not good",
+        // });
+      }
+
+      // console.log("generatedText: " + data?.data.aiResultText);
+      // Do something with the generated text
+    }
+
+    // handleChatRequest();
+  }, [messagePayload]);
   console.log("messagePayload: " + JSON.stringify(messagePayload, null, 2));
   // console.log("payload: " + messagePayload[1].content);
 
@@ -60,9 +115,12 @@ export default function Trip() {
     <div className="TripDetails">
       <form className=" bg-red-700" onSubmit={handleConvo}>
         <div>
-          <h1 className="text-2xl">Trip to {CapitalizeWords(destination!)}</h1>
+          <h1 className="text-2xl">Trip to {capitalizeWords(destination!)}</h1>
         </div>
-        <section className="chat">{AiMessage}</section>
+        <section
+          className="chat"
+          dangerouslySetInnerHTML={{ __html: AiMessage }}
+        />
 
         <aside className=" bg-orange-300">
           <textarea

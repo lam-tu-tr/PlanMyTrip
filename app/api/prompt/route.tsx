@@ -11,6 +11,7 @@ import { NextRequest, NextResponse } from "next/server";
 //-----------------------------------------------------------------------------
 
 export async function POST(req: NextRequest, res: NextResponse) {
+  console.log({ hello: res, goodbye: req });
   try {
     const prompt = await req.json();
 
@@ -28,7 +29,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         model: "gpt-3.5-turbo",
         messages: prompt.messages,
         // prompt: prompt.messages[0].content,
-        max_tokens: 100,
+        max_tokens: 300,
         temperature: 0.3,
         frequency_penalty: 0.5,
         presence_penalty: 0,
@@ -38,6 +39,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
     //   throw new Error(`API request failed with status ${response.status}`);
     // }
     const aiResult = await response.json();
+
+    console.log({ aiResult });
 
     // console.log(aiResult.choices[0].message.content);
     // // //match 'index location description'

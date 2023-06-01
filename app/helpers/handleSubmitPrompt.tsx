@@ -1,5 +1,6 @@
 import { Message } from "./types";
 import { NextRequest, NextResponse } from "next/server";
+
 export async function handleSubmitPrompt(
   messages: Message[],
   setMessagePayload: React.Dispatch<React.SetStateAction<Message[]>>
@@ -19,7 +20,7 @@ export async function handleSubmitPrompt(
       throw new Error("Failed to fetch API");
     }
     const data = await res.json();
-    // console.log("aiResult in handleSubmitPrompt: " + data.aiResultText);
+    console.log("aiResult in handleSubmitPrompt: " + data.aiResultText);
     // setMessagePayload((prevMessage) => [
     //   ...prevMessage,
     //   { role: "system", content: data.aiResuitText },

@@ -62,7 +62,7 @@ body {
   grid-area: loc;
   background-color: blueviolet;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   padding-left: 1rem;
 }
