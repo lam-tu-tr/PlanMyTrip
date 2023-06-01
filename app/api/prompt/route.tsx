@@ -11,7 +11,6 @@ import { NextRequest, NextResponse } from "next/server";
 //-----------------------------------------------------------------------------
 
 export async function POST(req: NextRequest, res: NextResponse) {
-  console.log({ hello: res, goodbye: req });
   try {
     const prompt = await req.json();
 
@@ -40,32 +39,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
     // }
     const aiResult = await response.json();
 
-    console.log({ aiResult });
-
-    // console.log(aiResult.choices[0].message.content);
-    // // //match 'index location description'
-    // // const regex = /(\d+)\. ([^:]+): ([^\n]+) /g;
-    // // const tripLocation = [];
-    // // const tripList = [];
-    // // let match;
-
-    // // //match regex to extract location and desc to store in object array
-    // // while ((match = regex.exec(aiResult.choices[0].text)) !== null) {
-    // //   const [, index, location, description] = match;
-    // //   tripLocation.push(location);
-    // //   tripList.push({ [location]: description });
-    // // }
-
-    // // console.log("triplocation: " + tripLocation);
     return NextResponse.json({
       aiResultText: aiResult.choices[0].message.content,
-      // tripLocation: tripLocation,
-      // tripList: tripList,
-
-      // prompt: res.messages,
       status: 200,
     });
   } catch (err) {
+    console.log("error here", err);
     NextResponse.json({
       err: err,
       success: false,

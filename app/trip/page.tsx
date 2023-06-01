@@ -7,40 +7,13 @@ import { capitalizeWords } from "../helpers/helper-functions";
 
 import { Message } from "../helpers/types";
 
-export async function handleSubmitPrompt(messages: Message[]) {
-  try {
-    const res = await fetch("/api/prompt", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        messages,
-      }),
-    });
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch API");
-    }
-    const data = await res.json();
-
-    return NextResponse.json({ data: data, status: 200, statement: "good" });
-  } catch (err) {
-    return NextResponse.json({
-      error: err,
-      status: 500,
-      statement: "not good",
-    });
-  }
-}
-
 //DO NOT make a page function an async function
 export default function Trip() {
   const destination = useSearchParams().get("destination");
   const startDate = useSearchParams().get("startDate");
   const endDate = useSearchParams().get("endDate");
   const [userMessage, setUserMessage] = useState<string>("");
-  const [AiMessage, setAiMessage] = useState<string>("");
+  const [aiMessage, setAiMessage] = useState<string>("");
   const [messagePayload, setMessagePayload] = useState<Message[]>([
     {
       role: "system",
@@ -60,19 +33,16 @@ export default function Trip() {
 
     setMessagePayload((prevMessage) => [
       ...prevMessage,
-      { role: "assistant", content: AiMessage },
+      { role: "assistant", content: aiMessage },
       { role: "user", content: userMessage },
     ]);
     setUserMessage("");
   }
-  // console.log("destination" + destination);
+
   //infinite loop here, messagepayload changes in handleSubmitPrompt
   useEffect(() => {
     console.log("inside useffect");
     async function handleChatRequest() {
-      // const res = await handleSubmitPrompt(messagePayload);
-      // const data = await res.json();
-
       try {
         const res = await fetch("/api/prompt", {
           method: "POST",
@@ -80,36 +50,24 @@ export default function Trip() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            messagePayload,
+            messages: messagePayload,
           }),
         });
 
-        console.log(res);
+        if (!res.ok) {
+          throw new Error("Failed to fetch API");
+        }
 
-        // if (!res.ok) {
-        //   throw new Error("Failed to fetch API");
-        // }
         const data = await res.json();
 
-        setAiMessage(data.data.aiResultText);
-        // return NextResponse.json({ data: data, status: 200, statement: "good" });
+        setAiMessage(data.aiResultText);
       } catch (err) {
         console.log(err);
-        // return NextResponse.json({
-        //   error: err,
-        //   status: 500,
-        //   statement: "not good",
-        // });
       }
-
-      // console.log("generatedText: " + data?.data.aiResultText);
-      // Do something with the generated text
     }
 
-    // handleChatRequest();
+    handleChatRequest();
   }, [messagePayload]);
-  console.log("messagePayload: " + JSON.stringify(messagePayload, null, 2));
-  // console.log("payload: " + messagePayload[1].content);
 
   return (
     <div className="TripDetails">
@@ -119,7 +77,7 @@ export default function Trip() {
         </div>
         <section
           className="chat"
-          dangerouslySetInnerHTML={{ __html: AiMessage }}
+          dangerouslySetInnerHTML={{ __html: aiMessage }}
         />
 
         <aside className=" bg-orange-300">
@@ -139,5 +97,3 @@ export default function Trip() {
     </div>
   );
 }
-//Create a function that pushes newly entered user inputs
-//as an object to the messagePayload
