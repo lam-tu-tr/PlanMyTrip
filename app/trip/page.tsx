@@ -2,18 +2,21 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { NextRequest, NextResponse } from "next/server";
 import { capitalizeWords } from "../helpers/helper-functions";
 
 import { Message } from "../helpers/types";
 
 //DO NOT make a page function an async function
 export default function Trip() {
+  //obtain data from querystring of previously submitted form
   const destination = useSearchParams().get("destination");
   const startDate = useSearchParams().get("startDate");
   const endDate = useSearchParams().get("endDate");
+  //hold user input and ai message inside a string
+  //which will be assigned to messagepayload during submit event
   const [userMessage, setUserMessage] = useState<string>("");
   const [aiMessage, setAiMessage] = useState<string>("");
+  //message payload will have user and aimessage objects added to it
   const [messagePayload, setMessagePayload] = useState<Message[]>([
     {
       role: "system",
@@ -28,6 +31,16 @@ export default function Trip() {
     },
   ]);
 
+  //Map Box Declaration
+  var mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
+
+  mapboxgl.accessToken = process.env.MAPBOX_API_KEY;
+  var map = new mapboxgl.Map({
+    container: "YOUR_CONTAINER_ELEMENT_ID",
+    style: "mapbox://styles/mapbox/streets-v11",
+  });
+
+  //handle submit, assign messages to payload
   function handleConvo(event: any) {
     event.preventDefault();
 
@@ -93,7 +106,7 @@ export default function Trip() {
           </button>
         </aside>
       </form>
-      <figure className=" bg-blue-400"></figure>
+      <figure className=" bg-blue-400" id="map"></figure>
     </div>
   );
 }

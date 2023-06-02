@@ -5,11 +5,16 @@ import { useState } from "react";
 
 import AntDateRange from "./components/AntDateRange";
 
+import { SearchBox } from "@mapbox/search-js-react";
+
+const MAPBOX_API_KEY =
+  "pk.eyJ1IjoibGFtaXNtIiwiYSI6ImNsaWR5eGVwNzBldjYza3Q4amJudHVhMWEifQ.WEc1LP70RJIxLj3ss0H1sQ";
 export default function Home() {
   const [destination, setDestination] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
+  console.log(destination);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 h-full">
       <div className="temp flex flex-col justify-around p-8">
@@ -29,6 +34,12 @@ export default function Home() {
             value={destination}
             // auto set destination value as user types
             onChange={({ target }) => setDestination(target?.value)}
+          />
+          <SearchBox
+            accessToken={MAPBOX_API_KEY!}
+            value={destination}
+            onRetrieve={(location) => setDestination(location.attribution!)}
+            onChange={(location) => setDestination(location)}
           />
           {/* //hidden input to set date querystring */}
           <input type="hidden" name="startDate" value={startDate} />

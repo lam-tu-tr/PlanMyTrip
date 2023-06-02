@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, FC } from "react";
 import { DatePicker, Space } from "antd";
 
@@ -17,6 +18,7 @@ function AntDateRange({ setStartDate, setEndDate }: AntDateRangeProps) {
     <div className="bg-blue-500 w-96 h-14 flex flex-row justify-center items-center">
       <Space direction="vertical" size={12}>
         <RangePicker
+          transitionName=""
           className="w-96 h-14"
           format="MMM DD, YYYY"
           onChange={(
