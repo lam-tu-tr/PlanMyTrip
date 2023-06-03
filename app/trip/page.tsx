@@ -15,7 +15,7 @@ export default function Trip() {
   //hold user input and ai message inside a string
   //which will be assigned to messagepayload during submit event
   const [userMessage, setUserMessage] = useState<string>("");
-  const [aiMessage, setAiMessage] = useState<string>("");
+  const [aiMessage, setAiMessage] = useState<string>(``);
   //message payload will have user and aimessage objects added to it
   const [messagePayload, setMessagePayload] = useState<Message[]>([
     {
@@ -27,18 +27,18 @@ export default function Trip() {
       role: "user",
       content: `Create an itinerary for my trip to ${capitalizeWords(
         destination!
-      )} from ${startDate} to ${endDate}. Wrap all the locations in an html <a target="_blank"></a> tag with an href to https://google.com/search?q={location}.`,
+      )} from ${startDate} to ${endDate}. Wrap all the locations in an html <a target="_blank"></a> tag with an href to https://google.com/search?q={location}. Give the result in an indented list style using HTML elements <ol> and <li>. Wrap the whole ai response inside a <div></div>. Remove everything outside of this <div> element`,
     },
   ]);
 
   //Map Box Declaration
-  var mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
+  // var mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
 
-  mapboxgl.accessToken = process.env.MAPBOX_API_KEY;
-  var map = new mapboxgl.Map({
-    container: "YOUR_CONTAINER_ELEMENT_ID",
-    style: "mapbox://styles/mapbox/streets-v11",
-  });
+  // mapboxgl.accessToken = process.env.MAPBOX_API_KEY;
+  // var map = new mapboxgl.Map({
+  //   container: "YOUR_CONTAINER_ELEMENT_ID",
+  //   style: "mapbox://styles/mapbox/streets-v11",
+  // });
 
   //handle submit, assign messages to payload
   function handleConvo(event: any) {
@@ -52,7 +52,7 @@ export default function Trip() {
     setUserMessage("");
   }
 
-  //infinite loop here, messagepayload changes in handleSubmitPrompt
+  console.log(aiMessage);
   useEffect(() => {
     console.log("inside useffect");
     async function handleChatRequest() {
@@ -91,7 +91,7 @@ export default function Trip() {
         <section
           className="chat"
           dangerouslySetInnerHTML={{ __html: aiMessage }}
-        />
+        ></section>
 
         <aside className=" bg-orange-300">
           <textarea

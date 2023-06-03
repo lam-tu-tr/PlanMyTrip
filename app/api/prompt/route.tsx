@@ -28,7 +28,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         model: "gpt-3.5-turbo",
         messages: prompt.messages,
         // prompt: prompt.messages[0].content,
-        max_tokens: 300,
+        max_tokens: 400,
         temperature: 0.3,
         frequency_penalty: 0.5,
         presence_penalty: 0,
