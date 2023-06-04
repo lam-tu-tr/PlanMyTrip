@@ -70,10 +70,21 @@ export default function Trip() {
         if (!res.ok) {
           throw new Error("Failed to fetch API");
         }
+        const data = res.body;
+        if (!data) {
+          return;
+        }
+        const reader = data.getReader();
+        const decoder = new TextDecoder();
+        let done = false;
 
-        const data = await res.json();
-
-        setAiMessage(data.aiResultText);
+        while (!done) {
+          const { value, done: doneReading } = await reader.read();
+          done = doneReading;
+          const chunkValue = decoder.decode(value);
+          setAiMessage((prev) => prev + chunkValue);
+        }
+        // setAiMessage(data.aiResultText);
       } catch (err) {
         console.log(err);
       }
