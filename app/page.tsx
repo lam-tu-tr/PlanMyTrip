@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import dynamic from "next/dynamic";
 import AntDateRange from "./components/AntDateRange";
 
+//Force search-js-react to be imported as a client lib instead of ssr
+//
 const SearchBox = dynamic(
   () => import("@mapbox/search-js-react").then((mod) => mod.SearchBox),
   { ssr: false }
@@ -18,12 +20,6 @@ export default function Home() {
   const [endDate, setEndDate] = useState("");
 
   console.log(destination);
-
-  // useEffect(() => {
-  //   if (!SearchBox.accessToken) {
-  //     SearchBox.accessToken = MAPBOX_API_KEY;
-  //   }
-  // }, []);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 h-full">
@@ -45,9 +41,14 @@ export default function Home() {
             onChange={(location: any) => setDestination(location)}
           />
           {/* //hidden input to set date querystring */}
-          <input type="hidden" name="destination" value={destination} />
-          <input type="hidden" name="startDate" value={startDate} />
-          <input type="hidden" name="endDate" value={endDate} />
+          <input
+            type="hidden"
+            required
+            name="destination"
+            value={destination}
+          />
+          <input type="hidden" required name="startDate" value={startDate} />
+          <input type="hidden" required name="endDate" value={endDate} />
           <AntDateRange setStartDate={setStartDate} setEndDate={setEndDate} />
 
           <button

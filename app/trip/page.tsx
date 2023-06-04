@@ -30,7 +30,7 @@ export default function Trip() {
       )} from ${startDate} to ${endDate}. Wrap all the locations in an html <a target="_blank"></a> tag with an href to https://google.com/search?q={location}. Give the result in an indented list style using HTML elements <ol> and <li>. Wrap the whole ai response inside a <div></div>. Remove everything outside of this <div> element`,
     },
   ]);
-
+  //----------------------------------------------------------------------------------------------------------
   //Map Box Declaration
   // var mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
 
