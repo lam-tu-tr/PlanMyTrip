@@ -1,10 +1,11 @@
 //--------------------------/trip?destination=___ & date=______------------------------------------
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { capitalizeWords } from "../helpers/helper-functions";
 
 import { Message } from "../helpers/types";
+import Map from "../components/Map";
 
 //DO NOT make a page function an async function
 export default function Trip() {
@@ -21,25 +22,16 @@ export default function Trip() {
     {
       role: "system",
       content:
-        "You are TripGPT, you create itineraries for the user based on chosen destination and date range. You will give me the itinerary in an ordered list in this order: date>location> 3 things to do. The format for the answer is Date - Location and bullet list of things to do. Wrap all locations in html <a> tag.",
+        "You are TripGPT, you create itineraries for the user based on chosen destination and date range. You will give me the itinerary in an ordered list that has fun attractions and food locations for morning, midday and evening. The format for the ordered list answer is (Date - Location) > time of day > things to do. Wrap all locations in html <a> tag.",
     },
     {
       role: "user",
-      content: `Create an itinerary for my trip to ${capitalizeWords(
+      content: `Create a detailed itinerary for my trip to ${capitalizeWords(
         destination!
       )} from ${startDate} to ${endDate}. Wrap all the locations in an html <a target="_blank"></a> tag with an href to https://google.com/search?q={location}. Give the result in an indented list style using HTML elements <ol> and <li>. Wrap the whole ai response inside a <div></div>. Remove everything outside of this <div> element`,
     },
   ]);
-  //----------------------------------------------------------------------------------------------------------
-  //Map Box Declaration
-  // var mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
-
-  // mapboxgl.accessToken = process.env.MAPBOX_API_KEY;
-  // var map = new mapboxgl.Map({
-  //   container: "YOUR_CONTAINER_ELEMENT_ID",
-  //   style: "mapbox://styles/mapbox/streets-v11",
-  // });
-
+  const [currLoc, setCurrLoc] = useState<[number, number]>([-117.16, 32.71]);
   //handle submit, assign messages to payload
   function handleConvo(event: any) {
     event.preventDefault();
@@ -52,52 +44,54 @@ export default function Trip() {
     setUserMessage("");
   }
 
-  console.log(aiMessage);
-  useEffect(() => {
-    console.log("inside useffect");
-    async function handleChatRequest() {
-      try {
-        const res = await fetch("/api/prompt", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            messages: messagePayload,
-          }),
-        });
+  // useEffect(() => {
+  //   console.log("inside useffect");
+  //   async function handleChatRequest() {
+  //     try {
+  //       const res = await fetch("/api/prompt", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           messages: messagePayload,
+  //         }),
+  //       });
 
-        if (!res.ok) {
-          throw new Error("Failed to fetch API");
-        }
-        const data = res.body;
-        if (!data) {
-          return;
-        }
-        const reader = data.getReader();
-        const decoder = new TextDecoder();
-        let done = false;
+  //       if (!res.ok) {
+  //         throw new Error("Failed to fetch API");
+  //       }
+  //       const data = res.body;
+  //       if (!data) {
+  //         return;
+  //       }
+  //       const reader = data.getReader();
+  //       const decoder = new TextDecoder();
+  //       let done = false;
 
-        while (!done) {
-          const { value, done: doneReading } = await reader.read();
-          done = doneReading;
-          const chunkValue = decoder.decode(value);
-          setAiMessage((prev) => prev + chunkValue);
-        }
-        // setAiMessage(data.aiResultText);
-      } catch (err) {
-        console.log(err);
-      }
-    }
+  //       while (!done) {
+  //         const { value, done: doneReading } = await reader.read();
+  //         done = doneReading;
+  //         const chunkValue = decoder.decode(value);
+  //         setAiMessage((prev) => prev + chunkValue);
+  //       }
+  //       // setAiMessage(data.aiResultText);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
 
-    handleChatRequest();
-  }, [messagePayload]);
+  //   handleChatRequest();
+  // }, [messagePayload]);
 
   return (
     <div className="TripDetails">
       <form className=" bg-red-700" onSubmit={handleConvo}>
         <div>
           <h1 className="text-2xl">Trip to {capitalizeWords(destination!)}</h1>
+          <button type={"button"} onClick={() => setCurrLoc([-122.43, 37.78])}>
+            Location
+          </button>
         </div>
         <section
           className="chat"
@@ -117,7 +111,7 @@ export default function Trip() {
           </button>
         </aside>
       </form>
-      <figure className=" bg-blue-400" id="map"></figure>
+      <Map currLoc={currLoc} />
     </div>
   );
 }
