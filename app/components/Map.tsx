@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 
-const MAPBOX_API_KEY =
-  "pk.eyJ1IjoibGFtaXNtIiwiYSI6ImNsaWR5eGVwNzBldjYza3Q4amJudHVhMWEifQ.WEc1LP70RJIxLj3ss0H1sQ";
+// const MAPBOX_API_KEY =
+//   "pk.eyJ1IjoibGFtaXNtIiwiYSI6ImNsaWR5eGVwNzBldjYza3Q4amJudHVhMWEifQ.WEc1LP70RJIxLj3ss0H1sQ";
 
 interface MapLoc {
   currLoc: [number, number];
@@ -11,7 +11,7 @@ export default function Map(currLoc: MapLoc) {
   //Map Box Declaration
   const mapContainerRef = useRef(null);
   const mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
-  mapboxgl.accessToken = MAPBOX_API_KEY;
+  mapboxgl.accessToken = process.env.MAPBOX_KEY;
   const [map, setMap] = useState<mapboxgl.Map | null>(null);
 
   useEffect(() => {

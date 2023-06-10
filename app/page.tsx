@@ -13,9 +13,6 @@ const AntDateRange = dynamic(() => import("./components/AntDateRange"), {
   ssr: false,
 });
 
-const MAPBOX_API_KEY =
-  "pk.eyJ1IjoibGFtaXNtIiwiYSI6ImNsaWR5eGVwNzBldjYza3Q4amJudHVhMWEifQ.WEc1LP70RJIxLj3ss0H1sQ";
-
 export default function Home() {
   const [destination, setDestination] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -44,7 +41,7 @@ export default function Home() {
           <SearchBox
             // IS THIS DANGEROUS? EXPOSED CLIENT KEY??
             //apply searchbox search options here<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-            accessToken={MAPBOX_API_KEY!}
+            accessToken={process.env.MAPBOX_KEY!}
             value={destination}
             onRetrieve={(location: any) =>
               setDestination(location.features[0].properties.name)
