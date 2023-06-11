@@ -34,19 +34,14 @@ export default function Trip() {
       role: "user",
       content: `Create a detailed itinerary for my trip to ${capitalizeWords(
         destination!
-      )} from ${startDate} to ${endDate}. Wrap all the locations in an html <a target="_blank" classname="ai-location" ></a> tag with an href to https://google.com/search?q={location}. Give the result in an indented list style using HTML elements <ol> and <li>. Wrap the whole ai response inside a <div></div>. Remove everything outside of this <div> element`,
+      )} from ${startDate} to ${endDate}. Wrap all the locations in an html <a target="_blank" class="ai-location"  ></a> tag with an href to https://google.com/search?q={location}. Give the result in an indented list style using HTML elements <ol> and <li>. Wrap the whole ai response inside a <div></div>. Remove everything outside of this <div> element`,
     },
   ]);
   //currDest is current map focused destination
   const [currDest, setCurrDest] = useState<[number, number]>([-117.16, 32.71]);
   //list of all destinations
   const [destList, setDestList] = useState<DestCoordType>({});
-  //Set map current location upon hover
-  function handleLocHover(event: any) {
-    // setCurrLoc(event.target.innerText);
-    console.log("location: " + event.target.innerText);
-    setCurrDest(destList[event.target.innerText]);
-  }
+
   console.log("currDest: " + currDest);
   //handle submit, assign messages to payload
   function handleConvo(event: any) {
@@ -61,10 +56,18 @@ export default function Trip() {
   }
   // console.log("aiMessage: " + aiMessage);
   console.log(destList);
-
+  //Set map current location upon hover
+  function handleLocHover(event: any) {
+    // setCurrLoc(event.target.innerText);
+    console.log("location: " + event.target.innerText);
+    // setCurrDest(destList[event.target.innerText]);
+  }
   //Select all anchor tags from aiMessage and assign mouseover event
   //push to destList array the locations found
   useEffect(() => {
+    //
+    //*!select only when complete
+    //
     const allLocations = document.querySelectorAll(".ai-location");
     async function getCoord(location: string) {
       const destRes = await fetch(
@@ -104,13 +107,13 @@ export default function Trip() {
       });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [aiMessage, aiComplete]);
+  }, [aiComplete]);
 
   //Stream openai response data to aiMessage
   useEffect(() => {
     //reset these variables for each time user makes adjustment
     setAiComplete(false);
-    setDestList([]);
+    setDestList({});
     setAiMessage("");
     async function handleChatRequest() {
       try {
@@ -144,7 +147,6 @@ export default function Trip() {
           const chunkValue = decoder.decode(value);
           setAiMessage((prev) => prev + chunkValue);
         }
-        // setAiMessage(data.aiResultText);
       } catch (err) {
         console.log(err);
       }
@@ -158,15 +160,16 @@ export default function Trip() {
       <form className=" bg-red-700" onSubmit={handleConvo}>
         <div>
           <h1 className="text-2xl">Trip to {capitalizeWords(destination!)}</h1>
-          {/* <a target="_blank" onMouseOver={(event) => handleLocHover(event)}>
-            Los Angeles
-          </a> */}
+
           <button type={"button"} onClick={() => setCurrDest([-122.43, 37.78])}>
             Location
           </button>
         </div>
-        <section className="chat">
-          <div dangerouslySetInnerHTML={{ __html: aiMessage }}></div>
+        <section
+          className="chat"
+          dangerouslySetInnerHTML={{ __html: aiMessage }}
+        >
+          {/* <div ></div> */}
         </section>
 
         <aside className=" bg-orange-300">
