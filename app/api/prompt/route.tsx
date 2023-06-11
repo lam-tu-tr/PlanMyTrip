@@ -33,7 +33,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     top_p: 1,
     frequency_penalty: 0,
     presence_penalty: 0,
-    max_tokens: 250,
+    max_tokens: 500,
     stream: true,
     n: 1,
   };
@@ -101,22 +101,3 @@ async function AiStream(payload: AiStreamPayload) {
 
   return stream;
 }
-// const response = await fetch("https://api.openai.com/v1/chat/completions", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-//     },
-
-//     body: JSON.stringify(payload),
-//   });
-// {
-//   model: "gpt-3.5-turbo",
-//   messages: prompt.messages,
-//   // prompt: prompt.messages[0].content,
-//   max_tokens: 400,
-//   temperature: 0.3,
-//   frequency_penalty: 0.5,
-//   presence_penalty: 0,
-// }
-// const aiResult = await response.json();

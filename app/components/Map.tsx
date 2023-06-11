@@ -35,7 +35,7 @@ export default function Map(currLoc: MapLoc) {
       });
 
       // Add any additional map configurations or functionality here
-
+      newMap.addControl(new mapboxgl.NavigationControl());
       return () => {
         newMap.remove();
       };

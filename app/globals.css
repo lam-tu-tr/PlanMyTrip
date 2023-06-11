@@ -103,3 +103,7 @@ body {
   flex: 1;
   flex-basis: 80%;
 }
+
+.ai-location {
+  background-color: aqua;
+}

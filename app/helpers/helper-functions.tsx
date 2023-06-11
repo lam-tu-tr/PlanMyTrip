@@ -7,7 +7,3 @@ export function capitalizeWords(text: string) {
     .join(" ");
   return textResult;
 }
-export function handleLocHover(event: any) {
-  // setCurrLoc(event.target.innerText);
-  console.log("location: " + event.target.innerText);
-}
