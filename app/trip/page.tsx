@@ -7,6 +7,10 @@ import { capitalizeWords } from "../helpers/helper-functions";
 import { Message } from "../helpers/types";
 import Map from "../components/Map";
 
+type DestCoordType = {
+  [key: string]: [longitude: number, latitude: number];
+};
+
 //DO NOT make a page function an async function
 export default function Trip() {
   //obtain data from querystring of previously submitted form
@@ -17,6 +21,7 @@ export default function Trip() {
   //which will be assigned to messagepayload during submit event
   const [userMessage, setUserMessage] = useState<string>("");
   const [aiMessage, setAiMessage] = useState<string>(``);
+  //aiComplete=true when openai stream for response is complete
   const [aiComplete, setAiComplete] = useState<boolean>(false);
   //message payload will have user and aimessage objects added to it
   const [messagePayload, setMessagePayload] = useState<Message[]>([
@@ -32,14 +37,17 @@ export default function Trip() {
       )} from ${startDate} to ${endDate}. Wrap all the locations in an html <a target="_blank" classname="ai-location" ></a> tag with an href to https://google.com/search?q={location}. Give the result in an indented list style using HTML elements <ol> and <li>. Wrap the whole ai response inside a <div></div>. Remove everything outside of this <div> element`,
     },
   ]);
+  //currDest is current map focused destination
   const [currDest, setCurrDest] = useState<[number, number]>([-117.16, 32.71]);
-  const [destList, setDestList] = useState<string[]>([]);
+  //list of all destinations
+  const [destList, setDestList] = useState<DestCoordType>({});
   //Set map current location upon hover
   function handleLocHover(event: any) {
     // setCurrLoc(event.target.innerText);
     console.log("location: " + event.target.innerText);
+    setCurrDest(destList[event.target.innerText]);
   }
-
+  console.log("currDest: " + currDest);
   //handle submit, assign messages to payload
   function handleConvo(event: any) {
     event.preventDefault();
@@ -58,9 +66,9 @@ export default function Trip() {
   //push to destList array the locations found
   useEffect(() => {
     const allLocations = document.querySelectorAll(".ai-location");
-    async function getCoord() {
+    async function getCoord(location: string) {
       const destRes = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/Los_Angeles.json?limit=2&access_token=${process.env.MAPBOX_KEY}`,
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?limit=2&access_token=${process.env.MAPBOX_KEY}`,
         {
           method: "GET",
           headers: {
@@ -68,18 +76,25 @@ export default function Trip() {
           },
         }
       );
-      const destCoord = destRes.json();
+      const destCoord = await destRes.json();
 
       console.log("coord: ");
-      console.log(JSON.stringify(destCoord, null, 2));
+      const x = destCoord.features[0].geometry.coordinates[0];
+      const y = destCoord.features[0].geometry.coordinates[1];
+      return { x, y };
     }
     allLocations.forEach((location) => {
       location.addEventListener("mouseover", handleLocHover);
 
       if (aiComplete) {
-        getCoord();
-
-        setDestList((prevList) => [...prevList, location.innerHTML]);
+        const coordinate = getCoord(location.innerHTML);
+        // console.log(coordinate);
+        coordinate.then(({ x, y }) => {
+          setDestList((prevList) => ({
+            ...prevList,
+            [location.innerHTML]: [x, y],
+          }));
+        });
       }
     });
 
@@ -167,7 +182,7 @@ export default function Trip() {
           </button>
         </aside>
       </form>
-      <Map currLoc={currDest} />
+      {/* <Map currLoc={currDest} /> */}
       <script></script>
     </div>
   );
