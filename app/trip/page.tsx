@@ -54,21 +54,42 @@ export default function Trip() {
     ]);
     setUserMessage("");
   }
-  // console.log("aiMessage: " + aiMessage);
-  console.log(destList);
-  //Set map current location upon hover
+
+  //*TODO
+  //*TODO Set map current location upon hover
   function handleLocHover(event: any) {
-    // setCurrLoc(event.target.innerText);
     console.log("location: " + event.target.innerText);
-    // setCurrDest(destList[event.target.innerText]);
+    console.log("coord: " + destList[event.target.innerText]);
+
+    setCurrDest(destList[event.target.innerText]);
+    // async function getCoord(location: string) {
+    //   console.log("getcoord input" + location);
+    //   const destRes = await fetch(
+    //     `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?limit=2&access_token=${process.env.MAPBOX_KEY}`,
+    //     {
+    //       method: "GET",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   );
+    //   const destCoord = await destRes.json();
+
+    //   const x = destCoord.features[0].geometry.coordinates[0];
+    //   const y = destCoord.features[0].geometry.coordinates[1];
+    //   setCurrDest([x, y]);
+    // }
+    // getCoord(event.target.innerText);
   }
-  //Select all anchor tags from aiMessage and assign mouseover event
-  //push to destList array the locations found
+
+  //*=================================================================================
+  //*Select all anchor tags from aiMessage and assign mouseover event
+  //*push to destList array the locations found
   useEffect(() => {
-    //
-    //*!select only when complete
-    //
     const allLocations = document.querySelectorAll(".ai-location");
+
+    //*Function to obtain specific destination coordinate */
+    //*
     async function getCoord(location: string) {
       const destRes = await fetch(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?limit=2&access_token=${process.env.MAPBOX_KEY}`,
@@ -81,35 +102,56 @@ export default function Trip() {
       );
       const destCoord = await destRes.json();
 
-      console.log("coord: ");
       const x = destCoord.features[0].geometry.coordinates[0];
       const y = destCoord.features[0].geometry.coordinates[1];
       return { x, y };
     }
-    allLocations.forEach((location) => {
-      location.addEventListener("mouseover", handleLocHover);
 
-      if (aiComplete) {
-        const coordinate = getCoord(location.innerHTML);
-        // console.log(coordinate);
-        coordinate.then(({ x, y }) => {
-          setDestList((prevList) => ({
+    //*Fetch data from Mapbox geo data to get coordinates for all destinations
+    //*assign destination as key and coordinates as values for destList
+    //*
+    const fetchCoordinates = async () => {
+      const coordinatePromises = Array.from(allLocations).map((location) =>
+        getCoord(location.innerHTML)
+      );
+
+      const coordinates = await Promise.all(coordinatePromises);
+
+      const updatedDestList = coordinates.reduce(
+        (prevList, coordinate, index) => {
+          const location = allLocations[index].innerHTML;
+          return {
             ...prevList,
-            [location.innerHTML]: [x, y],
-          }));
-        });
-      }
-    });
+            [location]: [coordinate.x, coordinate.y],
+          };
+        },
+        {}
+      );
 
-    return () => {
-      allLocations.forEach((location) => {
-        location.removeEventListener("mouseover", handleLocHover);
-      });
+      setDestList(updatedDestList);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    fetchCoordinates();
   }, [aiComplete]);
 
-  //Stream openai response data to aiMessage
+  //*================================================================================ */
+  //** add event delegation, ai-location class mouseover bubbles up to chat class */
+  useEffect(() => {
+    const chatSection = document.querySelector(".chat");
+
+    const handleHoverEvent = (event: any) => {
+      if (event.target.classList.contains("ai-location")) {
+        handleLocHover(event);
+      }
+    };
+    chatSection!.addEventListener("mouseover", handleHoverEvent);
+
+    return () => {
+      chatSection!.removeEventListener("mouseover", handleHoverEvent);
+    };
+  }, [destList, handleLocHover]);
+  //*================================================================================= */
+  //*Stream openai response data to aiMessage
   useEffect(() => {
     //reset these variables for each time user makes adjustment
     setAiComplete(false);
@@ -185,7 +227,7 @@ export default function Trip() {
           </button>
         </aside>
       </form>
-      {/* <Map currLoc={currDest} /> */}
+      <Map currLoc={currDest} />
       <script></script>
     </div>
   );
