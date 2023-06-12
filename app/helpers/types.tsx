@@ -14,3 +14,7 @@ export interface AiStreamPayload {
   stream: boolean;
   n: number;
 }
+
+export type DestCoordType = {
+  [key: string]: [longitude: number, latitude: number];
+};

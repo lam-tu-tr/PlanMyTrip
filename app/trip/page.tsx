@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { capitalizeWords } from "../helpers/helper-functions";
-
 import { Message } from "../helpers/types";
 import Map from "../components/Map";
 
@@ -13,6 +12,8 @@ type DestCoordType = {
 
 //DO NOT make a page function an async function
 export default function Trip() {
+  //*================================================================================
+  //*States declarations */
   //obtain data from querystring of previously submitted form
   const destination = useSearchParams().get("destination");
   const startDate = useSearchParams().get("startDate");
@@ -42,8 +43,8 @@ export default function Trip() {
   //list of all destinations
   const [destList, setDestList] = useState<DestCoordType>({});
 
-  console.log("currDest: " + currDest);
-  //handle submit, assign messages to payload
+  //*=================================================================================
+  //*handle submit, assign messages to payload
   function handleConvo(event: any) {
     event.preventDefault();
 
@@ -53,33 +54,6 @@ export default function Trip() {
       { role: "user", content: userMessage },
     ]);
     setUserMessage("");
-  }
-
-  //*TODO
-  //*TODO Set map current location upon hover
-  function handleLocHover(event: any) {
-    console.log("location: " + event.target.innerText);
-    console.log("coord: " + destList[event.target.innerText]);
-
-    setCurrDest(destList[event.target.innerText]);
-    // async function getCoord(location: string) {
-    //   console.log("getcoord input" + location);
-    //   const destRes = await fetch(
-    //     `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?limit=2&access_token=${process.env.MAPBOX_KEY}`,
-    //     {
-    //       method: "GET",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //     }
-    //   );
-    //   const destCoord = await destRes.json();
-
-    //   const x = destCoord.features[0].geometry.coordinates[0];
-    //   const y = destCoord.features[0].geometry.coordinates[1];
-    //   setCurrDest([x, y]);
-    // }
-    // getCoord(event.target.innerText);
   }
 
   //*=================================================================================
@@ -100,6 +74,9 @@ export default function Trip() {
           },
         }
       );
+      if (!destRes.ok) {
+        throw new Error(`Failed to fetch ${location} coordinate`);
+      }
       const destCoord = await destRes.json();
 
       const x = destCoord.features[0].geometry.coordinates[0];
@@ -135,8 +112,11 @@ export default function Trip() {
   }, [aiComplete]);
 
   //*================================================================================ */
-  //** add event delegation, ai-location class mouseover bubbles up to chat class */
+  //** add event delegation, ai-location class mouseover bubbles up to chat class     */
   useEffect(() => {
+    function handleLocHover(event: any) {
+      setCurrDest(destList[event.target.innerText]);
+    }
     const chatSection = document.querySelector(".chat");
 
     const handleHoverEvent = (event: any) => {
@@ -149,14 +129,15 @@ export default function Trip() {
     return () => {
       chatSection!.removeEventListener("mouseover", handleHoverEvent);
     };
-  }, [destList, handleLocHover]);
+  }, [destList]);
   //*================================================================================= */
   //*Stream openai response data to aiMessage
   useEffect(() => {
-    //reset these variables for each time user makes adjustment
+    //!reset these variables for each time user makes adjustment
     setAiComplete(false);
     setDestList({});
     setAiMessage("");
+
     async function handleChatRequest() {
       try {
         const res = await fetch("/api/prompt", {
@@ -169,23 +150,20 @@ export default function Trip() {
           }),
         });
 
-        if (!res.ok) {
-          throw new Error("Failed to fetch API");
-        }
-        const data = res.body;
-        if (!data) {
-          return;
-        }
-        const reader = data.getReader();
+        if (!res.ok) throw new Error("Failed to fetch API");
+
+        if (!res.body) return;
+
+        const reader = res.body.getReader();
         const decoder = new TextDecoder();
         let done = false;
 
         while (!done) {
           const { value, done: doneReading } = await reader.read();
           done = doneReading;
-          if (done) {
-            setAiComplete(true);
-          }
+
+          if (doneReading) setAiComplete(true);
+
           const chunkValue = decoder.decode(value);
           setAiMessage((prev) => prev + chunkValue);
         }
@@ -227,7 +205,7 @@ export default function Trip() {
           </button>
         </aside>
       </form>
-      <Map currLoc={currDest} />
+      <Map currCoord={currDest} />
       <script></script>
     </div>
   );

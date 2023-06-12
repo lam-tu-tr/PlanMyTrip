@@ -1,12 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 
-// const MAPBOX_API_KEY =
-//   "pk.eyJ1IjoibGFtaXNtIiwiYSI6ImNsaWR5eGVwNzBldjYza3Q4amJudHVhMWEifQ.WEc1LP70RJIxLj3ss0H1sQ";
+import { DestCoordType } from "../helpers/types";
 
 interface MapLoc {
   currLoc: [number, number];
 }
-export default function Map(currLoc: MapLoc) {
+export default function Map(currDest: MapLoc) {
   //----------------------------------------------------------------------------------------------------------
   //Map Box Declaration
   const mapContainerRef = useRef(null);
@@ -43,13 +42,8 @@ export default function Map(currLoc: MapLoc) {
   }, [mapboxgl, mapboxgl.Map]);
   useEffect(() => {
     if (map) {
-      map.panTo(currLoc.currLoc);
+      map.panTo(currDest.currLoc);
     }
-  }, [currLoc, map]);
-  return (
-    <div ref={mapContainerRef} id="map" className="z-30">
-      <h1 className="z-50 text-4xl text-blue-50">Change location</h1>
-      <div></div>
-    </div>
-  );
+  }, [currDest, map]);
+  return <div ref={mapContainerRef} id="map"></div>;
 }
