@@ -38,13 +38,14 @@ export default function Map({ currDest, destList }: MapCoord) {
 
       //*TODO Add any additional map configurations or functionality here
 
-      newMap.addControl(new mapboxgl.NavigationControl());
+      newMap.addControl(new mapboxgl.NavigationControl(), "top-left");
 
       newMap.addControl(
         new MapboxGeocoder({
           accessToken: mapboxgl.accessToken,
           mapboxgl: mapboxgl,
-        })
+        }),
+        "top-right"
       );
       return () => {
         newMap.remove();
@@ -52,6 +53,7 @@ export default function Map({ currDest, destList }: MapCoord) {
     }
   }, [mapboxgl, mapboxgl.Map]);
 
+  //*Loop through destList and set a marker for each destination
   useEffect(() => {
     Object.keys(destList).forEach((key) => {
       const value = destList[key];
@@ -60,6 +62,7 @@ export default function Map({ currDest, destList }: MapCoord) {
     });
   }, [map, mapboxgl.Marker, destList]);
 
+  //*Fly animation to destination when hovering over destination name
   useEffect(() => {
     if (map) {
       setTimeout(
