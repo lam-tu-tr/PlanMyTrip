@@ -12,6 +12,7 @@
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.1",
+    "@mapbox/mapbox-gl-geocoder": "^5.0.1",
     "@mapbox/search-js-react": "^1.0.0-beta.16",
     "@mapbox/search-js-web": "^1.0.0-beta.16",
     "@mui/lab": "^5.0.0-alpha.131",
@@ -38,6 +39,7 @@
   "description": "This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).",
   "main": "next.config.js",
   "devDependencies": {
+    "@types/mapbox__mapbox-gl-geocoder": "^4.7.3",
     "@types/mapbox-gl": "^2.7.11",
     "@types/node": "^20.1.7",
     "@types/react-date-range": "^1.4.4",

@@ -2,12 +2,15 @@ import { useEffect, useState, useRef } from "react";
 
 import { DestCoordType } from "../helpers/types";
 
-interface MapLoc {
-  currLoc: [number, number];
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+
+interface MapCoord {
+  currDest: [number, number];
+  destList: DestCoordType;
 }
-export default function Map(currDest: MapLoc) {
-  //----------------------------------------------------------------------------------------------------------
-  //Map Box Declaration
+export default function Map({ currDest, destList }: MapCoord) {
+  //*Map Box Declaration
   const mapContainerRef = useRef(null);
   const mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
   mapboxgl.accessToken = process.env.MAPBOX_KEY;
@@ -33,17 +36,48 @@ export default function Map(currDest: MapLoc) {
         setMap(newMap);
       });
 
-      // Add any additional map configurations or functionality here
+      //*TODO Add any additional map configurations or functionality here
+
       newMap.addControl(new mapboxgl.NavigationControl());
+
+      newMap.addControl(
+        new MapboxGeocoder({
+          accessToken: mapboxgl.accessToken,
+          mapboxgl: mapboxgl,
+        })
+      );
       return () => {
         newMap.remove();
       };
     }
   }, [mapboxgl, mapboxgl.Map]);
+
+  useEffect(() => {
+    Object.keys(destList).forEach((key) => {
+      const value = destList[key];
+      console.log("key: " + key + "value: " + value);
+      new mapboxgl.Marker().setLngLat(value).addTo(map);
+    });
+  }, [map, mapboxgl.Marker, destList]);
+
   useEffect(() => {
     if (map) {
-      map.panTo(currDest.currLoc);
+      setTimeout(
+        () =>
+          map.flyTo({
+            center: currDest,
+            essential: true,
+            maxDuration: 3000,
+            curve: 1.5,
+          }),
+        200
+      );
     }
-  }, [currDest, map]);
-  return <div ref={mapContainerRef} id="map"></div>;
+  }, [currDest, map, mapboxgl.Marker]);
+  return (
+    <div id="map">
+      <div ref={mapContainerRef}></div>
+      <div id="menu"></div>
+    </div>
+  );
 }

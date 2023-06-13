@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { capitalizeWords } from "../helpers/helper-functions";
 import { Message } from "../helpers/types";
 import Map from "../components/Map";
-
+import Script from "next/script";
 type DestCoordType = {
   [key: string]: [longitude: number, latitude: number];
 };
@@ -35,14 +35,14 @@ export default function Trip() {
       role: "user",
       content: `Create a detailed itinerary for my trip to ${capitalizeWords(
         destination!
-      )} from ${startDate} to ${endDate}. Wrap all the locations in an html <a target="_blank" class="ai-location"  ></a> tag with an href to https://google.com/search?q={location}. Give the result in an indented list style using HTML elements <ol> and <li>. Wrap the whole ai response inside a <div></div>. Remove everything outside of this <div> element`,
+      )} from ${startDate} to ${endDate}. Wrap all the locations in an html <a target="_blank" class="ai-location" ></a> tag with an href to https://google.com/search?q={location}. Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening). Give the result in an indented list style using HTML elements <ol> and <li>. Wrap the whole ai response inside a <div></div>.`,
     },
   ]);
   //currDest is current map focused destination
   const [currDest, setCurrDest] = useState<[number, number]>([-117.16, 32.71]);
   //list of all destinations
   const [destList, setDestList] = useState<DestCoordType>({});
-
+  console.log(aiMessage);
   //*=================================================================================
   //*handle submit, assign messages to payload
   function handleConvo(event: any) {
@@ -79,8 +79,8 @@ export default function Trip() {
       }
       const destCoord = await destRes.json();
 
-      const x = destCoord.features[0].geometry.coordinates[0];
-      const y = destCoord.features[0].geometry.coordinates[1];
+      const x = destCoord.features[0].center[0];
+      const y = destCoord.features[0].center[1];
       return { x, y };
     }
 
@@ -205,8 +205,7 @@ export default function Trip() {
           </button>
         </aside>
       </form>
-      <Map currCoord={currDest} />
-      <script></script>
+      <Map currDest={currDest} destList={destList} />
     </div>
   );
 }

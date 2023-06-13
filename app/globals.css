@@ -102,8 +102,20 @@ body {
 #map {
   flex: 1;
   flex-basis: 80%;
+  display: flex;
+  flex-direction: column;
+}
+#map div {
+  flex-grow: 2;
 }
 
 .ai-location {
   background-color: aqua;
+}
+
+#menu {
+  position: absolute;
+  background: #efefef;
+  padding: 10px;
+  font-family: "Open Sans", sans-serif;
 }
