@@ -15,11 +15,11 @@ type AntDateRangeProps = {
 
 function AntDateRange({ setStartDate, setEndDate }: AntDateRangeProps) {
   return (
-    <div className="bg-blue-500 w-96 h-14 flex flex-row justify-center items-center">
+    <div className=" w-96 h-14 flex flex-row justify-center items-center ml-8">
       <Space direction="vertical" size={12}>
         <RangePicker
           transitionName=""
-          className="w-96 h-14"
+          className="w-96 h-10"
           format="MMM DD, YYYY"
           onChange={(
             date: RangeValue<Dayjs>,

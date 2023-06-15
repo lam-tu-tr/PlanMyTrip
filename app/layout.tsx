@@ -1,9 +1,9 @@
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Ubuntu } from "next/font/google";
 
 import Navbar from "./components/Navbar";
 import "@fontsource/roboto/400.css";
-const inter = Inter({ subsets: ["latin"] });
+const ubuntu = Ubuntu({ weight: "500", preload: false });
 
 export const metadata = {
   title: "AI Plan My Trip",
@@ -24,7 +24,7 @@ export default function RootLayout({
         />
       </head>
 
-      <body className={inter.className}>
+      <body className={ubuntu.className}>
         <Navbar />
         {children}
       </body>

@@ -18,3 +18,9 @@ export interface AiStreamPayload {
 export type DestCoordType = {
   [key: string]: [longitude: number, latitude: number];
 };
+
+export type destType = {
+  name: string;
+  x: string;
+  y: string;
+};

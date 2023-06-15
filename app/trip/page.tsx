@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { capitalizeWords } from "../helpers/helper-functions";
-import { Message } from "../helpers/types";
+import { Message, destType } from "../helpers/types";
 import Map from "../components/Map";
-import Script from "next/script";
+
 type DestCoordType = {
   [key: string]: [longitude: number, latitude: number];
 };
@@ -15,9 +15,19 @@ export default function Trip() {
   //*================================================================================
   //*States declarations */
   //obtain data from querystring of previously submitted form
-  const destination = useSearchParams().get("destination");
+  const [destination, setDestination] = useState<destType>({
+    name: useSearchParams().get("destination") || "",
+    x: "",
+    y: "",
+  });
   const startDate = useSearchParams().get("startDate");
   const endDate = useSearchParams().get("endDate");
+  const initialCoord: [number, number] = [
+    Number(useSearchParams().get("x")),
+    Number(useSearchParams().get("y")),
+  ];
+
+  console.log(initialCoord);
   //hold user input and ai message inside a string
   //which will be assigned to messagepayload during submit event
   const [userMessage, setUserMessage] = useState<string>("");
@@ -34,12 +44,12 @@ export default function Trip() {
     {
       role: "user",
       content: `Create a detailed itinerary for my trip to ${capitalizeWords(
-        destination!
+        destination.name
       )} from ${startDate} to ${endDate}. Wrap all the locations in an html <a target="_blank" class="ai-location" ></a> tag with an href to https://google.com/search?q={location}. Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening). Give the result in an indented list style using HTML elements <ol> and <li>. Wrap the whole ai response inside a <div></div>.`,
     },
   ]);
   //currDest is current map focused destination
-  const [currDest, setCurrDest] = useState<[number, number]>([-117.16, 32.71]);
+  const [currDest, setCurrDest] = useState<[number, number]>(initialCoord);
   //list of all destinations
   const [destList, setDestList] = useState<DestCoordType>({});
   console.log(aiMessage);
@@ -179,7 +189,9 @@ export default function Trip() {
     <div className="TripDetails">
       <form className=" bg-red-700" onSubmit={handleConvo}>
         <div>
-          <h1 className="text-2xl">Trip to {capitalizeWords(destination!)}</h1>
+          <h1 className="text-2xl">
+            Trip to {capitalizeWords(destination.name!)}
+          </h1>
 
           <button type={"button"} onClick={() => setCurrDest([-122.43, 37.78])}>
             Location
@@ -205,7 +217,11 @@ export default function Trip() {
           </button>
         </aside>
       </form>
-      <Map currDest={currDest} destList={destList} />
+      <Map
+        currDest={currDest}
+        destList={destList}
+        setDestination={setDestination}
+      />
     </div>
   );
 }
