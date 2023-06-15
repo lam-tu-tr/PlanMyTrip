@@ -30,9 +30,9 @@ export default function Map({ currDest, destList, setDestination }: MapCoord) {
       const newMap = new mapboxgl.Map({
         container: mapContainerRef.current,
         style: "mapbox://styles/mapbox/streets-v12",
-        center: currDest || [-117.16, 32.71],
-        zoom: 12,
-        pitch: 60,
+        center: [-79.2, 21.945],
+        zoom: 1.5,
+        pitch: 0,
       });
       newMap.on("load", () => {
         setMap(newMap);

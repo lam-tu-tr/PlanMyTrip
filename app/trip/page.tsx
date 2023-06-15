@@ -27,7 +27,6 @@ export default function Trip() {
     Number(useSearchParams().get("y")),
   ];
 
-  console.log(initialCoord);
   //hold user input and ai message inside a string
   //which will be assigned to messagepayload during submit event
   const [userMessage, setUserMessage] = useState<string>("");
@@ -52,7 +51,7 @@ export default function Trip() {
   const [currDest, setCurrDest] = useState<[number, number]>(initialCoord);
   //list of all destinations
   const [destList, setDestList] = useState<DestCoordType>({});
-  console.log(aiMessage);
+
   //*=================================================================================
   //*handle submit, assign messages to payload
   function handleConvo(event: any) {
