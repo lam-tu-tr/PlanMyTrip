@@ -23,14 +23,13 @@ export default function Home() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
-  console.log(destination);
   return (
     <main className=" flex flex-col items-center justify-between">
       <div className="Home flex flex-col justify-around p-7">
         <h1 className="text-4xl text-center text-white mb-8">
           Simplify your trip planning with AI powered itineraries
         </h1>
-        <Map setDestination={setDestination} />
+        <Map setDestination={setDestination} destList={{}} />
         <form
           className="flex flex-row justify-between items-center bg-red-700 p-2"
           action="./trip"

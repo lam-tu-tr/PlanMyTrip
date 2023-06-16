@@ -186,15 +186,11 @@ export default function Trip() {
 
   return (
     <div className="TripDetails">
-      <form className=" bg-red-700" onSubmit={handleConvo}>
-        <div>
-          <h1 className="text-2xl">
+      <form onSubmit={handleConvo}>
+        <div className="rounded-t-lg pt-3">
+          <h1 className="text-2xl border-b-2 pb-3">
             Trip to {capitalizeWords(destination.name!)}
           </h1>
-
-          <button type={"button"} onClick={() => setCurrDest([-122.43, 37.78])}>
-            Location
-          </button>
         </div>
         <section
           className="chat"
@@ -203,7 +199,7 @@ export default function Trip() {
           {/* <div ></div> */}
         </section>
 
-        <aside className=" bg-orange-300">
+        <aside className=" bg-orange-300 rounded-b-lg">
           <textarea
             className="bg-slate-500 p-2 py-1 h-18 rounded-lg border border-white text-white"
             name="userMessage"

@@ -8,7 +8,6 @@ import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 interface MapCoord {
   currDest?: [number, number];
   destList?: DestCoordType;
-  destination?: string;
   setDestination: React.Dispatch<React.SetStateAction<destType>>;
 }
 export default function Map({ currDest, destList, setDestination }: MapCoord) {
@@ -17,6 +16,8 @@ export default function Map({ currDest, destList, setDestination }: MapCoord) {
   const mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
   mapboxgl.accessToken = process.env.MAPBOX_KEY;
   const [map, setMap] = useState<mapboxgl.Map | null>(null);
+
+  const [destListFilled, setDestListFilled] = useState(false);
 
   useEffect(() => {
     //mapbox variable
@@ -75,26 +76,43 @@ export default function Map({ currDest, destList, setDestination }: MapCoord) {
         new mapboxgl.Marker().setLngLat(value).addTo(map);
       });
     }
-  }, [map, mapboxgl.Marker, destList]);
+    if (map && Object.getOwnPropertyNames(destList).length !== 0) {
+      map.easeTo({
+        center: currDest,
+        zoom: 10,
 
+        pitch: 30,
+      });
+    }
+  }, [map, mapboxgl.Marker, destList, destListFilled]);
+
+  console.log(destList);
   //*Fly animation to destination when hovering over destination name
   useEffect(() => {
     if (map) {
-      setTimeout(
-        () =>
-          map.flyTo({
+      setTimeout(() => {
+        // map.flyTo({
+        //   center: currDest,
+        //   essential: true,
+        //   maxDuration: 3000,
+
+        //   curve: 1.5,
+        // });
+        if (map && Object.getOwnPropertyNames(destList)?.length !== 0) {
+          map.easeTo({
             center: currDest,
-            essential: true,
-            maxDuration: 3000,
-            curve: 1.5,
-          }),
-        100
-      );
+            zoom: 10,
+
+            pitch: 30,
+          });
+        }
+        // map.setZoom(4),
+      }, 100);
     }
-  }, [currDest, map]);
+  }, [currDest, map, destListFilled]);
   return (
     <div id="map">
-      <div ref={mapContainerRef}></div>
+      <div ref={mapContainerRef} className=""></div>
     </div>
   );
 }

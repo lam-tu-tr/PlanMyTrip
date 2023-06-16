@@ -45,11 +45,12 @@ body {
   height: 95vh;
   display: flex;
   flex-direction: row;
+  padding: 1rem;
 }
 .TripDetails > form {
   flex: 1;
-  flex-basis: 20%;
-  height: 95vh;
+  flex-basis: 40%;
+  height: 90vh;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 0.6fr 10fr 1fr;
@@ -57,14 +58,17 @@ body {
     "loc "
     "chat "
     "com ";
+  border-radius: 10px;
+  color: white;
 }
 .TripDetails > form > div {
   grid-area: loc;
-  background-color: blueviolet;
+
   display: flex;
   justify-content: flex-start;
   align-items: center;
   padding-left: 1rem;
+  color: white;
 }
 
 .TripDetails > form > aside {
@@ -101,9 +105,13 @@ body {
 
 #map {
   flex: 1;
-  flex-basis: 80%;
+  flex-basis: 60%;
   display: flex;
   flex-direction: column;
+  /* padding: 10px; */
+}
+.TripDetails #map {
+  padding: 10px;
 }
 #map div {
   flex-grow: 2;
@@ -143,5 +151,8 @@ main {
   border: 1px solid rgba(209, 213, 219, 0.3);
 }
 .mapboxgl-canvas {
-  border-radius: 10px 10px 0 0;
+  border-radius: 10px 10px 10px 10px;
+}
+.mapboxgl-ctrl-attrib {
+  border-bottom-right-radius: 10px;
 }
