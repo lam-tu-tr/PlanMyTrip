@@ -8,16 +8,21 @@ import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 interface MapCoord {
   currDest?: [number, number];
   destList?: DestCoordType;
+  initialCoord?: [number, number];
   setDestination: React.Dispatch<React.SetStateAction<destType>>;
 }
-export default function Map({ currDest, destList, setDestination }: MapCoord) {
+export default function Map({
+  currDest,
+  destList,
+  initialCoord,
+  setDestination,
+}: MapCoord) {
   //*Map Box Declaration
   const mapContainerRef = useRef(null);
   const mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
+  require("mapbox-gl/dist/mapbox-gl.css");
   mapboxgl.accessToken = process.env.MAPBOX_KEY;
   const [map, setMap] = useState<mapboxgl.Map | null>(null);
-
-  const [destListFilled, setDestListFilled] = useState(false);
 
   useEffect(() => {
     //mapbox variable
@@ -39,8 +44,6 @@ export default function Map({ currDest, destList, setDestination }: MapCoord) {
         setMap(newMap);
       });
 
-      //*TODO Add any additional map configurations or functionality here
-
       newMap.addControl(new mapboxgl.NavigationControl(), "top-left");
 
       const geocoder = new MapboxGeocoder({
@@ -52,7 +55,6 @@ export default function Map({ currDest, destList, setDestination }: MapCoord) {
       newMap.addControl(geocoder);
 
       geocoder.on("result", (event) => {
-        // console.log(event.result);
         setDestination({
           name: event.result.place_name,
           x: event.result.center[0],
@@ -67,49 +69,55 @@ export default function Map({ currDest, destList, setDestination }: MapCoord) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapboxgl, mapboxgl.Map, setDestination]);
 
-  //*Loop through destList and set a marker for each destination
   useEffect(() => {
-    if (destList) {
+    if (map && destList && Object.getOwnPropertyNames(destList).length > 0) {
+      const bounds = new mapboxgl.LngLatBounds();
+      const markers: any = [];
+      //*Loop through destList and set a marker for each destination, and pushing
+      //*marker into markers array
       Object.keys(destList).forEach((key) => {
         const value = destList[key];
-        console.log("key: " + key + "value: " + value);
-        new mapboxgl.Marker().setLngLat(value).addTo(map);
+
+        markers.push(new mapboxgl.Marker().setLngLat(value).addTo(map));
+
+        //* iterate through makers and get the boundary box
+        markers.forEach((marker: any) => {
+          bounds.extend(marker.getLngLat());
+        });
+
+        //*animate zoom & pan to bound box
+        map.fitBounds(bounds, {
+          padding: 50,
+          maxZoom: 10,
+          pitch: 50,
+        });
       });
     }
-    if (map && Object.getOwnPropertyNames(destList).length !== 0) {
-      map.easeTo({
-        center: currDest,
-        zoom: 10,
 
-        pitch: 30,
-      });
-    }
-  }, [map, mapboxgl.Marker, destList, destListFilled]);
-
-  console.log(destList);
-  //*Fly animation to destination when hovering over destination name
-  useEffect(() => {
-    if (map) {
+    if (map && currDest !== initialCoord) {
       setTimeout(() => {
-        // map.flyTo({
-        //   center: currDest,
-        //   essential: true,
-        //   maxDuration: 3000,
-
-        //   curve: 1.5,
-        // });
-        if (map && Object.getOwnPropertyNames(destList)?.length !== 0) {
-          map.easeTo({
-            center: currDest,
-            zoom: 10,
-
-            pitch: 30,
-          });
-        }
-        // map.setZoom(4),
+        map.flyTo({
+          center: currDest,
+          zoom: 12,
+          curve: 1.8,
+          speed: 1.2,
+          pitch: 50,
+          easing(t) {
+            return t;
+          },
+        });
       }, 100);
     }
-  }, [currDest, map, destListFilled]);
+  }, [
+    map,
+    mapboxgl.Marker,
+    destList,
+
+    currDest,
+    mapboxgl.LngLatBounds,
+    initialCoord,
+  ]);
+
   return (
     <div id="map">
       <div ref={mapContainerRef} className=""></div>

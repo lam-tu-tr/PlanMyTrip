@@ -130,9 +130,15 @@ body {
 
 main {
   height: 95vh;
-  background-image: url("https://images.unsplash.com/photo-1531366936337-7c912a4589a7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80");
+  /* background-image: url("https://images.unsplash.com/photo-1531366936337-7c912a4589a7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"); */
   background-position: center;
   background-size: cover;
+  background: rgb(83, 112, 255);
+  background: radial-gradient(
+    circle,
+    rgba(83, 112, 255, 1) 29%,
+    rgba(0, 172, 185, 1) 100%
+  );
 }
 
 .Home {
@@ -150,9 +156,12 @@ main {
   /* background: rgba(255, 255, 255, 0.685); */
   border: 1px solid rgba(209, 213, 219, 0.3);
 }
-.mapboxgl-canvas {
+.Home .mapboxgl-canvas {
+  border-radius: 10px 10px 0 0;
+}
+.TripDetails .mapboxgl-canvas {
   border-radius: 10px 10px 10px 10px;
 }
-.mapboxgl-ctrl-attrib {
+.TripDetails .mapboxgl-ctrl-attrib {
   border-bottom-right-radius: 10px;
 }

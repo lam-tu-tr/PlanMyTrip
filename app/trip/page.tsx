@@ -6,6 +6,8 @@ import { capitalizeWords } from "../helpers/helper-functions";
 import { Message, destType } from "../helpers/types";
 import Map from "../components/Map";
 
+import DOMPurify from "dompurify";
+
 type DestCoordType = {
   [key: string]: [longitude: number, latitude: number];
 };
@@ -48,7 +50,7 @@ export default function Trip() {
     },
   ]);
   //currDest is current map focused destination
-  const [currDest, setCurrDest] = useState<[number, number]>(initialCoord);
+  const [currDest, setCurrDest] = useState<[number, number]>();
   //list of all destinations
   const [destList, setDestList] = useState<DestCoordType>({});
 
@@ -194,10 +196,8 @@ export default function Trip() {
         </div>
         <section
           className="chat"
-          dangerouslySetInnerHTML={{ __html: aiMessage }}
-        >
-          {/* <div ></div> */}
-        </section>
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(aiMessage) }}
+        ></section>
 
         <aside className=" bg-orange-300 rounded-b-lg">
           <textarea
