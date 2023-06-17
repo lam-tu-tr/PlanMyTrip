@@ -20,7 +20,7 @@ export const runtime = "edge";
 //    gets added to prompt by user and system
 //-----------------------------------------------------------------------------
 
-export default async function POST(req: NextRequest): Promise<NextResponse> {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   console.log("inside Post Function");
   const prompt: promptType = await req.json();
   if (!prompt) {
