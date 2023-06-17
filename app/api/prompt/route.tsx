@@ -11,6 +11,10 @@ import {
 type promptType = {
   messages: Message[];
 };
+
+export const config = {
+  runtime: "edge",
+};
 //------------------------------------------------------------------------------
 //POST a chat request to openAI chatcompletion endpoint
 //reuseable for additional request for chat conversation

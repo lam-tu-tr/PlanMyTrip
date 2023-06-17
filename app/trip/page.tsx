@@ -80,7 +80,7 @@ export default function Trip() {
     //*
     async function getCoord(location: string) {
       const destRes = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?limit=2&access_token=${process.env.MAPBOX_KEY}`,
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?proximity=${initialCoord[0]},${initialCoord[1]}&limit=2&access_token=${process.env.MAPBOX_KEY}`,
         {
           method: "GET",
           headers: {
