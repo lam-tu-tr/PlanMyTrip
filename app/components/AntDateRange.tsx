@@ -21,8 +21,8 @@ function AntDateRange({ setStartDate, setEndDate }: AntDateRangeProps) {
     if (!dates) {
       return false;
     }
-    const tooLate = dates[0] && current.diff(dates[0], "days") >= 3;
-    const tooEarly = dates[1] && dates[1].diff(current, "days") >= 3;
+    const tooLate = dates[0] && current.diff(dates[0], "days") >= 7;
+    const tooEarly = dates[1] && dates[1].diff(current, "days") >= 7;
     return !!tooEarly || !!tooLate;
   };
 
@@ -40,20 +40,18 @@ function AntDateRange({ setStartDate, setEndDate }: AntDateRangeProps) {
           transitionName=""
           className="w-96 h-10"
           format="MMM DD, YYYY"
-          value={dates || value}
-          disabledDate={disabledDate}
-          onCalendarChange={(val) => {
-            setDates(val);
-          }}
-          // onChange={(val) => {
-          //   setValue(val);
-          // }}
           onChange={(
             date: RangeValue<Dayjs>,
             formatString: [string, string]
           ) => {
             setStartDate(formatString[0]);
             setEndDate(formatString[1]);
+          }}
+          value={dates || value}
+          disabledDate={disabledDate}
+          onCalendarChange={(val) => {
+            setDates(val);
+            setValue(val);
           }}
           onOpenChange={onOpenChange}
           changeOnBlur
