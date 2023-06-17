@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import "@fontsource/roboto/400.css";
 const ubuntu = Ubuntu({ weight: "500", preload: false });
 
+import { Analytics } from "@vercel/analytics/react";
 export const metadata = {
   title: "AI Plan My Trip",
   description: "Generate trip itinerary using AI",
@@ -27,6 +28,7 @@ export default function RootLayout({
       <body className={ubuntu.className}>
         <Navbar />
         {children}
+        <Analytics />
       </body>
     </html>
   );

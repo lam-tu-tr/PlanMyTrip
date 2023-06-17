@@ -4,11 +4,7 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import Map from "./components/Map";
 import { DestCoordType, destType } from "./helpers/types";
-//Force search-js-react to be imported as a client lib instead of ssr
-// const SearchBox = dynamic(
-//   () => import("@mapbox/search-js-react").then((mod) => mod.SearchBox),
-//   { ssr: false }
-// );
+
 //Force Ant component to be imported as client instead of ssr
 const AntDateRange = dynamic(() => import("./components/AntDateRange"), {
   ssr: false,
@@ -35,6 +31,7 @@ export default function Home() {
           action="./trip"
         >
           {/* //hidden input to set date querystring upon submission */}
+          {/*TODO ADD A ERROR MESSAGE IF NO DESTINATION ENTERED  */}
           <input
             type="hidden"
             required
@@ -46,17 +43,6 @@ export default function Home() {
           <input type="hidden" required name="x" value={destination.x} />
           <input type="hidden" required name="y" value={destination.y} />
 
-          {/* <div className="h-12 width-96">
-              <SearchBox
-                accessToken={process.env.MAPBOX_KEY!}
-                value={destination}
-                onRetrieve={(location: any) =>
-                  setDestination(location.features[0].properties.name)
-                }
-                onChange={(location: any) => setDestination(location)}
-                theme={{ variables: {} }}
-              />
-            </div> */}
           <AntDateRange setStartDate={setStartDate} setEndDate={setEndDate} />
           <button
             className="text-lg bg-blue-400 h-10 w-40 p-2 py-1 rounded-md border-1, mr-7"
@@ -69,3 +55,11 @@ export default function Home() {
     </main>
   );
 }
+
+//*TODO Add an error message for when no destination has been entered and user tries to submit form
+
+//*TODO add a zoom out using fitBound method
+
+//*TODO add a share button
+
+//*TODO EMOJI ICON or display destination name
