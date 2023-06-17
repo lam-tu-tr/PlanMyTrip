@@ -70,6 +70,7 @@ export default function Map({
   }, [mapboxgl, mapboxgl.Map, setDestination]);
 
   useEffect(() => {
+    console.log("changing maps");
     if (map && destList && Object.getOwnPropertyNames(destList).length > 0) {
       const bounds = new mapboxgl.LngLatBounds();
       const markers: any = [];
@@ -78,7 +79,17 @@ export default function Map({
       Object.keys(destList).forEach((key) => {
         const value = destList[key];
 
-        markers.push(new mapboxgl.Marker().setLngLat(value).addTo(map));
+        markers.push(
+          new mapboxgl.Marker({
+            color: `#${Math.random()
+              .toString(16)
+              .slice(2, 8)
+              .padStart(6, "0")}`,
+          })
+            .setLngLat(value)
+            .setPopup(new mapboxgl.Popup().setHTML(`${key}`))
+            .addTo(map)
+        );
 
         //* iterate through makers and get the boundary box
         markers.forEach((marker: any) => {
@@ -93,8 +104,12 @@ export default function Map({
         });
       });
     }
+    // console.log("currDst: " + currDest);
+    // console.log("initial: " + initialCoord);
+  }, [destList, map, mapboxgl.LngLatBounds, mapboxgl.Marker, mapboxgl.Popup]);
 
-    if (map && currDest !== initialCoord) {
+  useEffect(() => {
+    if (map && JSON.stringify(currDest) !== JSON.stringify(initialCoord)) {
       setTimeout(() => {
         map.flyTo({
           center: currDest,
@@ -108,16 +123,7 @@ export default function Map({
         });
       }, 100);
     }
-  }, [
-    map,
-    mapboxgl.Marker,
-    destList,
-
-    currDest,
-    mapboxgl.LngLatBounds,
-    initialCoord,
-  ]);
-
+  }, [currDest, initialCoord, map]);
   return (
     <div id="map">
       <div ref={mapContainerRef} className=""></div>

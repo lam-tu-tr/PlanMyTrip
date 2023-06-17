@@ -24,10 +24,10 @@ export default function Trip() {
   });
   const startDate = useSearchParams().get("startDate");
   const endDate = useSearchParams().get("endDate");
-  const initialCoord: [number, number] = [
+  const [initialCoord] = useState<[number, number]>([
     Number(useSearchParams().get("x")),
     Number(useSearchParams().get("y")),
-  ];
+  ]);
 
   //hold user input and ai message inside a string
   //which will be assigned to messagepayload during submit event
@@ -46,19 +46,22 @@ export default function Trip() {
       role: "user",
       content: `Create a detailed itinerary for my trip to ${capitalizeWords(
         destination.name
-      )} from ${startDate} to ${endDate}. Wrap all the locations in an html <a target="_blank" class="ai-location" ></a> tag with an href to https://google.com/search?q={location}. Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening). Give the result in an indented list style using HTML elements <ol> and <li>. Wrap the whole ai response inside a <div></div>.`,
+      )} from ${startDate} to ${endDate}. Make sure that the destinations are all within a city distance. Wrap all the locations in an html <a target="_blank" class="ai-location" ></a> tag with an href to https://google.com/search?q={location}. Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening). Give the result in an indented list style using HTML elements <ol> and <li>. Wrap the whole ai response inside a <div></div>.`,
     },
   ]);
   //currDest is current map focused destination
-  const [currDest, setCurrDest] = useState<[number, number]>();
+  const [currDest, setCurrDest] = useState<[number, number]>(initialCoord);
   //list of all destinations
   const [destList, setDestList] = useState<DestCoordType>({});
 
   //*=================================================================================
   //*handle submit, assign messages to payload
   function handleConvo(event: any) {
+    console.log("submit event");
     event.preventDefault();
-
+    setAiComplete(false);
+    setDestList({});
+    setAiMessage("");
     setMessagePayload((prevMessage) => [
       ...prevMessage,
       { role: "assistant", content: aiMessage },
@@ -125,6 +128,7 @@ export default function Trip() {
   //*================================================================================ */
   //** add event delegation, ai-location class mouseover bubbles up to chat class     */
   useEffect(() => {
+    console.log("changing destList");
     function handleLocHover(event: any) {
       setCurrDest(destList[event.target.innerText]);
     }
@@ -145,10 +149,7 @@ export default function Trip() {
   //*Stream openai response data to aiMessage
   useEffect(() => {
     //!reset these variables for each time user makes adjustment
-    setAiComplete(false);
-    setDestList({});
-    setAiMessage("");
-
+    console.log("changing payload");
     async function handleChatRequest() {
       try {
         const res = await fetch("/api/prompt", {
@@ -199,16 +200,19 @@ export default function Trip() {
           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(aiMessage) }}
         ></section>
 
-        <aside className=" bg-orange-300 rounded-b-lg">
+        <aside className="rounded-b-lg">
           <textarea
-            className="bg-slate-500 p-2 py-1 h-18 rounded-lg border border-white text-white"
+            className="bg-slate-200 p-2 py-1 h-12 rounded-lg border border-white text-black"
             name="userMessage"
-            placeholder="Make adjustments"
+            placeholder="Replace museum with..."
             value={userMessage}
             onChange={({ target }) => setUserMessage(target.value)}
           />
-          <button className="bg-green-300 rounded-md ml-4" type="submit">
-            Send Message
+          <button
+            className="bg-green-300 rounded-md ml-4 h-10 px-2"
+            type="submit"
+          >
+            Make Adjustments
           </button>
         </aside>
       </form>
@@ -216,6 +220,7 @@ export default function Trip() {
         currDest={currDest}
         destList={destList}
         setDestination={setDestination}
+        initialCoord={initialCoord}
       />
     </div>
   );
