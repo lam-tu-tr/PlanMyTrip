@@ -19,6 +19,7 @@ type promptType = {
 //-----------------------------------------------------------------------------
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
+  console.log("inside Post Function");
   const prompt: promptType = await req.json();
   if (!prompt) {
     return NextResponse.json({ error: "invalid message", status: 400 });
@@ -33,7 +34,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     top_p: 1,
     frequency_penalty: 0,
     presence_penalty: 0,
-    max_tokens: 1000,
+    max_tokens: 800,
     stream: true,
     n: 1,
   };
