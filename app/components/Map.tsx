@@ -113,9 +113,9 @@ export default function Map({
       setTimeout(() => {
         map.flyTo({
           center: currDest,
-          zoom: 12,
+          zoom: 14,
           curve: 1.8,
-          speed: 1.2,
+          speed: 1.5,
           pitch: 50,
           easing(t) {
             return t;

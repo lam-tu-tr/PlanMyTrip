@@ -33,7 +33,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     top_p: 1,
     frequency_penalty: 0,
     presence_penalty: 0,
-    max_tokens: 300,
+    max_tokens: 1000,
     stream: true,
     n: 1,
   };
