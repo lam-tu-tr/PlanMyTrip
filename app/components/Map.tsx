@@ -1,7 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-
 import { DestCoordType, destType } from "../helpers/types";
-
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
@@ -24,6 +22,7 @@ export default function Map({
   mapboxgl.accessToken = process.env.MAPBOX_KEY;
   const [map, setMap] = useState<mapboxgl.Map | null>(null);
 
+  //* Create the map
   useEffect(() => {
     //mapbox variable
     if (!mapboxgl.supported()) {
@@ -70,7 +69,6 @@ export default function Map({
   }, [mapboxgl, mapboxgl.Map, setDestination]);
 
   useEffect(() => {
-    console.log("changing maps");
     if (map && destList && Object.getOwnPropertyNames(destList).length > 0) {
       const bounds = new mapboxgl.LngLatBounds();
       const markers: any = [];
@@ -78,7 +76,6 @@ export default function Map({
       //*marker into markers array
       Object.keys(destList).forEach((key) => {
         const value = destList[key];
-
         markers.push(
           new mapboxgl.Marker({
             color: `#${Math.random()
@@ -104,10 +101,9 @@ export default function Map({
         });
       });
     }
-    // console.log("currDst: " + currDest);
-    // console.log("initial: " + initialCoord);
   }, [destList, map, mapboxgl.LngLatBounds, mapboxgl.Marker, mapboxgl.Popup]);
 
+  //* Move to a destination on hovering destination name link
   useEffect(() => {
     if (map && JSON.stringify(currDest) !== JSON.stringify(initialCoord)) {
       setTimeout(() => {
@@ -125,8 +121,8 @@ export default function Map({
     }
   }, [currDest, initialCoord, map]);
   return (
-    <div id="map">
-      <div ref={mapContainerRef} className=""></div>
-    </div>
+    <>
+      <div ref={mapContainerRef} id="map"></div>
+    </>
   );
 }

@@ -13,12 +13,12 @@ type promptType = {
 };
 
 export const runtime = "edge";
-//------------------------------------------------------------------------------
-//POST a chat request to openAI chatcompletion endpoint
-//reuseable for additional request for chat conversation
-//the req.prompt ill get more complex as more {role:string,content:string} object
-//    gets added to prompt by user and system
-//-----------------------------------------------------------------------------
+//*------------------------------------------------------------------------------
+//* POST a chat request to openAI chatcompletion endpoint
+//* reuseable for additional request for chat conversation
+//* the req.prompt ill get more complex as more {role:string,content:string} object
+//*    gets added to prompt by user and system
+//*-----------------------------------------------------------------------------
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   console.log("inside Post Function");
@@ -46,10 +46,12 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   return new NextResponse(stream);
 }
 
-//return a stream after fetching chat end point
-// sends a POST request to the OpenAI API with
-// the payload and listens for a server-sent event (SSE) stream response.
-// It then parses the stream response into individual events, filters out the "DONE" event, and encodes the text content of each event as a Uint8Array. Finally, the function returns a ReadableStream object that can be consumed by the caller.
+//* return a stream after fetching chat end point
+//* sends a POST request to the OpenAI API with
+//* the payload and listens for a server-sent event (SSE) stream response.
+//* It then parses the stream response into individual events, filters out the "DONE" event, and encodes the
+//* text content of each event as a Uint8Array. The function returns a ReadableStream object that
+//* can be consumed by the caller.
 async function AiStream(payload: AiStreamPayload) {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
@@ -70,7 +72,7 @@ async function AiStream(payload: AiStreamPayload) {
       function onParse(event: ParsedEvent | ReconnectInterval) {
         if (event.type === "event") {
           const data = event.data;
-          // https://beta.openai.com/docs/api-reference/completions/create#completions/create-stream
+          //? https://beta.openai.com/docs/api-reference/completions/create#completions/create-stream
           if (data === "[DONE]") {
             controller.close();
             return;
@@ -92,10 +94,10 @@ async function AiStream(payload: AiStreamPayload) {
         }
       }
 
-      // stream response (SSE) from OpenAI may be fragmented into multiple chunks
-      // this ensures we properly read chunks and invoke an event for each SSE event stream
+      //* stream response (SSE) from OpenAI may be fragmented into multiple chunks
+      //* this ensures we properly read chunks and invoke an event for each SSE event stream
       const parser = createParser(onParse);
-      // https://web.dev/streams/#asynchronous-iteration
+      //? https://web.dev/streams/#asynchronous-iteration
       for await (const chunk of res.body as any) {
         parser.feed(decoder.decode(chunk));
       }

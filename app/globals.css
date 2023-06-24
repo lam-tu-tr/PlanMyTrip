@@ -2,6 +2,114 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: rgba(16, 16, 16, 1);
+  opacity: 1;
+  overflow: hidden;
+  height: 100vh;
+  min-width: 25rem;
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+.MainNav {
+  height: 5vh;
+}
+/* ---------------------Home Page----------------------- */
+#home_main {
+  flex-grow: 2;
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
+  padding: 0 1rem;
+  /**bg*/
+  background-position: center;
+  background-size: cover;
+  background: rgb(83, 112, 255);
+  background: radial-gradient(
+    circle,
+    rgba(83, 112, 255, 1) 29%,
+    rgba(0, 172, 185, 1) 100%
+  );
+}
+#home_main h1 {
+  font-size: 1.5rem;
+  margin: 1rem 0;
+  padding: 0 2rem;
+  text-align: center;
+}
+#home_content {
+  min-width: 24rem;
+  width: 100%;
+  max-height: 34rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#map {
+  flex-grow: 80;
+  display: flex;
+  border-radius: 10px;
+}
+
+#home_form {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+  padding: 0 2rem;
+  margin-top: 2rem;
+  justify-content: space-between;
+  align-content: center;
+}
+#RangePicker {
+  min-height: 2rem;
+  min-width: 2rem;
+  color: black;
+}
+#home_form button {
+  margin-top: 0.8rem;
+  min-height: 2.5rem;
+}
+
+@media (min-width: 700px), (orientation: landscape) {
+  #home_main {
+    padding: 4rem;
+  }
+  #home_main h1 {
+    font-size: 2.5rem;
+    justify-content: space-between;
+  }
+  #home_content {
+    max-height: 50rem;
+    height: 100%;
+    max-width: 90rem;
+    width: 100%;
+  }
+  #home_form {
+    flex-direction: row;
+  }
+  #home_form button {
+    min-width: 15rem;
+    margin-top: 0;
+    min-height: 2.5rem;
+  }
+
+  #RangePicker {
+    min-height: 1.5rem;
+    min-width: 30rem;
+  }
+}
+
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -16,30 +124,9 @@
   }
 } */
 
-body {
-  background-color: rgba(16, 16, 16, 1);
-  opacity: 1;
-  /* background-image: linear-gradient(#686868 5.4px, transparent 5.4px),
-    linear-gradient(90deg, #686868 5.4px, transparent 5.4px),
-    linear-gradient(#686868 2.7px, transparent 2.7px),
-    linear-gradient(90deg, #686868 2.7px, rgba(16, 16, 16, 1) 2.7px);
-  background-size: 135px 135px, 135px 135px, 27px 27px, 27px 27px;
-  background-position: -5.4px -5.4px, -5.4px -5.4px, -2.7px -2.7px,
-    -2.7px -2.7px; */
-  /* overflow: hidden; */
-  height: 100vh;
+/* 
 
-  display: flex;
-  flex-direction: column;
-}
 
-.calendar {
-  background-color: aqua;
-}
-
-.MainNav {
-  height: 5vh;
-}
 
 .TripDetails {
   height: 95vh;
@@ -99,7 +186,7 @@ body {
 }
 
 /* AI chat box */
-.TripDetails > form > section {
+/* .TripDetails > form > section {
   overflow: auto;
   padding: 1rem;
   line-height: 2rem;
@@ -112,7 +199,6 @@ body {
 }
 
 .TripDetails > form > section ul li {
-  /* margin-bottom: 6px; */
   list-style: disc;
 }
 
@@ -143,7 +229,6 @@ body {
 
 main {
   height: 95vh;
-  /* background-image: url("https://images.unsplash.com/photo-1531366936337-7c912a4589a7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"); */
   background-position: center;
   background-size: cover;
   background: rgb(83, 112, 255);
@@ -159,22 +244,7 @@ main {
   flex-grow: 2;
 }
 .Home form {
-  border-radius: 0 0 10px 10px;
-  /* backdrop-filter: blur(12px) saturate(103%);
-  -webkit-backdrop-filter: blur(12px) saturate(103%);
-  background: rgba(158, 255, 160, 0.863); */
-  backdrop-filter: blur(14px) saturate(200%);
-  -webkit-backdrop-filter: blur(14px) saturate(200%);
-  background-color: rgba(171, 253, 211, 0.795);
-  /* background: rgba(255, 255, 255, 0.685); */
+
   border: 1px solid rgba(209, 213, 219, 0.3);
 }
-.Home .mapboxgl-canvas {
-  border-radius: 10px 10px 0 0;
-}
-.TripDetails .mapboxgl-canvas {
-  border-radius: 10px 10px 10px 10px;
-}
-.TripDetails .mapboxgl-ctrl-attrib {
-  border-bottom-right-radius: 10px;
-}
+ */

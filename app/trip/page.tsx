@@ -1,4 +1,5 @@
-//--------------------------/trip?destination=___ & date=______------------------------------------
+//*--------------------------/trip?destination=___ & date=______------------------------------------
+
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
@@ -24,6 +25,8 @@ export default function Trip() {
   });
   const startDate = useSearchParams().get("startDate");
   const endDate = useSearchParams().get("endDate");
+
+  //*TODO TRY USING useMemo here
   const [initialCoord] = useState<[number, number]>([
     Number(useSearchParams().get("x")),
     Number(useSearchParams().get("y")),
@@ -46,7 +49,7 @@ export default function Trip() {
       role: "user",
       content: `Create a detailed itinerary for my trip to ${capitalizeWords(
         destination.name
-      )} from ${startDate} to ${endDate}. Make sure that the destinations are all within a city distance. Wrap all the locations in an html <a target="_blank" class="ai-location" ></a> tag with an href to https://google.com/search?q={location}. Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening). Give the result in an indented list style using HTML elements <ol> and <li>. Wrap the whole ai response inside a <div></div>.`,
+      )} from ${startDate} to ${endDate}. Make sure that the destinations are all within a city distance. Wrap all the locations in an html <a target="_blank" class="ai-location" ></a> tag with an href to https://google.com/search?q={location}. Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening). Wrap the date in <h2></h2> tag. Give the result in an indented list style using HTML elements <ol> and <li>. Wrap the whole ai response inside a <div></div>.`,
     },
   ]);
   //currDest is current map focused destination
@@ -146,7 +149,7 @@ export default function Trip() {
     };
   }, [destList]);
   //*================================================================================= */
-  //*Stream openai response data to aiMessage
+  //*Stream openai response data to aiMessage, auto fetch when payload is has new message added
   useEffect(() => {
     //!reset these variables for each time user makes adjustment
     console.log("changing payload");
@@ -190,30 +193,22 @@ export default function Trip() {
   return (
     <div className="TripDetails">
       <form onSubmit={handleConvo}>
-        <div className="rounded-t-lg pt-3">
-          <h1 className="text-2xl border-b-2 pb-3">
-            Trip to {capitalizeWords(destination.name!)}
-          </h1>
+        <div>
+          <h1>Trip to {capitalizeWords(destination.name!)}</h1>
         </div>
         <section
           className="chat"
           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(aiMessage) }}
         ></section>
 
-        <aside className="rounded-b-lg">
+        <aside>
           <textarea
-            className="bg-slate-200 p-2 py-1 h-12 rounded-lg border border-white text-black"
             name="userMessage"
             placeholder="Replace museum with..."
             value={userMessage}
             onChange={({ target }) => setUserMessage(target.value)}
           />
-          <button
-            className="bg-green-300 rounded-md ml-4 h-10 px-2"
-            type="submit"
-          >
-            Make Adjustments
-          </button>
+          <button type="submit">Make Adjustments</button>
         </aside>
       </form>
       <Map

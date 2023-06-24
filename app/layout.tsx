@@ -10,7 +10,7 @@ export const metadata = {
   title: "AI Plan My Trip",
   description: "Generate trip itinerary using AI",
 };
-//context and provider
+
 export default function RootLayout({
   children,
 }: {

@@ -1,9 +1,10 @@
+//*---------------------------------Home------------------------------------
 "use client";
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import Map from "./components/Map";
-import { DestCoordType, destType } from "./helpers/types";
+import { destType } from "./helpers/types";
 
 //Force Ant component to be imported as client instead of ssr
 const AntDateRange = dynamic(() => import("./components/AntDateRange"), {
@@ -19,17 +20,24 @@ export default function Home() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
+  function validateSubmit(e: any) {
+    e.preventDefault();
+    console.log(e.target[0].value);
+    if (e.target[0].value == "") {
+      alert("Please Choose a Destination Using the Map");
+    } else if (e.target[1].value == "") {
+      alert("Please Choose Destination Start Date");
+    } else if (e.target[2].value == "") {
+      alert("Please Choose Destination End Date");
+    }
+  }
+
   return (
-    <main className=" flex flex-col items-center justify-between">
-      <div className="Home flex flex-col justify-around p-7">
-        <h1 className="text-4xl text-center text-white mb-8">
-          Simplify your trip planning with AI powered itineraries
-        </h1>
+    <main id="home_main" className="bg-orange-200">
+      <h1>Your Travel Plans Reimagined with AI-driven itineraries.</h1>
+      <div id="home_content">
         <Map setDestination={setDestination} destList={{}} />
-        <form
-          className="flex flex-row justify-between items-center bg-red-700 p-2"
-          action="./trip"
-        >
+        <form id="home_form" action="./trip" onSubmit={validateSubmit}>
           {/* //hidden input to set date querystring upon submission */}
           {/*TODO ADD A ERROR MESSAGE IF NO DESTINATION ENTERED  */}
           <input
@@ -44,11 +52,8 @@ export default function Home() {
           <input type="hidden" required name="y" value={destination.y} />
 
           <AntDateRange setStartDate={setStartDate} setEndDate={setEndDate} />
-          <button
-            className="text-lg bg-blue-400 h-10 w-40 p-2 py-1 rounded-md border-1, mr-7"
-            type="submit"
-          >
-            Create Itinerary
+          <button className="bruh bg-blue-300 rounded-md" type="submit">
+            Generate Itinerary
           </button>
         </form>
       </div>
