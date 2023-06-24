@@ -29,6 +29,8 @@ export default function Home() {
       alert("Please Choose Destination Start Date");
     } else if (e.target[2].value == "") {
       alert("Please Choose Destination End Date");
+    } else {
+      e.currentTarget.submit();
     }
   }
 

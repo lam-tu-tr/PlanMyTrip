@@ -1,3 +1,4 @@
+//*
 //*--------------------------/trip?destination=___ & date=______------------------------------------
 
 "use client";
@@ -191,8 +192,15 @@ export default function Trip() {
   }, [messagePayload]);
 
   return (
-    <div className="TripDetails">
-      <form onSubmit={handleConvo}>
+    <div id="TripDetails">
+      <Map
+        currDest={currDest}
+        destList={destList}
+        setDestination={setDestination}
+        initialCoord={initialCoord}
+      />
+
+      <form id="trip_form" onSubmit={handleConvo}>
         <div>
           <h1>Trip to {capitalizeWords(destination.name!)}</h1>
         </div>
@@ -211,12 +219,6 @@ export default function Trip() {
           <button type="submit">Make Adjustments</button>
         </aside>
       </form>
-      <Map
-        currDest={currDest}
-        destList={destList}
-        setDestination={setDestination}
-        initialCoord={initialCoord}
-      />
     </div>
   );
 }
