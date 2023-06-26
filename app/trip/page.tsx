@@ -50,7 +50,7 @@ export default function Trip() {
       role: "user",
       content: `Create a detailed itinerary for my trip to ${capitalizeWords(
         destination.name
-      )} from ${startDate} to ${endDate}. Make sure that the destinations are all within a city distance. Wrap all the locations in an html <a target="_blank" class="ai-location" ></a> tag with an href to https://google.com/search?q={location}. Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening). Wrap the date in <h2></h2> tag. Give the result in an indented list style using HTML elements <ol> and <li>. Wrap the whole ai response inside a <div></div>.`,
+      )} from ${startDate} to ${endDate}. Make sure that the destinations are all within a city distance. Wrap all the locations in an html <a target="_blank" class="ai-location" ></a> tag with an href to https://google.com/search?q={location}. Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening). Wrap the date in <h2 class="ai-date" ></h2> tag. Give the result in an indented list style using HTML elements <div class="ai-snap-section"><h1>date</h1> location name<ul class="ai-list"><li>description</li></ul></div>. Wrap the whole ai response inside a <div class="ai-text"></div>.`,
     },
   ]);
   //currDest is current map focused destination
@@ -201,22 +201,38 @@ export default function Trip() {
       />
 
       <form id="trip_form" onSubmit={handleConvo}>
-        <div>
+        <div id="h1_wrapper">
           <h1>Trip to {capitalizeWords(destination.name!)}</h1>
         </div>
         <section
+          id="chat"
           className="chat"
           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(aiMessage) }}
         ></section>
 
-        <aside>
+        <aside id="adjustment">
           <textarea
             name="userMessage"
             placeholder="Replace museum with..."
             value={userMessage}
             onChange={({ target }) => setUserMessage(target.value)}
           />
-          <button type="submit">Make Adjustments</button>
+          <button type="submit">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+              />
+            </svg>
+          </button>
         </aside>
       </form>
     </div>

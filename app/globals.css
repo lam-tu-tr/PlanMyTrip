@@ -129,12 +129,10 @@ body {
 #TripDetails {
   height: 95vh;
   display: flex;
-  flex-direction: row;
-
+  flex-direction: column;
   align-content: center;
   align-items: center;
-  /* padding: 0 1rem; */
-  /**bg*/
+  /**background colors*/
   background-position: center;
   background-size: cover;
   background: rgb(83, 112, 255);
@@ -145,17 +143,16 @@ body {
   );
 }
 #TripDetails #map {
-  /* width: 100%;
-  min-height: 30rem; */
-  flex-grow: 1;
-  min-width: 30rem;
-  min-height: 30rem;
+  width: 100%;
+  height: 30%;
+  flex-basis: 50%;
 }
 
 #trip_form {
   flex: 1;
-  flex-basis: 40%;
-
+  flex-basis: 50%;
+  width: 100%;
+  height: 70%;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 0.6fr 10fr 1fr;
@@ -163,91 +160,106 @@ body {
     "loc "
     "chat "
     "com ";
-  border-radius: 10px;
-  color: white;
-  margin-right: 2rem;
   border: 0.1rem solid white;
-  padding: 0 0.5rem;
 }
-#trip_form > div {
+#h1_wrapper {
   grid-area: loc;
-
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-left: 1rem;
-  color: white;
+}
+#h1_wrapper h1 {
+  font-size: x-large;
+  padding: 0.5rem;
+  text-align: center;
+  border-bottom: 1px solid white;
+  margin-bottom: 0.5rem;
+}
+#chat {
+  grid-area: chat;
+
+  overflow: auto;
+  padding: 0 1rem;
+  scroll-snap-type: y mandatory;
+  scroll-padding: 2rem;
 }
 
-#trip_form > aside {
+#adjustment {
   grid-area: com;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 0.5rem;
+  padding: 1rem;
+  margin: 0.6rem;
 }
-#trip_form > aside > textarea {
+#adjustment textarea {
+  border-radius: 0.5rem;
+  padding: 0.2rem;
+  margin-right: 1rem;
+  max-height: 3rem;
+  width: 100%;
+}
+#adjustment button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0.1rem solid white;
+  border-radius: 0.5rem;
+  width: 3rem;
+  height: 3rem;
+}
+
+/* #trip_form > aside > textarea {
   flex: 1;
   max-height: 3.5rem;
   font-size: 0.7rem;
-}
-#trip_form > aside > button {
+} */
+/* #trip_form > aside > button {
   width: 100px;
   font-size: 0.7rem;
-}
+} */
+
+/** chat destination text*/
 .ai-location {
   color: aqua;
   text-decoration-line: underline;
+  font-size: large;
+}
+/** chat date text*/
+.ai-date {
+  font-size: x-large;
+  margin-top: 1rem;
+}
+/** chat list text*/
+.ai-list {
+  padding-left: 2rem;
+  list-style-type: disc;
 }
 
-/* 
-/* AI chat box */
-/* 
-
-
-
-
-#map {
-  flex: 1;
-  flex-basis: 60%;
-  display: flex;
-  flex-direction: column;
+@media (min-width: 900px) {
+  #TripDetails {
+    flex-direction: row-reverse;
+  }
+  #trip_form {
+    border-radius: 1rem;
+    flex-basis: 50%;
+    height: 95%;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  #TripDetails #map {
+    flex-basis: 50%;
+    height: 95%;
+    margin: 1rem;
+    border-radius: 1rem;
+  }
 }
-.TripDetails #map {
-  padding-right: 1rem;
+@media (min-width: 1400px) {
+  #trip_form {
+    flex-basis: 30%;
+  }
+  #TripDetails #map {
+    flex-basis: 70%;
+  }
 }
-#map div {
-  flex-grow: 2;
-}
-
-
-
-#menu {
-  position: absolute;
-  background: #efefef;
-  padding: 10px;
-  font-family: "Open Sans", sans-serif;
-}
-
-main {
-  height: 95vh;
-  background-position: center;
-  background-size: cover;
-  background: rgb(83, 112, 255);
-  background: radial-gradient(
-    circle,
-    rgba(83, 112, 255, 1) 29%,
-    rgba(0, 172, 185, 1) 100%
-  );
-}
-
-.Home {
-  width: 80vw;
-  flex-grow: 2;
-}
-.Home form {
-
-  border: 1px solid rgba(209, 213, 219, 0.3);
-}
- */

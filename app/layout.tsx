@@ -7,8 +7,21 @@ const ubuntu = Ubuntu({ weight: "500", preload: false });
 
 import { Analytics } from "@vercel/analytics/react";
 export const metadata = {
-  title: "AI Plan My Trip",
+  title: "AI Intinerary Planner",
   description: "Generate trip itinerary using AI",
+  keywords: [
+    "next.js",
+    "React",
+    "Javascript",
+    "AI",
+    "Artificial Intelligence",
+    "chatgpt",
+    "mapbox",
+    "api",
+  ],
+  author: [
+    { name: "Lam Tran", url: "https://www.linkedin.com/in/lam-tran-ucsd/" },
+  ],
 };
 
 export default function RootLayout({
@@ -23,6 +36,7 @@ export default function RootLayout({
           href="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css"
           rel="stylesheet"
         />
+        <link rel="shortcut icon" href="/GlobeIcon.svg" sizes="32x32" />
       </head>
 
       <body className={ubuntu.className}>
