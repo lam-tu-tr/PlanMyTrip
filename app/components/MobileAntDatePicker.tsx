@@ -23,7 +23,7 @@ export default function MobileAntDatePicker({
           setVisible(true);
         }}
       >
-        Start Date {startDate && ": " + startDate}
+        Start Date {startDate.length > 0 ? `: ${startDate}` : ``}
       </Button>
 
       <DatePicker
@@ -32,11 +32,11 @@ export default function MobileAntDatePicker({
         onClose={() => {
           setVisible(false);
         }}
-        onConfirm={() => setStartDate(dayjs(now).format("MMM DD, YYYY"))}
+        onConfirm={(val) => setStartDate(dayjs(val).format("MMM DD, YYYY"))}
         defaultValue={now}
         max={now}
       >
-        {(value: any) => ""}
+        {() => ""}
       </DatePicker>
     </ConfigProvider>
   );

@@ -266,10 +266,32 @@ body {
   }
 }
 
+#choice-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
 #choice-wrapper button {
-  width: 15rem;
+  width: 100%;
+  height: 2.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 1rem;
 }
 
+#choice-wrapper span {
+  background-color: white;
+  text-align: center;
+  height: 2.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+}
 /* #choice-wrapper > div > div > button {
-  width: 15rem;
+  width: 100%;
 } */

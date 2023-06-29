@@ -30,19 +30,26 @@ export default function MobileAntDurationPicker({
         columns={durationOptions}
         value={value}
         onConfirm={(value) => {
+          console.log(value);
           setValue([value.toString()]);
-          setEndDate(dayjs(startDate).add(7, "day").format("MMM DD, YYYY"));
+          setEndDate(
+            dayjs(startDate).add(Number(value), "day").format("MMM DD, YYYY")
+          );
         }}
         onSelect={(val, extend) => {
+          setValue([value.toString()]);
           console.log("onSelect", val, extend.items);
         }}
       >
         {(items, { open }) => {
           console.log(items);
           return (
-            <Space align="center">
-              <Button onClick={open}>Duration{value && ": " + value}</Button>
-            </Space>
+            <Button onClick={open}>
+              Duration
+              {typeof value[0] === "string"
+                ? `:  ${value[0]}` + (value[0] == "1" ? " day" : " days")
+                : ""}
+            </Button>
           );
         }}
       </Picker>

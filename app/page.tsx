@@ -50,12 +50,12 @@ export default function Home() {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
+      setIsMobile(window.innerWidth <= 700);
     };
 
     // Check if window object is available (for client-side rendering)
     if (typeof window !== "undefined") {
-      setIsMobile(window.innerWidth <= 768);
+      setIsMobile(window.innerWidth <= 700);
       window.addEventListener("resize", handleResize);
 
       return () => {
@@ -92,6 +92,9 @@ export default function Home() {
                 startDate={startDate}
                 setStartDate={setStartDate}
               />
+              <span>
+                {endDate.length !== 0 ? `End Date: ${endDate}` : `End Date `}
+              </span>
               <MobileAntDurationPicker
                 startDate={startDate}
                 setEndDate={setEndDate}
