@@ -50,7 +50,7 @@ export default function Trip() {
       role: "user",
       content: `Create a detailed itinerary for my trip to ${capitalizeWords(
         destination.name
-      )} from ${startDate} to ${endDate}. Make sure that the destinations are all within a city distance. Wrap all the locations in an html <a target="_blank" class="ai-location" ></a> tag with an href to https://google.com/search?q={location}. Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening). Wrap the date in <h2 class="ai-date" ></h2> tag. Give the result in an indented list style using HTML elements <div class="ai-snap-section"><h1>date</h1> location name<ul class="ai-list"><li>description</li></ul></div>. Wrap the whole ai response inside a <div class="ai-text"></div>.`,
+      )} from ${startDate} to ${endDate}. Make sure that the destinations are all within a city distance. Wrap all the locations in an html <a target="_blank" class="ai-location" ></a> tag with an href to https://google.com/search?q={location}. Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening). Wrap the date in <h2 class="ai-date" ></h2> tag. Give the result in an indented list style using HTML elements <div class="ai-snap-section"><h1>date</h1> location name<ul class="ai-list"><li>description</li></ul></div>. Wrap the whole ai response inside a <div class="ai-text"></div>. If the date range is greater than 4 days, give a less detailed answer so that the user won't have to scroll too long to read.`,
     },
   ]);
   //currDest is current map focused destination

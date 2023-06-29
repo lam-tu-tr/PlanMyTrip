@@ -58,6 +58,7 @@ body {
   margin: 1rem 0;
   padding: 0 2rem;
   text-align: center;
+  color: white;
 }
 #home_content {
   min-width: 24rem;
@@ -199,6 +200,7 @@ body {
   margin-right: 1rem;
   max-height: 3rem;
   width: 100%;
+  color: black;
 }
 #adjustment button {
   display: flex;
@@ -263,3 +265,11 @@ body {
     flex-basis: 70%;
   }
 }
+
+#choice-wrapper button {
+  width: 15rem;
+}
+
+/* #choice-wrapper > div > div > button {
+  width: 15rem;
+} */

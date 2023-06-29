@@ -1,7 +1,7 @@
 //*---------------------------------Home------------------------------------
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Map from "./components/Map";
 import { destType } from "./helpers/types";
@@ -10,6 +10,18 @@ import { destType } from "./helpers/types";
 const AntDateRange = dynamic(() => import("./components/AntDateRange"), {
   ssr: false,
 });
+const MobileAntDatePicker = dynamic(
+  () => import("./components/MobileAntDatePicker"),
+  {
+    ssr: false,
+  }
+);
+const MobileAntDurationPicker = dynamic(
+  () => import("./components/MobileAntDurationPicker"),
+  {
+    ssr: false,
+  }
+);
 
 export default function Home() {
   const [destination, setDestination] = useState<destType>({
@@ -19,7 +31,9 @@ export default function Home() {
   });
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
 
+  console.log("start: " + startDate + "end: " + endDate);
   function validateSubmit(e: any) {
     e.preventDefault();
     console.log(e.target[0].value);
@@ -33,6 +47,25 @@ export default function Home() {
       e.currentTarget.submit();
     }
   }
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // Check if window object is available (for client-side rendering)
+    if (typeof window !== "undefined") {
+      setIsMobile(window.innerWidth <= 768);
+      window.addEventListener("resize", handleResize);
+
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    } else {
+      // Set the initial value for SSR
+      setIsMobile(false);
+    }
+  }, []);
 
   return (
     <main id="home_main" className="bg-orange-200">
@@ -53,7 +86,21 @@ export default function Home() {
           <input type="hidden" required name="x" value={destination.x} />
           <input type="hidden" required name="y" value={destination.y} />
 
-          <AntDateRange setStartDate={setStartDate} setEndDate={setEndDate} />
+          {isMobile ? (
+            <div id="choice-wrapper">
+              <MobileAntDatePicker
+                startDate={startDate}
+                setStartDate={setStartDate}
+              />
+              <MobileAntDurationPicker
+                startDate={startDate}
+                setEndDate={setEndDate}
+              />
+            </div>
+          ) : (
+            <AntDateRange setStartDate={setStartDate} setEndDate={setEndDate} />
+          )}
+
           <button className="bruh bg-blue-300 rounded-md" type="submit">
             Generate Itinerary
           </button>
