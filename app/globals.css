@@ -70,7 +70,7 @@ body {
 }
 
 #home_content #map {
-  flex-grow: 80;
+  flex-grow: 20;
   display: flex;
   border-radius: 10px;
 }
@@ -78,11 +78,10 @@ body {
 #home_form {
   display: flex;
   flex-direction: column;
-  flex-grow: 2;
-  padding: 0 2rem;
-  margin-top: 2rem;
+  flex-grow: 1;
   justify-content: space-between;
   align-content: center;
+  margin-top: 1rem;
 }
 #RangePicker {
   min-height: 2rem;
@@ -238,7 +237,6 @@ body {
   padding-left: 2rem;
   list-style-type: disc;
 }
-
 @media (min-width: 900px) {
   #TripDetails {
     flex-direction: row-reverse;
@@ -265,11 +263,11 @@ body {
     flex-basis: 70%;
   }
 }
-
 #choice-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  height: 100%;
 }
 #choice-wrapper button {
   width: 100%;
@@ -278,12 +276,11 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 1rem;
   font-size: 1rem;
+  margin-top: 0rem;
+  border-radius: 0.3rem;
 }
-
-#choice-wrapper span {
-  background-color: white;
+#choice-wrapper > span {
   text-align: center;
   height: 2.4rem;
   display: flex;
@@ -291,7 +288,5 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 1rem;
+  border-radius: 0.3rem;
 }
-/* #choice-wrapper > div > div > button {
-  width: 100%;
-} */

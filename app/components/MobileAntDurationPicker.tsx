@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Picker, Button, Space, ConfigProvider } from "antd-mobile";
+import { Picker, Button, ConfigProvider } from "antd-mobile";
 import enUS from "antd-mobile/es/locales/en-US";
 
-import dayjs from "dayjs";
 const durationOptions = [
   [
     { label: "1 day", value: 1 },
@@ -16,13 +15,9 @@ const durationOptions = [
 ];
 
 type AntProps = {
-  startDate: string;
-  setEndDate: React.Dispatch<React.SetStateAction<string>>;
+  setDuration: React.Dispatch<React.SetStateAction<string>>;
 };
-export default function MobileAntDurationPicker({
-  startDate,
-  setEndDate,
-}: AntProps) {
+export default function MobileAntDurationPicker({ setDuration }: AntProps) {
   const [value, setValue] = useState<string[]>([]);
   return (
     <ConfigProvider locale={enUS}>
@@ -30,23 +25,18 @@ export default function MobileAntDurationPicker({
         columns={durationOptions}
         value={value}
         onConfirm={(value) => {
-          console.log(value);
           setValue([value.toString()]);
-          setEndDate(
-            dayjs(startDate).add(Number(value), "day").format("MMM DD, YYYY")
-          );
+          setDuration(value.toString());
         }}
         onSelect={(val, extend) => {
           setValue([value.toString()]);
-          console.log("onSelect", val, extend.items);
         }}
       >
         {(items, { open }) => {
-          console.log(items);
           return (
             <Button onClick={open}>
               Duration
-              {typeof value[0] === "string"
+              {typeof value[0] !== "undefined" && value[0].length > 0
                 ? `:  ${value[0]}` + (value[0] == "1" ? " day" : " days")
                 : ""}
             </Button>

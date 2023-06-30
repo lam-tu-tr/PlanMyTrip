@@ -5,17 +5,14 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Map from "./components/Map";
 import { destType } from "./helpers/types";
-
+import dayjs from "dayjs";
 //Force Ant component to be imported as client instead of ssr
 const AntDateRange = dynamic(() => import("./components/AntDateRange"), {
   ssr: false,
 });
-const MobileAntDatePicker = dynamic(
-  () => import("./components/MobileAntDatePicker"),
-  {
-    ssr: false,
-  }
-);
+const MobileAntDate = dynamic(() => import("./components/MobileAntDate"), {
+  ssr: false,
+});
 const MobileAntDurationPicker = dynamic(
   () => import("./components/MobileAntDurationPicker"),
   {
@@ -32,8 +29,9 @@ export default function Home() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [isMobile, setIsMobile] = useState(false);
+  const [duration, setDuration] = useState("");
 
-  console.log("start: " + startDate + "end: " + endDate);
+  // console.log("start: " + startDate + "end: " + endDate + "dur: " + duration);
   function validateSubmit(e: any) {
     e.preventDefault();
     console.log(e.target[0].value);
@@ -53,7 +51,7 @@ export default function Home() {
       setIsMobile(window.innerWidth <= 700);
     };
 
-    // Check if window object is available (for client-side rendering)
+    // Check if window exists (for client rendering)
     if (typeof window !== "undefined") {
       setIsMobile(window.innerWidth <= 700);
       window.addEventListener("resize", handleResize);
@@ -66,7 +64,13 @@ export default function Home() {
       setIsMobile(false);
     }
   }, []);
-
+  useEffect(() => {
+    if (duration.length > 0 && startDate.length > 0) {
+      setEndDate(
+        dayjs(startDate).add(Number(duration), "day").format("MMM DD, YYYY")
+      );
+    }
+  }, [duration, startDate]);
   return (
     <main id="home_main" className="bg-orange-200">
       <h1>Your Travel Plans Reimagined with AI-driven itineraries.</h1>
@@ -74,7 +78,6 @@ export default function Home() {
         <Map setDestination={setDestination} destList={{}} />
         <form id="home_form" action="./trip" onSubmit={validateSubmit}>
           {/* //hidden input to set date querystring upon submission */}
-          {/*TODO ADD A ERROR MESSAGE IF NO DESTINATION ENTERED  */}
           <input
             type="hidden"
             required
@@ -88,23 +91,27 @@ export default function Home() {
 
           {isMobile ? (
             <div id="choice-wrapper">
-              <MobileAntDatePicker
+              <MobileAntDate
                 startDate={startDate}
                 setStartDate={setStartDate}
               />
-              <span>
+
+              <MobileAntDurationPicker setDuration={setDuration} />
+              <span
+                className={
+                  endDate.length !== 0
+                    ? "bg-white"
+                    : "border-dashed border-white border-2"
+                }
+              >
                 {endDate.length !== 0 ? `End Date: ${endDate}` : `End Date `}
               </span>
-              <MobileAntDurationPicker
-                startDate={startDate}
-                setEndDate={setEndDate}
-              />
             </div>
           ) : (
             <AntDateRange setStartDate={setStartDate} setEndDate={setEndDate} />
           )}
 
-          <button className="bruh bg-blue-300 rounded-md" type="submit">
+          <button className=" bg-blue-300 rounded-md" type="submit">
             Generate Itinerary
           </button>
         </form>
@@ -112,8 +119,6 @@ export default function Home() {
     </main>
   );
 }
-
-//*TODO Add an error message for when no destination has been entered and user tries to submit form
 
 //*TODO add a zoom out using fitBound method
 
