@@ -8,7 +8,7 @@ import { capitalizeWords } from "../helpers/helper-functions";
 import { Message, destType } from "../helpers/types";
 import Map from "../components/Map";
 
-import DOMPurify from "dompurify";
+import { sanitize } from "isomorphic-dompurify";
 
 type DestCoordType = {
   [key: string]: [longitude: number, latitude: number];
@@ -21,17 +21,18 @@ export default function Trip() {
   //obtain data from querystring of previously submitted form
   const [destination, setDestination] = useState<destType>({
     name: useSearchParams().get("destination") || "",
-    x: "",
-    y: "",
+    bbox: "",
   });
   const startDate = useSearchParams().get("startDate");
   const endDate = useSearchParams().get("endDate");
 
   //*TODO TRY USING useMemo here
-  const [initialCoord] = useState<[number, number]>([
-    Number(useSearchParams().get("x")),
-    Number(useSearchParams().get("y")),
-  ]);
+  // const [initialCoord] = useState<[number, number]>([
+  //   Number(useSearchParams().get("x")),
+  //   Number(useSearchParams().get("y")),
+  // ]);
+
+  const bbox = useSearchParams().get("bbox");
 
   //hold user input and ai message inside a string
   //which will be assigned to messagepayload during submit event
@@ -54,7 +55,8 @@ export default function Trip() {
     },
   ]);
   //currDest is current map focused destination
-  const [currDest, setCurrDest] = useState<[number, number]>(initialCoord);
+  // const [currDest, setCurrDest] = useState<[number, number]>(initialCoord);
+  const [currDest, setCurrDest] = useState<[number, number]>();
   //list of all destinations
   const [destList, setDestList] = useState<DestCoordType>({});
 
@@ -83,7 +85,7 @@ export default function Trip() {
     //*
     async function getCoord(location: string) {
       const destRes = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?proximity=${initialCoord[0]},${initialCoord[1]}&limit=2&access_token=${process.env.MAPBOX_KEY}`,
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?bbox=${bbox}&limit=2&access_token=${process.env.MAPBOX_KEY}`,
         {
           method: "GET",
           headers: {
@@ -95,10 +97,10 @@ export default function Trip() {
         throw new Error(`Failed to fetch ${location} coordinate`);
       }
       const destCoord = await destRes.json();
-
+      // console.log("destCoord: " + JSON.stringify(destCoord, null, 2));
       const x = destCoord.features[0].center[0];
       const y = destCoord.features[0].center[1];
-      console.log("loc " + location + " x " + x + " y " + y);
+      // console.log("loc " + location + " x " + x + " y " + y);
       return { x, y };
     }
 
@@ -131,7 +133,7 @@ export default function Trip() {
     };
 
     fetchCoordinates();
-  }, [aiComplete]);
+  }, [aiComplete, bbox]);
 
   //*================================================================================ */
   //** add event delegation, ai-location class mouseover bubbles up to chat class     */
@@ -201,7 +203,7 @@ export default function Trip() {
         currDest={currDest}
         destList={destList}
         setDestination={setDestination}
-        initialCoord={initialCoord}
+        // initialCoord={initialCoord}
       />
 
       <form id="trip_form" onSubmit={handleConvo}>
@@ -211,7 +213,7 @@ export default function Trip() {
         <section
           id="chat"
           className="chat"
-          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(aiMessage) }}
+          dangerouslySetInnerHTML={{ __html: sanitize(aiMessage) }}
         ></section>
 
         <aside id="adjustment">

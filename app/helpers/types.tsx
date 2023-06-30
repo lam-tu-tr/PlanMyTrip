@@ -21,6 +21,5 @@ export type DestCoordType = {
 
 export type destType = {
   name: string;
-  x: string;
-  y: string;
+  bbox: string;
 };
