@@ -50,7 +50,7 @@ export default function Trip() {
       role: "user",
       content: `Create a detailed itinerary for my trip to ${capitalizeWords(
         destination.name
-      )} from ${startDate} to ${endDate}. Make sure that the destinations are all within a city distance. Wrap all the locations in an html <a target="_blank" class="ai-location" ></a> tag with an href to https://google.com/search?q={location}. Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening). Wrap the date in <h2 class="ai-date" ></h2> tag. Give the result in an indented list style using HTML elements <div class="ai-snap-section"><h1>date</h1> location name<ul class="ai-list"><li>description</li></ul></div>. Wrap the whole ai response inside a <div class="ai-text"></div>. If the date range is greater than 4 days, give a less detailed answer so that the user won't have to scroll too long to read.`,
+      )} from ${startDate} to ${endDate}. Make sure that the destinations are all within a city distance. Wrap all the locations in an html <a target="_blank" class="ai-location" ></a> tag with an href to https://google.com/search?q={location}. Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening).  Give the result in an indented list style using HTML elements <div class="ai-snap-section"><h2 class="ai-date" >date</h2><h3>time of day</h3> <a target="_blank" class="ai-location" >location</a><ul class="ai-list"><li>description</li></ul></div>. Wrap the whole ai response inside a <div class="ai-text"></div>. If there are more than 3 days for the trip, give a less detailed answer so that the user won't have to scroll too long to read.`,
     },
   ]);
   //currDest is current map focused destination
@@ -79,7 +79,6 @@ export default function Trip() {
   //*push to destList array the locations found
   useEffect(() => {
     const allLocations = document.querySelectorAll(".ai-location");
-
     //*Function to obtain specific destination coordinate */
     //*
     async function getCoord(location: string) {
@@ -99,6 +98,7 @@ export default function Trip() {
 
       const x = destCoord.features[0].center[0];
       const y = destCoord.features[0].center[1];
+      console.log("loc " + location + " x " + x + " y " + y);
       return { x, y };
     }
 
@@ -106,24 +106,28 @@ export default function Trip() {
     //*assign destination as key and coordinates as values for destList
     //*
     const fetchCoordinates = async () => {
-      const coordinatePromises = Array.from(allLocations).map((location) =>
-        getCoord(location.innerHTML)
-      );
+      // console.log("all locs: " + JSON.stringify(allLocations, null, 2));
+      const coordinatePromises = Array.from(allLocations).map((location) => {
+        return getCoord(location.innerHTML);
+      });
 
-      const coordinates = await Promise.all(coordinatePromises);
-
-      const updatedDestList = coordinates.reduce(
-        (prevList, coordinate, index) => {
-          const location = allLocations[index].innerHTML;
-          return {
-            ...prevList,
-            [location]: [coordinate.x, coordinate.y],
-          };
-        },
-        {}
-      );
-
-      setDestList(updatedDestList);
+      try {
+        const coordinates = await Promise.all(coordinatePromises);
+        const updatedDestList = coordinates.reduce(
+          (prevList, coordinate, index) => {
+            console.log(JSON.stringify(coordinate, null, 2));
+            const location = allLocations[index].innerHTML;
+            return {
+              ...prevList,
+              [location]: [coordinate.x, coordinate.y],
+            };
+          },
+          {}
+        );
+        setDestList(updatedDestList);
+      } catch (err) {
+        console.log("Fetch Coordinate Erorr", err);
+      }
     };
 
     fetchCoordinates();

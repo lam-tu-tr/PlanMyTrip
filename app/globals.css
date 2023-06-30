@@ -110,6 +110,7 @@ body {
   #home_form {
     flex-direction: row;
     justify-content: flex-end;
+    max-height: 3rem;
   }
   #home_form button {
     min-width: 15rem;
@@ -117,7 +118,6 @@ body {
     margin-left: 2rem;
     min-height: 2.5rem;
   }
-
   #RangePicker {
     min-height: 1.5rem;
     min-width: 7rem;
