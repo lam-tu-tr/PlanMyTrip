@@ -75,7 +75,7 @@ export default function Home() {
       <h1>Your Travel Plans Reimagined with AI-driven itineraries.</h1>
       <div id="home_content">
         <Map setDestination={setDestination} destList={{}} />
-        <form id="home_form" action="./trip" onSubmit={validateSubmit}>
+        <form id="home_form" action="./routes/trip" onSubmit={validateSubmit}>
           {/* //hidden input to set date querystring upon submission */}
           <input
             type="hidden"

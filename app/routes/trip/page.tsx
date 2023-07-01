@@ -4,9 +4,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { capitalizeWords } from "../helpers/helper-functions";
-import { Message, destType } from "../helpers/types";
-import Map from "../components/Map";
+import { capitalizeWords } from "../../helpers/helper-functions";
+import { Message, destType } from "../../helpers/types";
+import Map from "../../components/Map";
 
 import { sanitize } from "isomorphic-dompurify";
 
