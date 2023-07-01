@@ -223,7 +223,7 @@ export default function Trip() {
             value={userMessage}
             onChange={({ target }) => setUserMessage(target.value)}
           />
-          <button type="submit">
+          <button title="Submit adjustments" type="submit">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

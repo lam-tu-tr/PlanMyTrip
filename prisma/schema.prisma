@@ -11,21 +11,23 @@ datasource db {
 }
 
 model User {
-  id       String     @id @default(uuid())
+  id       String     @id @unique @default(uuid())
   username String     @unique
   password String     @unique
   trip     TripList[]
 }
 
 model TripList {
-  id String @id @default(uuid())
+  id String @id @unique @default(uuid())
 
   userTrip String
   trip     User   @relation(fields: [userTrip], references: [id])
 
-  prompt      String
-  gpt_Result  String
-  locations   String
-  trip_Dates  String
-  dateCreated DateTime @unique(sort: Desc) @default(now())
+  messagePayload String
+  aiMessage      String
+  destList       String
+  bbox           String
+  start_date     DateTime
+  end_date       DateTime
+  dateCreated    DateTime @unique(sort: Desc) @default(now())
 }

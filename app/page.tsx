@@ -111,7 +111,11 @@ export default function Home() {
             <AntDateRange setStartDate={setStartDate} setEndDate={setEndDate} />
           )}
 
-          <button className=" bg-blue-300 rounded-md" type="submit">
+          <button
+            className=" bg-blue-300 rounded-md"
+            title="Generate Itinerary"
+            type="submit"
+          >
             Generate Itinerary
           </button>
         </form>
