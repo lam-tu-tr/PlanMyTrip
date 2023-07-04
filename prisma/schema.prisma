@@ -26,9 +26,9 @@ model TripList {
 
   userTrip       String
   trip           User     @relation(fields: [userTrip], references: [id])
-  messagePayload String
+  messagePayload Json
   aiMessage      String
-  destList       String
+  destList       Json
   bbox           String
   start_date     DateTime
   end_date       DateTime

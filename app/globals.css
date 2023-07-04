@@ -185,6 +185,33 @@ body {
   scroll-snap-type: y mandatory;
   scroll-padding: 2rem;
 }
+#chat aside {
+  display: flex;
+  flex-direction: row;
+  margin: 0.5rem 0;
+}
+/** chat destination text*/
+.timeofday {
+  font-size: large;
+  margin-right: 0.5rem;
+}
+.ai-location {
+  color: aqua;
+  text-decoration-line: underline;
+  font-size: large;
+  margin-left: 0.5rem;
+}
+
+/** chat date text*/
+.ai-date {
+  font-size: x-large;
+  margin-top: 1rem;
+}
+/** chat list text*/
+.ai-list {
+  padding-left: 3rem;
+  list-style-type: disc;
+}
 
 #adjustment {
   grid-area: com;
@@ -213,22 +240,6 @@ body {
   height: 3rem;
 }
 
-/** chat destination text*/
-.ai-location {
-  color: aqua;
-  text-decoration-line: underline;
-  font-size: large;
-}
-/** chat date text*/
-.ai-date {
-  font-size: x-large;
-  margin-top: 1rem;
-}
-/** chat list text*/
-.ai-list {
-  padding-left: 2rem;
-  list-style-type: disc;
-}
 @media (min-width: 900px) {
   #TripDetails {
     flex-direction: row-reverse;

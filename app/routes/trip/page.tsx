@@ -10,7 +10,7 @@ import Map from "../../components/Map";
 import { sanitize } from "isomorphic-dompurify";
 
 import { useGlobalContext } from "@/app/Context";
-
+import { FiArrowUpCircle } from "react-icons/fi";
 type DestCoordType = {
   [key: string]: [longitude: number, latitude: number];
 };
@@ -57,7 +57,7 @@ export default function Trip() {
       role: "user",
       content: `Create a detailed itinerary for my trip to ${capitalizeWords(
         destination.name
-      )} from ${startDate} to ${endDate}. Make sure that the destinations are all within a city distance. Wrap all the locations in an html <a target="_blank" class="ai-location" ></a> tag with an href to https://google.com/search?q={location}. Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening).  Give the result in an indented list style using HTML elements <div class="ai-snap-section"><h2 class="ai-date" >date</h2><h3>time of day</h3> <a target="_blank" class="ai-location" >location</a><ul class="ai-list"><li>description</li></ul></div>. Wrap the whole ai response inside a <div class="ai-text"></div>.`,
+      )} from ${startDate} to ${endDate}. Make sure that the destinations are all within a city distance. Wrap all the locations in an html <a target="_blank" class="ai-location" ></a> tag with an href to https://google.com/search?q={location}. Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening).  Give the result in an indented list style using HTML elements <div class="ai-snap-section"><h2 class="ai-date" >date</h2> <aside> <h2 class="timeofday">time of day </h2> \- <a target="_blank" class="ai-location" > location</a></aside><ul class="ai-list"><li>description</li></ul></div>. Wrap the whole ai response inside a <div class="ai-text"></div>.`,
     },
   ]);
   //currDest is current map focused destination
@@ -225,23 +225,11 @@ export default function Trip() {
             name="userMessage"
             placeholder="Replace museum with..."
             value={userMessage}
+            disabled={!aiComplete}
             onChange={({ target }) => setUserMessage(target.value)}
           />
           <button title="Submit adjustments" type="submit">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
-              />
-            </svg>
+            <FiArrowUpCircle className="w-8 h-8" />
           </button>
         </aside>
       </form>

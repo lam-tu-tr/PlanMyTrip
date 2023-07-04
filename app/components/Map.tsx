@@ -54,12 +54,9 @@ export default function Map({
       newMap.addControl(geocoder);
 
       geocoder.on("result", (event) => {
-        // console.log("event coord" + JSON.stringify(event, null, 2));
         setDestination({
           name: event.result.place_name,
           bbox: event.result.bbox.toString(),
-          // x: event.result.center[0],
-          // y: event.result.center[1],
         });
       });
 
