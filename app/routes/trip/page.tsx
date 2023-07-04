@@ -2,13 +2,14 @@
 //*--------------------------/trip?destination=___ & date=______------------------------------------
 
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { capitalizeWords } from "../../helpers/helper-functions";
 import { Message, destType } from "../../helpers/types";
 import Map from "../../components/Map";
-
 import { sanitize } from "isomorphic-dompurify";
+
+import { useGlobalContext } from "@/app/Context";
 
 type DestCoordType = {
   [key: string]: [longitude: number, latitude: number];
@@ -18,6 +19,10 @@ type DestCoordType = {
 export default function Trip() {
   //*================================================================================
   //*States declarations */
+
+  const { currUsername, setCurrUsername } = useGlobalContext();
+
+  console.log("currUser: " + currUsername);
   //obtain data from querystring of previously submitted form
   const [destination, setDestination] = useState<destType>({
     name: useSearchParams().get("destination") || "",

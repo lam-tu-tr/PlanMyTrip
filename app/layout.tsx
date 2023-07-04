@@ -2,6 +2,9 @@ import "./globals.css";
 import { Ubuntu } from "next/font/google";
 
 import Navbar from "./components/Navbar";
+
+import { GlobalContextProvider } from "./Context";
+
 import "@fontsource/roboto/400.css";
 const ubuntu = Ubuntu({ weight: "500", preload: false });
 
@@ -41,7 +44,7 @@ export default function RootLayout({
 
       <body className={ubuntu.className}>
         <Navbar />
-        {children}
+        <GlobalContextProvider>{children}</GlobalContextProvider>
         <Analytics />
       </body>
     </html>

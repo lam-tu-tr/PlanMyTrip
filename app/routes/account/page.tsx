@@ -5,16 +5,50 @@
 
 import { useState, useEffect } from "react";
 
+import { useGlobalContext } from "@/app/Context";
+
+import { useRouter } from "next/navigation";
+
 export default function Account() {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
 
+  //*from Context.tsx file
+  const { currUsername, setCurrUsername } = useGlobalContext();
+  console.log(currUsername);
+
+  const router = useRouter();
+
   function handleFormChange(e: any) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
+  async function handleNewAccount(e: any) {
+    try {
+      console.log("handleNewAccount");
+      const res = await fetch("../../api/account", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          dbPayload: formData,
+          type: "createAccount",
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to Create New Account");
+
+      setFormData({ username: "", password: "" });
+      alert("Account Creation Successful");
+    } catch (err) {
+      alert(err);
+    }
+  }
+  //*async currentTarget.submit doesn't work, unlike sync form submit from home page
+  //*therefore, delay submit if wrong.
   async function handleFormSubmit(e: any) {
     e.preventDefault();
     try {
@@ -25,11 +59,22 @@ export default function Account() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          messages: "hello",
+          dbPayload: formData,
+          type: "login",
         }),
       });
 
-      if (!res.ok) throw new Error("Failed to fetch API");
+      if (!res.ok) throw new Error("Failed to Login");
+
+      const result = await res.json();
+
+      if (result.user === null) {
+        alert("Cannot log in");
+      } else {
+        setCurrUsername(result.user.username);
+        setFormData({ username: "", password: "" });
+        router.push("/");
+      }
     } catch (err) {
       alert(err);
     }
@@ -38,19 +83,19 @@ export default function Account() {
   return (
     <div
       id="account"
-      className=" flex flex-col justify-center items-center  bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-amber-200 via-violet-600 to-sky-900"
+      className=" flex flex-col justify-center items-center  bg-gradient-to-r from-fuchsia-500 to-cyan-500"
     >
       <form
-        className="flex flex-col justify-between p-8 rounded-xl 0 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400"
-        action=""
+        className="flex flex-col justify-between p-8 rounded-xl 0 border-2"
+        action="../../"
         //prevent username and password from being shown as querystring
-        method="POST"
+        // method="POST"
         onSubmit={handleFormSubmit}
       >
         <section className=" flex flex-col justify-around py-8 h-60 ">
           <label htmlFor="username">Username:</label>
           <input
-            className="h-14  rounded-md pl-5 text-black"
+            className="h-14  rounded-md pl-5 text-black my-2"
             type="accept"
             minLength={4}
             maxLength={10}
@@ -65,7 +110,7 @@ export default function Account() {
           />
           <label htmlFor="password">Password:</label>
           <input
-            className="h-14  rounded-md pl-5 text-black"
+            className="h-14  rounded-md pl-5 text-black my-2"
             type="password"
             minLength={4}
             maxLength={10}
@@ -80,14 +125,17 @@ export default function Account() {
         <aside className="flex flex-row justify-between items-center h-2/6 ">
           {/* first button toggle account sign up(change background to signify) */}
           <button
+            title="Create Account"
             type="button"
             className="bg-green-300 h-14 w-28 m-0 rounded-lg"
+            onClick={handleNewAccount}
           >
             Create Account
           </button>
           {/* second button signs the user in after verifying credential with server */}
 
           <button
+            title="Login"
             type="submit"
             className="bg-orange-500 h-14 w-28  m-0 rounded-lg"
           >

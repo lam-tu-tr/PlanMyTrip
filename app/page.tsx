@@ -20,7 +20,12 @@ const MobileAntDurationPicker = dynamic(
   }
 );
 
+import { useGlobalContext } from "@/app/Context";
+
 export default function Home() {
+  const { currUsername, setCurrUsername } = useGlobalContext();
+
+  console.log("currUser in Home: " + currUsername);
   const [destination, setDestination] = useState<destType>({
     name: "",
     bbox: "",
@@ -33,7 +38,8 @@ export default function Home() {
   // console.log("start: " + startDate + "end: " + endDate + "dur: " + duration);
   function validateSubmit(e: any) {
     e.preventDefault();
-    console.log(e.target[0].value);
+    console.log(e);
+    // console.log(e.target[0].value);
     if (e.target[0].value == "") {
       alert("Please Choose a Destination Using the Map");
     } else if (e.target[1].value == "") {
@@ -41,7 +47,7 @@ export default function Home() {
     } else if (e.target[2].value == "") {
       alert("Please Choose Destination End Date");
     } else {
-      e.currentTarget.submit();
+      // e.currentTarget.submit();
     }
   }
 

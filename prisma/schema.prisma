@@ -6,23 +6,26 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model User {
-  id       String     @id @unique @default(uuid())
-  username String     @unique
-  password String     @unique
-  trip     TripList[]
+  id          String     @id @unique @default(uuid())
+  username    String     @unique
+  password    String     @unique
+  trip        TripList[]
+  dateCreated DateTime   @unique(sort: Desc) @default(now())
+
+  @@unique([username, password])
 }
 
 model TripList {
   id String @id @unique @default(uuid())
 
-  userTrip String
-  trip     User   @relation(fields: [userTrip], references: [id])
-
+  userTrip       String
+  trip           User     @relation(fields: [userTrip], references: [id])
   messagePayload String
   aiMessage      String
   destList       String
@@ -30,4 +33,6 @@ model TripList {
   start_date     DateTime
   end_date       DateTime
   dateCreated    DateTime @unique(sort: Desc) @default(now())
+
+  @@index([userTrip])
 }
