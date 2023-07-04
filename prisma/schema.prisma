@@ -15,7 +15,7 @@ model User {
   id          String     @id @unique @default(uuid())
   username    String     @unique
   password    String     @unique
-  trip        TripList[]
+  triplist    TripList[]
   dateCreated DateTime   @unique(sort: Desc) @default(now())
 
   @@unique([username, password])
@@ -24,15 +24,15 @@ model User {
 model TripList {
   id String @id @unique @default(uuid())
 
-  userTrip       String
-  trip           User     @relation(fields: [userTrip], references: [username])
-  messagePayload Json
-  aiMessage      String
-  destList       Json
-  bbox           String
-  startDate      DateTime
-  endDate        DateTime
-  dateCreated    DateTime @unique(sort: Desc) @default(now())
+  tripId      String   @unique @default(uuid())
+  userTrip    String
+  user        User     @relation(fields: [userTrip], references: [username])
+  aiMessage   String   @db.LongText
+  destList    Json
+  bbox        String
+  startDate   String
+  endDate     String
+  dateCreated DateTime @unique(sort: Desc) @default(now())
 
   @@index([userTrip])
 }

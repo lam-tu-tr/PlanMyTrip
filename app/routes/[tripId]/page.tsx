@@ -3,7 +3,7 @@
 
 "use client";
 import React, { useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { capitalizeWords } from "../../helpers/helper-functions";
 import { Message, destType } from "../../helpers/types";
 import Map from "../../components/Map";
@@ -65,8 +65,6 @@ export default function Trip() {
   //list of all destinations
   const [destList, setDestList] = useState<DestCoordType>({});
 
-  const router = useRouter();
-
   //*................................Functions............................................*/
   //
   //*handle submit, assign messages to payload
@@ -105,11 +103,10 @@ export default function Trip() {
 
       if (!res.ok) throw new Error("Failed to save to account");
 
-      const { tripId } = await res.json();
+      const tripInfo = await res.json();
 
-      // console.log("tripInfo" + JSON.stringify(tripInfo, null, 2));
+      console.log("tripInfo" + JSON.stringify(tripInfo, null, 2));
 
-      router.push(`/routes/${tripId}`);
       alert("Saved to Account");
     } catch (err) {
       alert(err);
