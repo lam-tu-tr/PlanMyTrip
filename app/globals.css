@@ -236,9 +236,51 @@ body {
   align-items: center;
   border: 0.1rem solid white;
   border-radius: 0.5rem;
-  width: 3rem;
+  min-width: 3rem;
   height: 3rem;
 }
+/**-------------------- Spinner Animation-------------------  */
+.spinner {
+  position: relative;
+  min-width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner::before,
+.spinner::after {
+  border: 5px solid #ffffff;
+  border-radius: 50%;
+  position: absolute;
+  content: "";
+  display: block;
+}
+
+.spinner::before {
+  width: 1.8rem;
+  height: 1.8rem;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  animation: spinner-1o3y8q 1.0499999999999998s infinite linear reverse;
+}
+
+.spinner::after {
+  animation: spinner-1o3y8q 0.7s infinite linear;
+  height: 3rem;
+  width: 3rem;
+  border-right-color: transparent;
+  border-top-color: transparent;
+}
+
+@keyframes spinner-1o3y8q {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/**--------------------------------------  */
 
 @media (min-width: 900px) {
   #TripDetails {

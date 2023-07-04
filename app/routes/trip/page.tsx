@@ -10,7 +10,7 @@ import Map from "../../components/Map";
 import { sanitize } from "isomorphic-dompurify";
 
 import { useGlobalContext } from "@/app/Context";
-import { FiArrowUpCircle } from "react-icons/fi";
+import { FiArrowUpCircle, FiSave, FiCopy } from "react-icons/fi";
 type DestCoordType = {
   [key: string]: [longitude: number, latitude: number];
 };
@@ -43,7 +43,6 @@ export default function Trip() {
   //which will be assigned to messagepayload during submit event
   const [userMessage, setUserMessage] = useState<string>("");
   const [aiMessage, setAiMessage] = useState<string>(``);
-  console.log(aiMessage);
   //aiComplete=true when openai stream for response is complete
   const [aiComplete, setAiComplete] = useState<boolean>(false);
   //message payload will have user and aimessage objects added to it
@@ -66,7 +65,8 @@ export default function Trip() {
   //list of all destinations
   const [destList, setDestList] = useState<DestCoordType>({});
 
-  //*=================================================================================
+  //*................................Functions............................................*/
+  //
   //*handle submit, assign messages to payload
   function handleConvo(e: any) {
     //!reset these variables for each time user makes adjustment
@@ -82,7 +82,36 @@ export default function Trip() {
     setUserMessage("");
   }
 
-  //*=================================================================================
+  //*Handle Save to db
+  async function handleSaveToDB() {
+    try {
+      console.log("handleSaveTrip");
+      const res = await fetch("../../api/trip", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: currUsername,
+          messagePayload: messagePayload,
+          aiMessage: aiMessage,
+          destList: destList,
+          bbox: bbox,
+          startDate: startDate,
+          endDate: endDate,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to save to account");
+
+      alert("Saved to Account");
+    } catch (err) {
+      alert(err);
+    }
+  }
+  //
+  //*................................USE EFFECTS..................................... */
+  //
   //*Select all anchor tags from aiMessage and assign mouseover event
   //*push to destList array the locations found
   useEffect(() => {
@@ -141,7 +170,7 @@ export default function Trip() {
     fetchCoordinates();
   }, [aiComplete, bbox]);
 
-  //*================================================================================ */
+  //*------------
   //** add event delegation, ai-location class mouseover bubbles up to chat class     */
   useEffect(() => {
     console.log("changing destList");
@@ -161,7 +190,7 @@ export default function Trip() {
       chatSection!.removeEventListener("mouseover", handleHoverEvent);
     };
   }, [destList]);
-  //*================================================================================= */
+  //*------------
   //*Stream openai response data to aiMessage, auto fetch when payload is has new message added
   useEffect(() => {
     async function handleChatRequest() {
@@ -207,12 +236,21 @@ export default function Trip() {
         currDest={currDest}
         destList={destList}
         setDestination={setDestination}
-        // initialCoord={initialCoord}
       />
 
       <form id="trip_form" onSubmit={handleConvo}>
         <div id="h1_wrapper">
+          <button title="Copy Trip Link" type="button">
+            <FiCopy className="w-6 h-6 m-4" />
+          </button>
           <h1>Trip to {capitalizeWords(destination.name!)}</h1>
+          <button
+            title="Save to Account"
+            onClick={handleSaveToDB}
+            type="button"
+          >
+            <FiSave className="w-6 h-6 m-4" />
+          </button>
         </div>
         <section
           id="chat"
@@ -228,9 +266,13 @@ export default function Trip() {
             disabled={!aiComplete}
             onChange={({ target }) => setUserMessage(target.value)}
           />
-          <button title="Submit adjustments" type="submit">
-            <FiArrowUpCircle className="w-8 h-8" />
-          </button>
+          {aiComplete ? (
+            <button title="Submit adjustments" type="submit">
+              <FiArrowUpCircle className="w-8 h-8" />
+            </button>
+          ) : (
+            <div className="spinner"></div>
+          )}
         </aside>
       </form>
     </div>

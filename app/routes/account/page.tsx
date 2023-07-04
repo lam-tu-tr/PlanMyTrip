@@ -25,7 +25,7 @@ export default function Account() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
-  async function handleNewAccount(e: any) {
+  async function handleNewAccount() {
     try {
       console.log("handleNewAccount");
       const res = await fetch("../../api/account", {

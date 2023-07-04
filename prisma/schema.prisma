@@ -25,13 +25,13 @@ model TripList {
   id String @id @unique @default(uuid())
 
   userTrip       String
-  trip           User     @relation(fields: [userTrip], references: [id])
+  trip           User     @relation(fields: [userTrip], references: [username])
   messagePayload Json
   aiMessage      String
   destList       Json
   bbox           String
-  start_date     DateTime
-  end_date       DateTime
+  startDate      DateTime
+  endDate        DateTime
   dateCreated    DateTime @unique(sort: Desc) @default(now())
 
   @@index([userTrip])
