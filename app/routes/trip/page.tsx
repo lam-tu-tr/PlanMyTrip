@@ -2,7 +2,7 @@
 //*--------------------------/trip?destination=___ & date=______------------------------------------
 
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { capitalizeWords } from "../../helpers/helper-functions";
 import { Message, destType } from "../../helpers/types";
@@ -43,6 +43,7 @@ export default function Trip() {
   //which will be assigned to messagepayload during submit event
   const [userMessage, setUserMessage] = useState<string>("");
   const [aiMessage, setAiMessage] = useState<string>(``);
+  console.log(aiMessage);
   //aiComplete=true when openai stream for response is complete
   const [aiComplete, setAiComplete] = useState<boolean>(false);
   //message payload will have user and aimessage objects added to it
@@ -56,7 +57,7 @@ export default function Trip() {
       role: "user",
       content: `Create a detailed itinerary for my trip to ${capitalizeWords(
         destination.name
-      )} from ${startDate} to ${endDate}. Make sure that the destinations are all within a city distance. Wrap all the locations in an html <a target="_blank" class="ai-location" ></a> tag with an href to https://google.com/search?q={location}. Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening).  Give the result in an indented list style using HTML elements <div class="ai-snap-section"><h2 class="ai-date" >date</h2><h3>time of day</h3> <a target="_blank" class="ai-location" >location</a><ul class="ai-list"><li>description</li></ul></div>. Wrap the whole ai response inside a <div class="ai-text"></div>. If there are more than 3 days for the trip, give a less detailed answer so that the user won't have to scroll too long to read.`,
+      )} from ${startDate} to ${endDate}. Make sure that the destinations are all within a city distance. Wrap all the locations in an html <a target="_blank" class="ai-location" ></a> tag with an href to https://google.com/search?q={location}. Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening).  Give the result in an indented list style using HTML elements <div class="ai-snap-section"><h2 class="ai-date" >date</h2><h3>time of day</h3> <a target="_blank" class="ai-location" >location</a><ul class="ai-list"><li>description</li></ul></div>. Wrap the whole ai response inside a <div class="ai-text"></div>.`,
     },
   ]);
   //currDest is current map focused destination
@@ -67,9 +68,9 @@ export default function Trip() {
 
   //*=================================================================================
   //*handle submit, assign messages to payload
-  function handleConvo(event: any) {
-    console.log("submit event");
-    event.preventDefault();
+  function handleConvo(e: any) {
+    //!reset these variables for each time user makes adjustment
+    e.preventDefault();
     setAiComplete(false);
     setDestList({});
     setAiMessage("");
@@ -163,8 +164,6 @@ export default function Trip() {
   //*================================================================================= */
   //*Stream openai response data to aiMessage, auto fetch when payload is has new message added
   useEffect(() => {
-    //!reset these variables for each time user makes adjustment
-    console.log("changing payload");
     async function handleChatRequest() {
       try {
         const res = await fetch("/api/prompt", {

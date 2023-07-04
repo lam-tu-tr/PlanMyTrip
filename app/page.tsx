@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import Map from "./components/Map";
 import { destType } from "./helpers/types";
 import dayjs from "dayjs";
@@ -35,6 +36,7 @@ export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
   const [duration, setDuration] = useState("");
 
+  const router = useRouter();
   // console.log("start: " + startDate + "end: " + endDate + "dur: " + duration);
   function validateSubmit(e: any) {
     e.preventDefault();
@@ -48,6 +50,9 @@ export default function Home() {
       alert("Please Choose Destination End Date");
     } else {
       // e.currentTarget.submit();
+      router.push(
+        `/routes/trip?destination=${destination.name}&startDate=${startDate}&endDate=${endDate}&bbox=${destination.bbox}`
+      );
     }
   }
 
@@ -92,8 +97,6 @@ export default function Home() {
           <input type="hidden" required name="startDate" value={startDate} />
           <input type="hidden" required name="endDate" value={endDate} />
           <input type="hidden" required name="bbox" value={destination.bbox} />
-          {/* <input type="hidden" required name="x" value={destination.x} />
-          <input type="hidden" required name="y" value={destination.y} /> */}
 
           {isMobile ? (
             <div id="choice-wrapper">
