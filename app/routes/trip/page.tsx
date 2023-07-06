@@ -87,7 +87,7 @@ export default function Trip() {
   }
 
   //*Handle Save to db
-  async function handleSaveToDB() {
+  async function handleSaveToDB(type: string) {
     try {
       console.log("handleSaveTrip");
       const res = await fetch("../../api/trip", {
@@ -113,14 +113,25 @@ export default function Trip() {
       const { tripId } = await res.json();
 
       // console.log("tripInfo" + JSON.stringify(tripInfo, null, 2));
+      copyToClipboard(tripId);
 
-      router.push(`/routes/tripId?tripId=${tripId}`);
+      if (type === "save") router.push(`/routes/tripId?tripId=${tripId}`);
       alert("Saved to Account");
     } catch (err) {
       alert(err);
     }
   }
   //
+
+  async function copyToClipboard(tripId: string) {
+    try {
+      await navigator.clipboard.writeText(
+        `${window.location.href}/routes/tripId?tripId=${tripId}`
+      );
+    } catch (err) {
+      console.log("failed to copy", err);
+    }
+  }
   //*................................USE EFFECTS..................................... */
   //
   //*Select all anchor tags from aiMessage and assign mouseover event
@@ -257,13 +268,17 @@ export default function Trip() {
 
       <form id="trip_form" onSubmit={handleConvo}>
         <div id="h1_wrapper">
-          <button title="Copy Trip Link" type="button">
+          <button
+            title="Copy Trip Link"
+            onClick={() => handleSaveToDB("")}
+            type="button"
+          >
             <FiCopy className="w-6 h-6 m-4" />
           </button>
           <h1>Trip to {capitalizeWords(destination.name!)}</h1>
           <button
             title="Save to Account"
-            onClick={handleSaveToDB}
+            onClick={() => handleSaveToDB("save")}
             type="button"
           >
             <FiSave className="w-6 h-6 m-4" />
