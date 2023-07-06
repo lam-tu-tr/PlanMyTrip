@@ -22,7 +22,8 @@ export default function Trip() {
 
   // const { currUsername, setCurrUsername } = useGlobalContext();
 
-  const currUsername = localStorage.currentUser;
+  const currUsername =
+    typeof window !== "undefined" ? window.localStorage.currentUser : "";
 
   console.log("currUser in trip: " + currUsername);
   //obtain data from querystring of previously submitted form
