@@ -57,6 +57,9 @@ export default function Home() {
   }
 
   useEffect(() => {
+    if (localStorage) {
+      setCurrUsername(localStorage.currentUser);
+    }
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 700);
     };

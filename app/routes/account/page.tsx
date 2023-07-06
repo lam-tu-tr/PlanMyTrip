@@ -69,10 +69,11 @@ export default function Account() {
       const result = await res.json();
 
       if (result.user === null) {
-        alert("Cannot log in");
+        alert("Invalid Credentials");
       } else {
-        setCurrUsername(result.user.username);
+        // setCurrUsername(result.user.username);
         setFormData({ username: "", password: "" });
+        localStorage.setItem("currentUser", result.user.username);
         router.push("/");
       }
     } catch (err) {

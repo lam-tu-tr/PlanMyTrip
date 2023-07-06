@@ -2,7 +2,7 @@
 //*--------------------------/trip?destination=___ & date=______------------------------------------
 
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { capitalizeWords } from "../../helpers/helper-functions";
 import { Message, destType } from "../../helpers/types";
@@ -20,9 +20,11 @@ export default function Trip() {
   //*================================================================================
   //*States declarations */
 
-  const { currUsername, setCurrUsername } = useGlobalContext();
+  // const { currUsername, setCurrUsername } = useGlobalContext();
 
-  console.log("currUser: " + currUsername);
+  const currUsername = localStorage.currentUser;
+
+  console.log("currUser in trip: " + currUsername);
   //obtain data from querystring of previously submitted form
   const [destination, setDestination] = useState<destType>({
     name: useSearchParams().get("destination") || "",
@@ -94,12 +96,15 @@ export default function Trip() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: currUsername,
-          aiMessage: aiMessage,
-          destList: destList,
-          bbox: bbox,
-          startDate: startDate,
-          endDate: endDate,
+          dbPayload: {
+            username: currUsername,
+            aiMessage: aiMessage,
+            destList: destList,
+            bbox: bbox,
+            startDate: startDate,
+            endDate: endDate,
+          },
+          type: "create",
         }),
       });
 
@@ -109,7 +114,7 @@ export default function Trip() {
 
       // console.log("tripInfo" + JSON.stringify(tripInfo, null, 2));
 
-      router.push(`/routes/${tripId}`);
+      router.push(`/routes/tripId?tripId=${tripId}`);
       alert("Saved to Account");
     } catch (err) {
       alert(err);
@@ -236,6 +241,12 @@ export default function Trip() {
     handleChatRequest();
   }, [messagePayload]);
 
+  // var textarea = useRef();
+  useEffect(() => {
+    // const textarea = document.getElementById("textarea");
+    // textarea!.scrollTop = textarea!.scrollHeight;
+  }, [aiMessage]);
+
   return (
     <div id="TripDetails">
       <Map
@@ -262,10 +273,16 @@ export default function Trip() {
           id="chat"
           className="chat"
           dangerouslySetInnerHTML={{ __html: sanitize(aiMessage) }}
+          ref={(textarea) => {
+            if (textarea) {
+              textarea.scrollTop = textarea.scrollHeight;
+            }
+          }}
         ></section>
 
         <aside id="adjustment">
           <textarea
+            id="textArea"
             name="userMessage"
             placeholder="Replace museum with..."
             value={userMessage}

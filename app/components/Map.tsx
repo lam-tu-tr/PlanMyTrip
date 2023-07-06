@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { DestCoordType, destType } from "../helpers/types";
+import { DestCoordType, destType, destTypeTemp } from "../helpers/types";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
@@ -7,12 +7,16 @@ interface MapCoord {
   currDest?: [number, number];
   destList?: DestCoordType;
   initialCoord?: [number, number];
-  setDestination: React.Dispatch<React.SetStateAction<destType>>;
+  destination?: destTypeTemp;
+  setDestination:
+    | React.Dispatch<React.SetStateAction<destType>>
+    | React.Dispatch<React.SetStateAction<destTypeTemp>>;
 }
 export default function Map({
   currDest,
   destList,
   initialCoord,
+  destination,
   setDestination,
 }: MapCoord) {
   //*Map Box Declaration
@@ -54,10 +58,11 @@ export default function Map({
       newMap.addControl(geocoder);
 
       geocoder.on("result", (event) => {
-        setDestination({
+        setDestination((prevState: any) => ({
+          ...prevState,
           name: event.result.place_name,
           bbox: event.result.bbox.toString(),
-        });
+        }));
       });
 
       return () => {

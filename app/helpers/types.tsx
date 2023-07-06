@@ -23,3 +23,12 @@ export type destType = {
   name: string;
   bbox: string;
 };
+
+export type destTypeTemp = {
+  name: string;
+  bbox: string;
+  startDate: string;
+  endDate: string;
+  aiMessage: string;
+  destList: DestCoordType;
+};
