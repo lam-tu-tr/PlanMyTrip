@@ -33,12 +33,12 @@ body {
   height: 100svh;
 }
 .MainNav {
-  height: 5vh;
+  height: 5svh;
 }
 /** ---------------------Home Page----------------------- */
 #home_main {
   flex-grow: 2;
-  height: 95vh;
+  height: 95svh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -129,7 +129,7 @@ body {
 
 /**-------------------------------Trip---------------------  */
 #TripDetails {
-  height: 95vh;
+  height: 95svh;
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -143,6 +143,7 @@ body {
     rgba(83, 112, 255, 1) 29%,
     rgba(0, 172, 185, 1) 100%
   );
+  color: white;
 }
 #TripDetails #map {
   width: 100%;
