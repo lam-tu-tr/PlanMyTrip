@@ -24,9 +24,11 @@ model User {
 model TripList {
   id String @id @unique @default(uuid())
 
-  tripId      String   @unique @default(uuid())
-  userTrip    String
-  user        User     @relation(fields: [userTrip], references: [username])
+  tripId   String @unique @default(uuid())
+  userTrip String
+  user     User   @relation(fields: [userTrip], references: [username])
+
+  destName    String
   aiMessage   String   @db.LongText
   destList    Json
   bbox        String

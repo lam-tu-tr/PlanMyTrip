@@ -3,7 +3,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
-import { destType, destTypeTemp } from "@/app/helpers/types";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   console.log("inside POST");
@@ -21,6 +20,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
             username: dbPayload.username,
           },
         },
+        destName: dbPayload.destName,
         aiMessage: dbPayload.aiMessage,
         destList: dbPayload.destList,
         bbox: dbPayload.bbox,

@@ -25,6 +25,7 @@ export type destType = {
   startDate: string;
   endDate: string;
   aiMessage: string;
+  duration: string;
   destList: DestCoordType;
 };
 

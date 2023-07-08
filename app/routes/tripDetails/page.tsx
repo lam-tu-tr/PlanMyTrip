@@ -16,10 +16,6 @@ const DOMPurifyConfig = {
   ADD_ATTR: ["target"], //*allow target attribute on anchor tags to go through
 };
 
-type DestCoordType = {
-  [key: string]: [longitude: number, latitude: number];
-};
-
 //DO NOT make a page function an async function
 export default function Trip() {
   //*================================================================================
@@ -30,7 +26,6 @@ export default function Trip() {
   const currUsername =
     typeof window !== "undefined" ? window.localStorage.currentUser : "";
 
-  console.log("currUser in trip: " + currUsername);
   //obtain data from querystring of previously submitted form
   const [dest, setDest] = useState<destType>({
     name: useSearchParams().get("dest")!,
@@ -64,11 +59,8 @@ export default function Trip() {
       }. Make sure that the destinations are all within a city distance and that destinations within the same day are close to another so that the user won't have to drive long distances each day.  Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening).  Give the result in an indented list style using HTML elements <div class="ai-snap-section"><h2 class="ai-date" >date</h2> <aside> <h2 class="timeofday">time of day </h2> \- <a  class="ai-location" rel="noopener noreferrer" target="_blank" href="https://google.com/search?q={location}"> location</a></aside><ul class="ai-list"><li>description</li></ul></div>. Wrap the whole ai response inside a <div class="ai-text"></div>. `,
     },
   ]);
-  //currDest is current map focused destination
-  // const [currDest, setCurrDest] = useState<[number, number]>(initialCoord);
+
   const [currDest, setCurrDest] = useState<[number, number]>();
-  //list of all destinations
-  // const [destList, setDestList] = useState<DestCoordType>({});
 
   const router = useRouter();
 
@@ -96,7 +88,6 @@ export default function Trip() {
   //*Handle Save to db
   async function handleSaveToDB(type: string) {
     //*TODO check if trip exists before creating another using upturn or soemthing
-
     try {
       console.log("handleSaveTrip");
       const res = await fetch("../../api/trip", {
@@ -107,6 +98,7 @@ export default function Trip() {
         body: JSON.stringify({
           dbPayload: {
             username: currUsername,
+            destName: dest.name,
             aiMessage: aiMessage,
             destList: dest.destList,
             bbox: dest.bbox,
@@ -140,15 +132,16 @@ export default function Trip() {
       console.log("failed to copy", err);
     }
   }
-  //
+  //*
   //*................................USE EFFECTS..................................... */
-  //
+  //*
   //*Select all anchor tags from aiMessage and assign mouseover event
   //*push to destList array the locations found
   useEffect(() => {
     const allLocations = document.querySelectorAll(".ai-location");
-    //*Function to obtain specific destination coordinate */
     //*
+    //*Unit Function to obtain specific destination coordinate */
+    //*Called multiple times in fetchCoordinate()
     async function getCoord(location: string) {
       const destRes = await fetch(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?bbox=${dest.bbox}&limit=2&access_token=${process.env.MAPBOX_KEY}`,
@@ -173,7 +166,6 @@ export default function Trip() {
     //*assign destination as key and coordinates as values for destList
     //*
     const fetchCoordinates = async () => {
-      // console.log("all locs: " + JSON.stringify(allLocations, null, 2));
       const coordinatePromises = Array.from(allLocations).map((location) => {
         return getCoord(location.innerHTML);
       });
@@ -206,7 +198,6 @@ export default function Trip() {
   //*------------
   //** add event delegation, ai-location class mouseover bubbles up to chat class     */
   useEffect(() => {
-    console.log("changing destList");
     function handleLocHover(event: any) {
       setCurrDest(dest.destList[event.target.innerText]);
     }
