@@ -54,7 +54,7 @@ export default function Home() {
       alert("Please Choose Destination End Date");
     } else {
       router.push(
-        `/routes/tripDetails?dest=${dest.name}&startDate=${dest.startDate}&endDate=${dest.endDate}&bbox=${dest.bbox}`
+        `/routes/tripDetails?dest=${dest.name}&startDate=${dest.startDate}&endDate=${dest.endDate}&bbox=${dest.bbox}&duration=${dest.duration}`
       );
     }
   }

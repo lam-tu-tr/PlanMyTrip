@@ -2,15 +2,20 @@
 //*--------------------------/tripDetails?destination=___ & date=______etc------------------------------------
 
 "use client";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { capitalizeWords } from "../../helpers/helper-functions";
 import { Message, destType } from "../../helpers/types";
 import Map from "../../components/Map";
-import DOMPurify from "isomorphic-dompurify";
 
 import { useGlobalContext } from "@/app/Context";
 import { FiArrowUpCircle, FiSave, FiCopy } from "react-icons/fi";
+
+import DOMPurify from "isomorphic-dompurify";
+const DOMPurifyConfig = {
+  ADD_ATTR: ["target"], //*allow target attribute on anchor tags to go through
+};
+
 type DestCoordType = {
   [key: string]: [longitude: number, latitude: number];
 };
@@ -27,20 +32,15 @@ export default function Trip() {
 
   console.log("currUser in trip: " + currUsername);
   //obtain data from querystring of previously submitted form
-  const [destination, setDestination] = useState<destType>({
-    name: useSearchParams().get("destination") || "",
-    bbox: "",
+  const [dest, setDest] = useState<destType>({
+    name: useSearchParams().get("dest")!,
+    bbox: useSearchParams().get("bbox")!,
+    startDate: useSearchParams().get("startDate")!,
+    endDate: useSearchParams().get("endDate")!,
+    duration: useSearchParams().get("duration") || "",
+    aiMessage: "",
+    destList: {},
   });
-  const startDate = useSearchParams().get("startDate");
-  const endDate = useSearchParams().get("endDate");
-
-  //*TODO TRY USING useMemo here
-  // const [initialCoord] = useState<[number, number]>([
-  //   Number(useSearchParams().get("x")),
-  //   Number(useSearchParams().get("y")),
-  // ]);
-
-  const bbox = useSearchParams().get("bbox");
 
   //hold user input and ai message inside a string
   //which will be assigned to messagepayload during submit event
@@ -58,15 +58,17 @@ export default function Trip() {
     {
       role: "user",
       content: `Create a detailed itinerary for my trip to ${capitalizeWords(
-        destination.name
-      )} from ${startDate} to ${endDate}. Make sure that the destinations are all within a city distance.  Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening).  Give the result in an indented list style using HTML elements <div class="ai-snap-section"><h2 class="ai-date" >date</h2> <aside> <h2 class="timeofday">time of day </h2> \- <a  class="ai-location" rel="noopener noreferrer" target="_blank" href="https://google.com/search?q={location}"> location</a></aside><ul class="ai-list"><li>description</li></ul></div>. Wrap the whole ai response inside a <div class="ai-text"></div>. `,
+        dest.name
+      )} from ${dest.startDate} to ${
+        dest.endDate
+      }. Make sure that the destinations are all within a city distance and that destinations within the same day are close to another so that the user won't have to drive long distances each day.  Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening).  Give the result in an indented list style using HTML elements <div class="ai-snap-section"><h2 class="ai-date" >date</h2> <aside> <h2 class="timeofday">time of day </h2> \- <a  class="ai-location" rel="noopener noreferrer" target="_blank" href="https://google.com/search?q={location}"> location</a></aside><ul class="ai-list"><li>description</li></ul></div>. Wrap the whole ai response inside a <div class="ai-text"></div>. `,
     },
   ]);
   //currDest is current map focused destination
   // const [currDest, setCurrDest] = useState<[number, number]>(initialCoord);
   const [currDest, setCurrDest] = useState<[number, number]>();
   //list of all destinations
-  const [destList, setDestList] = useState<DestCoordType>({});
+  // const [destList, setDestList] = useState<DestCoordType>({});
 
   const router = useRouter();
 
@@ -74,10 +76,13 @@ export default function Trip() {
   //
   //*handle submit, assign messages to payload
   function handleConvo(e: any) {
-    //!reset these variables for each time user makes adjustment
+    //!reset these variables for each time user submits adjustments
     e.preventDefault();
     setAiComplete(false);
-    setDestList({});
+    setDest((prev) => ({
+      ...prev,
+      destList: {},
+    }));
     setAiMessage("");
     setMessagePayload((prevMessage) => [
       ...prevMessage,
@@ -85,10 +90,13 @@ export default function Trip() {
       { role: "user", content: userMessage },
     ]);
     setUserMessage("");
+    //*TODO add Map marker removals
   }
 
   //*Handle Save to db
   async function handleSaveToDB(type: string) {
+    //*TODO check if trip exists before creating another using upturn or soemthing
+
     try {
       console.log("handleSaveTrip");
       const res = await fetch("../../api/trip", {
@@ -100,10 +108,10 @@ export default function Trip() {
           dbPayload: {
             username: currUsername,
             aiMessage: aiMessage,
-            destList: destList,
-            bbox: bbox,
-            startDate: startDate,
-            endDate: endDate,
+            destList: dest.destList,
+            bbox: dest.bbox,
+            startDate: dest.startDate,
+            endDate: dest.endDate,
           },
           type: "create",
         }),
@@ -113,7 +121,6 @@ export default function Trip() {
 
       const { tripId } = await res.json();
 
-      // console.log("tripInfo" + JSON.stringify(tripInfo, null, 2));
       copyToClipboard(tripId);
 
       if (type === "save") router.push(`/routes/tripId?tripId=${tripId}`);
@@ -133,6 +140,7 @@ export default function Trip() {
       console.log("failed to copy", err);
     }
   }
+  //
   //*................................USE EFFECTS..................................... */
   //
   //*Select all anchor tags from aiMessage and assign mouseover event
@@ -143,7 +151,7 @@ export default function Trip() {
     //*
     async function getCoord(location: string) {
       const destRes = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?bbox=${bbox}&limit=2&access_token=${process.env.MAPBOX_KEY}`,
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?bbox=${dest.bbox}&limit=2&access_token=${process.env.MAPBOX_KEY}`,
         {
           method: "GET",
           headers: {
@@ -155,7 +163,6 @@ export default function Trip() {
         throw new Error(`Failed to fetch ${location} coordinate`);
       }
       const destCoord = await destRes.json();
-      // console.log("destCoord: " + JSON.stringify(destCoord, null, 2));
       const x = destCoord.features[0].center[0];
       const y = destCoord.features[0].center[1];
       // console.log("loc " + location + " x " + x + " y " + y);
@@ -184,21 +191,24 @@ export default function Trip() {
           },
           {}
         );
-        setDestList(updatedDestList);
+        setDest((prev) => ({
+          ...prev,
+          destList: updatedDestList,
+        }));
       } catch (err) {
         console.log("Fetch Coordinate Erorr", err);
       }
     };
 
     fetchCoordinates();
-  }, [aiComplete, bbox]);
+  }, [aiComplete, dest.bbox]);
 
   //*------------
   //** add event delegation, ai-location class mouseover bubbles up to chat class     */
   useEffect(() => {
     console.log("changing destList");
     function handleLocHover(event: any) {
-      setCurrDest(destList[event.target.innerText]);
+      setCurrDest(dest.destList[event.target.innerText]);
     }
     const chatSection = document.querySelector(".chat");
 
@@ -212,7 +222,7 @@ export default function Trip() {
     return () => {
       chatSection!.removeEventListener("mouseover", handleHoverEvent);
     };
-  }, [destList]);
+  }, [dest.destList]);
   //*------------
   //*Stream openai response data to aiMessage, auto fetch when payload is has new message added
   useEffect(() => {
@@ -253,39 +263,15 @@ export default function Trip() {
     handleChatRequest();
   }, [messagePayload]);
 
-  // var textarea = useRef();
+  //*Auto scrolling to bottom as aiMessage text generates
   useEffect(() => {
-    // const textarea = document.getElementById("textarea");
-    // textarea!.scrollTop = textarea!.scrollHeight;
+    const textarea = document.getElementById("chat");
+    textarea!.scrollTop = textarea!.scrollHeight;
   }, [aiMessage]);
 
-  //   const TEMP_ATTR = 'temp-target'
-  // DOMPurify.addHook('beforeSanitizeAttributes', function (n) {
-  //   if (n.tagName === 'A') {
-  //     if (n.hasAttribute('target')) {
-  //       n.setAttribute(TEMP_ATTR, n.getAttribute('target'));
-  //     }
-  //   }
-  // })
-  // DOMPurify.addHook('afterSanitizeAttributes', function (n) {
-  //   if (n.tagName === 'A' && n.hasAttribute(TEMP_ATTR)) {
-  //     n.setAttribute('target', n.getAttribute(TEMP_ATTR));
-  //     n.removeAttribute(TEMP_ATTR);
-  //     if (n.getAttribute('target') === '_blank') {
-  //       n.setAttribute('rel', 'noopener');
-  //     }
-  //   }
-  // })
-  const DOMPurifyConfig = {
-    ADD_ATTR: ["target"],
-  };
   return (
     <div id="TripDetails">
-      <Map
-        currDest={currDest}
-        destList={destList}
-        setDestination={setDestination}
-      />
+      <Map currDest={currDest} dest={dest} setDest={setDest} />
 
       <form id="trip_form" onSubmit={handleConvo}>
         <div id="h1_wrapper">
@@ -296,7 +282,7 @@ export default function Trip() {
           >
             <FiCopy className="w-6 h-6 m-4" />
           </button>
-          <h1>Trip to {capitalizeWords(destination.name!)}</h1>
+          <h1>Trip to {capitalizeWords(dest.name!)}</h1>
 
           <button
             title="Save to Account"
@@ -311,11 +297,6 @@ export default function Trip() {
           className="chat"
           dangerouslySetInnerHTML={{
             __html: DOMPurify.sanitize(aiMessage, DOMPurifyConfig),
-          }}
-          ref={(textarea) => {
-            if (textarea) {
-              textarea.scrollTop = textarea.scrollHeight;
-            }
           }}
         ></section>
 

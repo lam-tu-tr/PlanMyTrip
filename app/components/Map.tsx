@@ -8,7 +8,6 @@ interface MapCoord {
   destList?: DestCoordType;
   initialCoord?: [number, number];
   dest: destType;
-  // destination?: destTypeTemp;
   setDest: React.Dispatch<React.SetStateAction<destType>>;
 }
 export default function Map({
@@ -72,13 +71,17 @@ export default function Map({
   }, [mapboxgl, mapboxgl.Map, setDest]);
 
   useEffect(() => {
-    if (map && destList && Object.getOwnPropertyNames(destList).length > 0) {
+    if (
+      map &&
+      dest.destList &&
+      Object.getOwnPropertyNames(dest.destList).length > 0
+    ) {
       const bounds = new mapboxgl.LngLatBounds();
       const markers: any = [];
-      //*Loop through destList and set a marker for each destination, and pushing
+      //*Loop through dest.destList and set a marker for each destination, and pushing
       //*marker into markers array
-      Object.keys(destList).forEach((key) => {
-        const value = destList[key];
+      Object.keys(dest.destList).forEach((key) => {
+        const value = dest.destList[key];
         markers.push(
           new mapboxgl.Marker({
             color: `#${Math.random()
@@ -104,7 +107,13 @@ export default function Map({
         });
       });
     }
-  }, [destList, map, mapboxgl.LngLatBounds, mapboxgl.Marker, mapboxgl.Popup]);
+  }, [
+    dest.destList,
+    map,
+    mapboxgl.LngLatBounds,
+    mapboxgl.Marker,
+    mapboxgl.Popup,
+  ]);
 
   //* Move to a destination on hovering destination name link
   useEffect(() => {
