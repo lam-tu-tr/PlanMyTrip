@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { DestCoordType, destType, destTypeTemp } from "../helpers/types";
+import { DestCoordType, destType } from "../helpers/types";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
@@ -7,17 +7,16 @@ interface MapCoord {
   currDest?: [number, number];
   destList?: DestCoordType;
   initialCoord?: [number, number];
-  destination?: destTypeTemp;
-  setDestination:
-    | React.Dispatch<React.SetStateAction<destType>>
-    | React.Dispatch<React.SetStateAction<destTypeTemp>>;
+  dest: destType;
+  // destination?: destTypeTemp;
+  setDest: React.Dispatch<React.SetStateAction<destType>>;
 }
 export default function Map({
   currDest,
   destList,
   initialCoord,
-  destination,
-  setDestination,
+  dest,
+  setDest,
 }: MapCoord) {
   //*Map Box Declaration
   const mapContainerRef = useRef(null);
@@ -58,7 +57,7 @@ export default function Map({
       newMap.addControl(geocoder);
 
       geocoder.on("result", (event) => {
-        setDestination((prevState: any) => ({
+        setDest((prevState: any) => ({
           ...prevState,
           name: event.result.place_name,
           bbox: event.result.bbox.toString(),
@@ -70,7 +69,7 @@ export default function Map({
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mapboxgl, mapboxgl.Map, setDestination]);
+  }, [mapboxgl, mapboxgl.Map, setDest]);
 
   useEffect(() => {
     if (map && destList && Object.getOwnPropertyNames(destList).length > 0) {

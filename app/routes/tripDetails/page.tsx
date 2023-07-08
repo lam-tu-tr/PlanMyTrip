@@ -1,5 +1,5 @@
 //*
-//*--------------------------/trip?destination=___ & date=______------------------------------------
+//*--------------------------/tripDetails?destination=___ & date=______etc------------------------------------
 
 "use client";
 import React, { useEffect, useState, useRef } from "react";
@@ -7,7 +7,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { capitalizeWords } from "../../helpers/helper-functions";
 import { Message, destType } from "../../helpers/types";
 import Map from "../../components/Map";
-import { sanitize } from "isomorphic-dompurify";
+import DOMPurify from "isomorphic-dompurify";
 
 import { useGlobalContext } from "@/app/Context";
 import { FiArrowUpCircle, FiSave, FiCopy } from "react-icons/fi";
@@ -59,7 +59,7 @@ export default function Trip() {
       role: "user",
       content: `Create a detailed itinerary for my trip to ${capitalizeWords(
         destination.name
-      )} from ${startDate} to ${endDate}. Make sure that the destinations are all within a city distance. Wrap all the locations in an html <a target="_blank" class="ai-location" ></a> tag with an href to https://google.com/search?q={location}. Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening).  Give the result in an indented list style using HTML elements <div class="ai-snap-section"><h2 class="ai-date" >date</h2> <aside> <h2 class="timeofday">time of day </h2> \- <a target="_blank" class="ai-location" > location</a></aside><ul class="ai-list"><li>description</li></ul></div>. Wrap the whole ai response inside a <div class="ai-text"></div>.`,
+      )} from ${startDate} to ${endDate}. Make sure that the destinations are all within a city distance.  Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening).  Give the result in an indented list style using HTML elements <div class="ai-snap-section"><h2 class="ai-date" >date</h2> <aside> <h2 class="timeofday">time of day </h2> \- <a  class="ai-location" rel="noopener noreferrer" target="_blank" href="https://google.com/search?q={location}"> location</a></aside><ul class="ai-list"><li>description</li></ul></div>. Wrap the whole ai response inside a <div class="ai-text"></div>. `,
     },
   ]);
   //currDest is current map focused destination
@@ -259,6 +259,26 @@ export default function Trip() {
     // textarea!.scrollTop = textarea!.scrollHeight;
   }, [aiMessage]);
 
+  //   const TEMP_ATTR = 'temp-target'
+  // DOMPurify.addHook('beforeSanitizeAttributes', function (n) {
+  //   if (n.tagName === 'A') {
+  //     if (n.hasAttribute('target')) {
+  //       n.setAttribute(TEMP_ATTR, n.getAttribute('target'));
+  //     }
+  //   }
+  // })
+  // DOMPurify.addHook('afterSanitizeAttributes', function (n) {
+  //   if (n.tagName === 'A' && n.hasAttribute(TEMP_ATTR)) {
+  //     n.setAttribute('target', n.getAttribute(TEMP_ATTR));
+  //     n.removeAttribute(TEMP_ATTR);
+  //     if (n.getAttribute('target') === '_blank') {
+  //       n.setAttribute('rel', 'noopener');
+  //     }
+  //   }
+  // })
+  const DOMPurifyConfig = {
+    ADD_ATTR: ["target"],
+  };
   return (
     <div id="TripDetails">
       <Map
@@ -277,6 +297,7 @@ export default function Trip() {
             <FiCopy className="w-6 h-6 m-4" />
           </button>
           <h1>Trip to {capitalizeWords(destination.name!)}</h1>
+
           <button
             title="Save to Account"
             onClick={() => handleSaveToDB("save")}
@@ -288,7 +309,9 @@ export default function Trip() {
         <section
           id="chat"
           className="chat"
-          dangerouslySetInnerHTML={{ __html: sanitize(aiMessage) }}
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(aiMessage, DOMPurifyConfig),
+          }}
           ref={(textarea) => {
             if (textarea) {
               textarea.scrollTop = textarea.scrollHeight;

@@ -7,7 +7,8 @@ import { useRouter } from "next/navigation";
 import Map from "./components/Map";
 import { destType } from "./helpers/types";
 import dayjs from "dayjs";
-//Force Ant component to be imported as client instead of ssr
+
+//Force AntDesign component to be imported as client instead of ssr
 const AntDateRange = dynamic(() => import("./components/AntDateRange"), {
   ssr: false,
 });
@@ -24,24 +25,27 @@ const MobileAntDurationPicker = dynamic(
 import { useGlobalContext } from "@/app/Context";
 
 export default function Home() {
-  const { currUsername, setCurrUsername } = useGlobalContext();
+  const { currUsername } = useGlobalContext();
 
-  console.log("currUser in Home: " + currUsername);
-  const [destination, setDestination] = useState<destType>({
+  const [dest, setDest] = useState<destType>({
     name: "",
     bbox: "",
+    startDate: "",
+    endDate: "",
+    duration: "",
+    aiMessage: "",
+    destList: {},
   });
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  // const [startDate, setStartDate] = useState("");
+  // const [endDate, setEndDate] = useState("");
   const [isMobile, setIsMobile] = useState(false);
-  const [duration, setDuration] = useState("");
+  // const [duration, setDuration] = useState("");
 
   const router = useRouter();
-  // console.log("start: " + startDate + "end: " + endDate + "dur: " + duration);
+
   function validateSubmit(e: any) {
     e.preventDefault();
-    console.log(e);
-    // console.log(e.target[0].value);
+
     if (e.target[0].value == "") {
       alert("Please Choose a Destination Using the Map");
     } else if (e.target[1].value == "") {
@@ -49,9 +53,8 @@ export default function Home() {
     } else if (e.target[2].value == "") {
       alert("Please Choose Destination End Date");
     } else {
-      // e.currentTarget.submit();
       router.push(
-        `/routes/trip?destination=${destination.name}&startDate=${startDate}&endDate=${endDate}&bbox=${destination.bbox}`
+        `/routes/tripDetails?dest=${dest.name}&startDate=${dest.startDate}&endDate=${dest.endDate}&bbox=${dest.bbox}`
       );
     }
   }
@@ -77,50 +80,59 @@ export default function Home() {
       setIsMobile(false);
     }
   }, []);
+
   useEffect(() => {
-    if (duration.length > 0 && startDate.length > 0) {
-      setEndDate(
-        dayjs(startDate).add(Number(duration), "day").format("MMM DD, YYYY")
-      );
+    //* Set end date based on selected duration for mobile
+    if (dest.duration.length > 0 && dest.startDate.length > 0) {
+      setDest((prev) => ({
+        ...prev,
+        endDate: dayjs(dest.startDate)
+          .add(Number(dest.duration), "day")
+          .format("MMM DD, YYYY"),
+      }));
     }
-  }, [duration, startDate]);
+  }, [dest.duration, dest.startDate]);
+
   return (
     <main id="home_main" className="bg-orange-200">
       <h1>Your Travel Plans Reimagined with AI-driven itineraries.</h1>
       <div id="home_content">
-        <Map setDestination={setDestination} destList={{}} />
-        <form id="home_form" action="./routes/trip" onSubmit={validateSubmit}>
+        <Map setDest={setDest} dest={dest} />
+        <form
+          id="home_form"
+          action="./routes/tripDetails"
+          onSubmit={validateSubmit}
+        >
           {/* //hidden input to set date querystring upon submission */}
+          <input type="hidden" required name="destination" value={dest.name} />
           <input
             type="hidden"
             required
-            name="destination"
-            value={destination.name}
+            name="startDate"
+            value={dest.startDate}
           />
-          <input type="hidden" required name="startDate" value={startDate} />
-          <input type="hidden" required name="endDate" value={endDate} />
-          <input type="hidden" required name="bbox" value={destination.bbox} />
+          <input type="hidden" required name="endDate" value={dest.endDate} />
+          <input type="hidden" required name="bbox" value={dest.bbox} />
 
           {isMobile ? (
             <div id="choice-wrapper">
-              <MobileAntDate
-                startDate={startDate}
-                setStartDate={setStartDate}
-              />
+              <MobileAntDate dest={dest} setDest={setDest} />
 
-              <MobileAntDurationPicker setDuration={setDuration} />
+              <MobileAntDurationPicker setDest={setDest} />
               <span
                 className={
-                  endDate.length !== 0
+                  dest.endDate.length !== 0
                     ? "bg-white"
                     : "border-dashed border-white border-2"
                 }
               >
-                {endDate.length !== 0 ? `End Date: ${endDate}` : `End Date `}
+                {dest.endDate.length !== 0
+                  ? `End Date: ${dest.endDate}`
+                  : `End Date `}
               </span>
             </div>
           ) : (
-            <AntDateRange setStartDate={setStartDate} setEndDate={setEndDate} />
+            <AntDateRange setDest={setDest} />
           )}
 
           <button
@@ -135,9 +147,5 @@ export default function Home() {
     </main>
   );
 }
-
-//*TODO add a zoom out using fitBound method
-
-//*TODO add a share button
 
 //*TODO EMOJI ICON or display destination name
