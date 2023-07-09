@@ -115,7 +115,7 @@ export default function Trip() {
 
       copyToClipboard(tripId);
 
-      if (type === "save") router.push(`/routes/tripId?tripId=${tripId}`);
+      if (type === "save") router.push(`/r/tripId?tripId=${tripId}`);
       alert("Saved to Account");
     } catch (err) {
       alert(err);

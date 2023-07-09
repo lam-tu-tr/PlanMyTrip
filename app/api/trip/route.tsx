@@ -11,9 +11,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   let res = "";
   let tripInfo;
 
-  if (type === "create") {
-    console.log("Post trip to db");
-    const temp = await prisma.tripList.create({
+  switch (type) {
+    case 'create':
+    const createRes = await prisma.tripList.create({
       data: {
         user: {
           connect: {
@@ -28,16 +28,27 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         endDate: dbPayload.endDate,
       },
     });
-    res = temp.id;
-  } else if (type === "getTrip") {
-    console.log("get Trip");
-    const temp = await prisma.tripList.findUnique({
-      where: {
-        id: dbPayload,
-      },
-    });
-    tripInfo = temp;
-  }
+    res = createRes.id;
+
+    case 'getTrip':
+      const getTripRes = await prisma.tripList.findUnique({
+        where: {
+          id: dbPayload,
+        },
+      });
+      tripInfo = getTripRes;
+    
+    case 'getAllList':
+      console.log('getting all list')
+      //*returns array of trips
+      const getAllTripRes = await prisma.tripList.findMany({
+        where: {
+          userTrip: dbPayload
+        }
+      })
+      tripInfo = getAllTripRes
+  } 
+
 
   return NextResponse.json({ status: 200, tripId: res, tripInfo: tripInfo });
 }

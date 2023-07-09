@@ -12,7 +12,6 @@ interface MapCoord {
 }
 export default function Map({
   currDest,
-  destList,
   initialCoord,
   dest,
   setDest,
@@ -28,8 +27,7 @@ export default function Map({
   useEffect(() => {
     //mapbox variable
     if (!mapboxgl.supported()) {
-      // Mapbox GL not supported on the current browser
-      console.error("Mapbox GL is not supported in this browser");
+      alert("Interactive Map is not supported in this browser");
       return;
     }
     //if there is a map Ref found, create new map
@@ -94,12 +92,12 @@ export default function Map({
             .addTo(map)
         );
 
-        //* iterate through makers and get the boundary box
+        // //* iterate through makers and get the boundary box
         markers.forEach((marker: any) => {
           bounds.extend(marker.getLngLat());
         });
 
-        //*animate zoom & pan to bound box
+        // //*animate zoom & pan to bound box
         map.fitBounds(bounds, {
           padding: 50,
           maxZoom: 10,
@@ -131,7 +129,7 @@ export default function Map({
         });
       }, 100);
     }
-  }, [currDest, initialCoord, map]);
+  }, [currDest]);
   return (
     <>
       <div ref={mapContainerRef} id="map"></div>

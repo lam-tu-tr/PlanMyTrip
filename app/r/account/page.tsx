@@ -3,7 +3,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState} from "react";
 
 import { useGlobalContext } from "@/app/Context";
 
@@ -17,7 +17,6 @@ export default function Account() {
 
   //*from Context.tsx file
   const { currUsername, setCurrUsername } = useGlobalContext();
-  console.log(currUsername);
 
   const router = useRouter();
 
@@ -27,7 +26,6 @@ export default function Account() {
 
   async function handleNewAccount() {
     try {
-      console.log("handleNewAccount");
       const res = await fetch("../../api/account", {
         method: "POST",
         headers: {
@@ -68,12 +66,13 @@ export default function Account() {
 
       const result = await res.json();
 
+      console.log(JSON.stringify(result,null,2))
+
       if (result.user === null) {
         alert("Invalid Credentials");
       } else {
-        // setCurrUsername(result.user.username);
         setFormData({ username: "", password: "" });
-        localStorage.setItem("currentUser", result.user.username);
+        sessionStorage.setItem("currentUser", result.user.username);
         router.push("/");
       }
     } catch (err) {
@@ -90,7 +89,7 @@ export default function Account() {
         className="flex flex-col justify-between p-8 rounded-xl 0 border-2"
         action="../../"
         //prevent username and password from being shown as querystring
-        // method="POST"
+        method="POST"
         onSubmit={handleFormSubmit}
       >
         <section className=" flex flex-col justify-around py-8 h-60 ">

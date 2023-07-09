@@ -1,12 +1,15 @@
 //*
-//*--------------------------/trip?destination=___ & date=______------------------------------------
+//*--------------------------/tripId?tripId=________________------------------------------------
 
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { capitalizeWords } from "../../helpers/helper-functions";
-import { Message, destType } from "../../helpers/types";
+
 import Map from "../../components/Map";
+
+import { useGlobalContext } from "@/app/Context";
+import { destType } from "@/app/helpers/types";
 
 import DOMPurify from "isomorphic-dompurify";
 const DOMPurifyConfig = {
@@ -34,12 +37,15 @@ export default function Trip() {
     destList: {},
     duration: "",
   });
-  console.log(JSON.stringify(dest, null, 2));
+
   const [currDest, setCurrDest] = useState<[number, number]>();
 
+  //*................................Functions............................................*/
+  //
+  //*
+  //
   //*................................USE EFFECTS..................................... */
 
-  //** add event delegation, ai-location class mouseover bubbles up to chat class     */
   useEffect(() => {
     function handleLocHover(event: any) {
       setCurrDest(dest.destList[event.target.innerText]);
@@ -104,11 +110,7 @@ export default function Trip() {
 
   return (
     <div id="TripDetails">
-      {/* <Map
-        // currDest={currDest}
-        dest={dest}
-        setDest={setDest}
-      /> */}
+      <Map currDest={currDest} dest={dest} setDest={setDest} />
 
       <form id="trip_form">
         <div id="h1_wrapper">

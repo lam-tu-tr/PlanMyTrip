@@ -9,10 +9,11 @@ import { destType } from "./helpers/types";
 import dayjs from "dayjs";
 
 //Force AntDesign component to be imported as client instead of ssr
+
 const AntDateRange = dynamic(() => import("./components/AntDateRange"), {
   ssr: false,
 });
-const MobileAntDate = dynamic(() => import("./components/MobileAntDate"), {
+const MobileAntDate = dynamic(() => import('./components/MobileAntDate'), {
   ssr: false,
 });
 const MobileAntDurationPicker = dynamic(
@@ -54,7 +55,7 @@ export default function Home() {
       alert("Please Choose Destination End Date");
     } else {
       router.push(
-        `/routes/tripDetails?dest=${dest.name}&startDate=${dest.startDate}&endDate=${dest.endDate}&bbox=${dest.bbox}&duration=${dest.duration}`
+        `/r/tripDetails?dest=${dest.name}&startDate=${dest.startDate}&endDate=${dest.endDate}&bbox=${dest.bbox}&duration=${dest.duration}`
       );
     }
   }

@@ -2,7 +2,7 @@ import "./globals.css";
 import { Ubuntu } from "next/font/google";
 
 import Navbar from "./components/Navbar";
-
+import Head from 'next/head'
 import { GlobalContextProvider } from "./Context";
 
 import "@fontsource/roboto/400.css";
@@ -34,13 +34,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
+      <Head>
         <link
           href="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css"
           rel="stylesheet"
         />
         <link rel="shortcut icon" href="/GlobeIcon.svg" sizes="32x32" />
-      </head>
+      </Head>
 
       <body className={ubuntu.className}>
         <Navbar />

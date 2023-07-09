@@ -6,8 +6,10 @@ export default function Navbar() {
       <Link className="w-20 text-center" href="/">
         Home
       </Link>
-      <aside>Trips</aside>
-      <Link className="w-20 text-center" href="../routes/account">
+      <Link className="w-20 text-center" href="/r/tripList">
+        Trips
+      </Link>
+      <Link className="w-20 text-center" href="/r/account">
         Account
       </Link>
     </div>
