@@ -21,7 +21,6 @@ export type DestCoordType = {
 
 export type destType = {
   destName: string;
-  name: string;
   bbox: string;
   startDate: string;
   endDate: string;
@@ -29,12 +28,3 @@ export type destType = {
   duration: string;
   destList: DestCoordType;
 };
-
-// export type destTypeTemp = {
-//   name: string;
-//   bbox: string;
-//   startDate: string;
-//   endDate: string;
-//   aiMessage: string;
-//   destList: DestCoordType;
-// };

@@ -13,7 +13,7 @@ import dayjs from "dayjs";
 const AntDateRange = dynamic(() => import("./components/AntDateRange"), {
   ssr: false,
 });
-const MobileAntDate = dynamic(() => import('./components/MobileAntDate'), {
+const MobileAntDate = dynamic(() => import("./components/MobileAntDate"), {
   ssr: false,
 });
 const MobileAntDurationPicker = dynamic(
@@ -29,7 +29,7 @@ export default function Home() {
   const { currUsername } = useGlobalContext();
 
   const [dest, setDest] = useState<destType>({
-    name: "",
+    destName: "",
     bbox: "",
     startDate: "",
     endDate: "",
@@ -55,7 +55,7 @@ export default function Home() {
       alert("Please Choose Destination End Date");
     } else {
       router.push(
-        `/r/tripDetails?dest=${dest.name}&startDate=${dest.startDate}&endDate=${dest.endDate}&bbox=${dest.bbox}&duration=${dest.duration}`
+        `/r/tripDetails?dest=${dest.destName}&startDate=${dest.startDate}&endDate=${dest.endDate}&bbox=${dest.bbox}&duration=${dest.duration}`
       );
     }
   }
@@ -105,7 +105,12 @@ export default function Home() {
           onSubmit={validateSubmit}
         >
           {/* //hidden input to set date querystring upon submission */}
-          <input type="hidden" required name="destination" value={dest.name} />
+          <input
+            type="hidden"
+            required
+            name="destination"
+            value={dest.destName}
+          />
           <input
             type="hidden"
             required

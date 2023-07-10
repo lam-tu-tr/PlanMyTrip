@@ -29,7 +29,7 @@ export default function Trip() {
 
   //obtain data from querystring of previously submitted form
   const [dest, setDest] = useState<destType>({
-    name: "",
+    destName: "",
     bbox: "",
     startDate: "",
     endDate: "",
@@ -91,7 +91,7 @@ export default function Trip() {
         const { tripInfo } = await res.json();
 
         setDest({
-          name: tripInfo.destName,
+          destName: tripInfo.destName,
           bbox: tripInfo.bbox,
           startDate: tripInfo.startDate,
           endDate: tripInfo.endDate,
@@ -114,7 +114,7 @@ export default function Trip() {
 
       <form id="trip_form">
         <div id="h1_wrapper">
-          <h1>Trip to {capitalizeWords(dest.name!)}</h1>
+          <h1>Trip to {capitalizeWords(dest.destName!)}</h1>
         </div>
         <section
           id="chat"

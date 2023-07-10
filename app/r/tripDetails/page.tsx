@@ -28,7 +28,7 @@ export default function Trip() {
 
   //obtain data from querystring of previously submitted form
   const [dest, setDest] = useState<destType>({
-    name: useSearchParams().get("dest")!,
+    destName: useSearchParams().get("dest")!,
     bbox: useSearchParams().get("bbox")!,
     startDate: useSearchParams().get("startDate")!,
     endDate: useSearchParams().get("endDate")!,
@@ -53,7 +53,7 @@ export default function Trip() {
     {
       role: "user",
       content: `Create a detailed itinerary for my trip to ${capitalizeWords(
-        dest.name
+        dest.destName
       )} from ${dest.startDate} to ${
         dest.endDate
       }. Make sure that the destinations are all within a city distance and that destinations within the same day are close to another so that the user won't have to drive long distances each day.  Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening).  Give the result in an indented list style using HTML elements <div class="ai-snap-section"><h2 class="ai-date" >date</h2> <aside> <h2 class="timeofday">time of day </h2> \- <a  class="ai-location" rel="noopener noreferrer" target="_blank" href="https://google.com/search?q={location}"> location</a></aside><ul class="ai-list"><li>description</li></ul></div>. Wrap the whole ai response inside a <div class="ai-text"></div>. `,
@@ -98,7 +98,7 @@ export default function Trip() {
         body: JSON.stringify({
           dbPayload: {
             username: currUsername,
-            destName: dest.name,
+            destName: dest.destName,
             aiMessage: aiMessage,
             destList: dest.destList,
             bbox: dest.bbox,
@@ -273,7 +273,7 @@ export default function Trip() {
           >
             <FiCopy className="w-6 h-6 m-4" />
           </button>
-          <h1>Trip to {capitalizeWords(dest.name!)}</h1>
+          <h1>Trip to {capitalizeWords(dest.destName!)}</h1>
 
           <button
             title="Save to Account"

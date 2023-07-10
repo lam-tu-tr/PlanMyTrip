@@ -3,7 +3,7 @@
 
 "use client";
 
-import { useState} from "react";
+import { useState } from "react";
 
 import { useGlobalContext } from "@/app/Context";
 
@@ -66,7 +66,7 @@ export default function Account() {
 
       const result = await res.json();
 
-      console.log(JSON.stringify(result,null,2))
+      console.log(JSON.stringify(result, null, 2));
 
       if (result.user === null) {
         alert("Invalid Credentials");
