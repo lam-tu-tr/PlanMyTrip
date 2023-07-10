@@ -5,53 +5,60 @@
 import React, { useEffect, useState } from "react";
 import { destType } from "../../helpers/types";
 import { v4 as uuidv4 } from "uuid";
-
+import { useGlobalContext } from "@/app/Context";
 //DO NOT make a page function an async function
 export default function Trip() {
   //*================================================================================
   //*States declarations */
-
+  const { isWindow, setIsWindow } = useGlobalContext();
   const [destItems, setDestItems] = useState<destType[]>([]);
   console.log(destItems);
+  // const [currentUser, setCurrentUser] = useState<string | null>(null);
 
-  const [currentUser, setCurrentUser] = useState(
-    window.sessionStorage.getItem("currentUser")
-  );
+  // const [currentUser, setCurrentUser] = useState(
+  //   isWindow && window.sessionStorage.getItem("currentUser")
+  // );
 
-  console.log("currentUser in Triplist: " + currentUser);
+  // console.log("currentUser in Triplist: " + currentUser);
   //*................................USE EFFECTS..................................... */
 
   useEffect(() => {
     async function initVars() {
       setDestItems([]);
+
       try {
-        const res = await fetch("../../api/trip", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            dbPayload: currentUser,
-            type: "getAllList",
-          }),
-        });
+        const userFromStorage =
+          isWindow && window.sessionStorage.getItem("currentUser");
 
-        if (!res.ok) throw new Error("Failed to Init Variables");
+        if (userFromStorage) {
+          const res = await fetch("../../api/trip", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              dbPayload: userFromStorage,
+              type: "getAllList",
+            }),
+          });
 
-        const { tripInfo } = await res.json();
+          if (!res.ok) throw new Error("Failed to Init Variables");
 
-        tripInfo.map((trip: any) => {
-          return setDestItems((prev) => [...prev, trip]);
-        });
+          const { tripInfo } = await res.json();
 
-        console.log("finished data transfer");
+          tripInfo.map((trip: any) => {
+            return setDestItems((prev) => [...prev, trip]);
+          });
+
+          console.log("finished data transfer");
+        }
       } catch (err) {
         alert(err);
       }
     }
 
     initVars();
-  }, [currentUser]);
+  }, [isWindow]);
 
   return (
     <div

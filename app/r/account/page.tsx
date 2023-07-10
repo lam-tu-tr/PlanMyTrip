@@ -16,7 +16,7 @@ export default function Account() {
   });
 
   //*from Context.tsx file
-  const { currUsername, setCurrUsername } = useGlobalContext();
+  const { isWindow, setIsWindow } = useGlobalContext();
 
   const router = useRouter();
 
@@ -50,30 +50,32 @@ export default function Account() {
   async function handleFormSubmit(e: any) {
     e.preventDefault();
     try {
-      console.log("handleFormSubmit");
-      const res = await fetch("../../api/account", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          dbPayload: formData,
-          type: "login",
-        }),
-      });
+      // console.log("handleFormSubmit");
+      if (isWindow) {
+        const res = await fetch("../../api/account", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            dbPayload: formData,
+            type: "login",
+          }),
+        });
 
-      if (!res.ok) throw new Error("Failed to Login");
+        if (!res.ok) throw new Error("Failed to Login");
 
-      const result = await res.json();
+        const result = await res.json();
 
-      console.log(JSON.stringify(result, null, 2));
+        console.log(JSON.stringify(result, null, 2));
 
-      if (result.user === null) {
-        alert("Invalid Credentials");
-      } else {
-        setFormData({ username: "", password: "" });
-        window.sessionStorage.setItem("currentUser", result.user.username);
-        router.push("/");
+        if (result.user === null) {
+          alert("Invalid Credentials");
+        } else {
+          setFormData({ username: "", password: "" });
+          window.sessionStorage.setItem("currentUser", result.user.username);
+          router.push("/");
+        }
       }
     } catch (err) {
       alert(err);

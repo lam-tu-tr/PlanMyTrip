@@ -26,7 +26,7 @@ const MobileAntDurationPicker = dynamic(
 import { useGlobalContext } from "@/app/Context";
 
 export default function Home() {
-  const { currUsername } = useGlobalContext();
+  // const { currUsername } = useGlobalContext();
 
   const [dest, setDest] = useState<destType>({
     destName: "",

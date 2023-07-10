@@ -3,6 +3,7 @@
 
 import {
   useState,
+  useEffect,
   createContext,
   useContext,
   Dispatch,
@@ -10,21 +11,22 @@ import {
 } from "react";
 
 interface ContextProps {
-  currUsername: string;
-  setCurrUsername: Dispatch<SetStateAction<string>>;
+  isWindow: boolean;
+  setIsWindow: Dispatch<SetStateAction<boolean>>;
 }
 
 const GlobalContext = createContext<ContextProps>({
-  currUsername: "",
-  setCurrUsername: (): string => "",
+  isWindow: false,
+  setIsWindow: (): boolean => false,
 });
 
 export const GlobalContextProvider = ({ children }: any) => {
   //*global variables for every page
-  const [currUsername, setCurrUsername] = useState("");
+  const [isWindow, setIsWindow] = useState(false);
 
+  useEffect(() => setIsWindow(true), []);
   return (
-    <GlobalContext.Provider value={{ currUsername, setCurrUsername }}>
+    <GlobalContext.Provider value={{ isWindow, setIsWindow }}>
       {children}
     </GlobalContext.Provider>
   );
