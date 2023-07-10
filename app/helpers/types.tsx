@@ -20,7 +20,7 @@ export type DestCoordType = {
 };
 
 export type destType = {
-  destName: ReactNode;
+  destName: string;
   name: string;
   bbox: string;
   startDate: string;
