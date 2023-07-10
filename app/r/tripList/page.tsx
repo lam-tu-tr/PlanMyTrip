@@ -13,7 +13,11 @@ export default function Trip() {
 
   const [destItems, setDestItems] = useState<destType[]>([]);
   console.log(destItems);
-  const currentUser = sessionStorage.getItem("currentUser");
+
+  const [currentUser, setCurrentUser] = useState(
+    window.sessionStorage.getItem("currentUser")
+  );
+
   console.log("currentUser in Triplist: " + currentUser);
   //*................................USE EFFECTS..................................... */
 

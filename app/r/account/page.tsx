@@ -72,7 +72,7 @@ export default function Account() {
         alert("Invalid Credentials");
       } else {
         setFormData({ username: "", password: "" });
-        sessionStorage.setItem("currentUser", result.user.username);
+        window.sessionStorage.setItem("currentUser", result.user.username);
         router.push("/");
       }
     } catch (err) {
