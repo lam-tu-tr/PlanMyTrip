@@ -35,6 +35,7 @@ export default function Trip() {
     duration: useSearchParams().get("duration") || "",
     aiMessage: "",
     destList: {},
+    tripId: "",
   });
 
   //hold user input
@@ -129,7 +130,7 @@ export default function Trip() {
   async function copyToClipboard(tripId: string) {
     try {
       await navigator.clipboard.writeText(
-        `${window.location.href}/routes/tripId?tripId=${tripId}`
+        `${window.location.href}/r/tripId?tripId=${tripId}`
       );
     } catch (err) {
       console.log("failed to copy", err);
