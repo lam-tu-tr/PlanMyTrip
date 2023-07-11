@@ -9,14 +9,12 @@ interface MapCoord {
   initialCoord?: [number, number];
   dest: destType;
   setDest: React.Dispatch<React.SetStateAction<destType>>;
-  aiComplete: boolean;
 }
 export default function Map({
   currDest,
   initialCoord,
   dest,
   setDest,
-  aiComplete,
 }: MapCoord) {
   // console.log("aiComplete: " + aiComplete);
   //*Map Box Declaration
@@ -75,13 +73,12 @@ export default function Map({
   useEffect(() => {
     const bounds = new mapboxgl.LngLatBounds();
     const markers: any = [];
-    console.log(aiComplete);
     console.log(dest.destList);
-    if (!aiComplete && dest.destList) {
-      console.log("removing markers");
-      // markers[0].remove();
-      console.log("remove complete");
-    }
+    // if ( dest.destList) {
+    //   console.log("removing markers");
+    //   // markers[0].remove();
+    //   console.log("remove complete");
+    // }
     if (
       map &&
       dest.destList &&
@@ -117,14 +114,7 @@ export default function Map({
         console.log("markers length: " + markers.length);
       });
     }
-  }, [
-    aiComplete,
-    dest,
-    map,
-    mapboxgl.LngLatBounds,
-    mapboxgl.Marker,
-    mapboxgl.Popup,
-  ]);
+  }, [dest, map, mapboxgl.LngLatBounds, mapboxgl.Marker, mapboxgl.Popup]);
 
   //* Move to a destination on hovering destination name link
   useEffect(() => {
