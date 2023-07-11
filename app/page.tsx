@@ -9,7 +9,6 @@ import { destType } from "./helpers/types";
 import dayjs from "dayjs";
 
 //Force AntDesign component to be imported as client instead of ssr
-
 const AntDateRange = dynamic(() => import("./components/AntDateRange"), {
   ssr: false,
 });
@@ -23,12 +22,9 @@ const MobileAntDurationPicker = dynamic(
   }
 );
 
-import { useGlobalContext } from "@/app/Context";
-
 export default function Home() {
-  // const { currUsername } = useGlobalContext();
-
   const [dest, setDest] = useState<destType>({
+    tripId: "",
     destName: "",
     bbox: "",
     startDate: "",
@@ -37,10 +33,8 @@ export default function Home() {
     aiMessage: "",
     destList: {},
   });
-  // const [startDate, setStartDate] = useState("");
-  // const [endDate, setEndDate] = useState("");
+
   const [isMobile, setIsMobile] = useState(false);
-  // const [duration, setDuration] = useState("");
 
   const router = useRouter();
 
@@ -61,9 +55,6 @@ export default function Home() {
   }
 
   useEffect(() => {
-    // if (localStorage) {
-    //   setCurrUsername(localStorage.currentUser);
-    // }
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 700);
     };

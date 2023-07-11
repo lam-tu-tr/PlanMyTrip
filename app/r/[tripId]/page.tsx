@@ -36,6 +36,7 @@ export default function Trip() {
     aiMessage: "",
     destList: {},
     duration: "",
+    tripId: "",
   });
 
   const [currDest, setCurrDest] = useState<[number, number]>();
@@ -71,7 +72,6 @@ export default function Trip() {
   }, []);
 
   useEffect(() => {
-    console.log("initial post in tripId");
     async function initVars() {
       try {
         console.log("handleNewAccount");
@@ -89,7 +89,7 @@ export default function Trip() {
         if (!res.ok) throw new Error("Failed to Init Variables");
 
         const { tripInfo } = await res.json();
-
+        console.log("tripInfo in tripId: " + JSON.stringify(tripInfo, null, 2));
         setDest({
           destName: tripInfo.destName,
           bbox: tripInfo.bbox,
@@ -98,6 +98,7 @@ export default function Trip() {
           aiMessage: tripInfo.aiMessage,
           destList: tripInfo.destList,
           duration: "",
+          tripId: tripInfo.tripId,
         });
         console.log("Vars init Successful");
       } catch (err) {

@@ -9,13 +9,16 @@ interface MapCoord {
   initialCoord?: [number, number];
   dest: destType;
   setDest: React.Dispatch<React.SetStateAction<destType>>;
+  aiComplete: boolean;
 }
 export default function Map({
   currDest,
   initialCoord,
   dest,
   setDest,
+  aiComplete,
 }: MapCoord) {
+  // console.log("aiComplete: " + aiComplete);
   //*Map Box Declaration
   const mapContainerRef = useRef(null);
   const mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
@@ -56,7 +59,7 @@ export default function Map({
       geocoder.on("result", (event) => {
         setDest((prevState: any) => ({
           ...prevState,
-          name: event.result.place_name,
+          destName: event.result.place_name,
           bbox: event.result.bbox.toString(),
         }));
       });
@@ -68,14 +71,22 @@ export default function Map({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapboxgl, mapboxgl.Map, setDest]);
 
+  //* Add markers to map
   useEffect(() => {
+    const bounds = new mapboxgl.LngLatBounds();
+    const markers: any = [];
+    console.log(aiComplete);
+    console.log(dest.destList);
+    if (!aiComplete && dest.destList) {
+      console.log("removing markers");
+      // markers[0].remove();
+      console.log("remove complete");
+    }
     if (
       map &&
       dest.destList &&
       Object.getOwnPropertyNames(dest.destList).length > 0
     ) {
-      const bounds = new mapboxgl.LngLatBounds();
-      const markers: any = [];
       //*Loop through dest.destList and set a marker for each destination, and pushing
       //*marker into markers array
       Object.keys(dest.destList).forEach((key) => {
@@ -103,10 +114,12 @@ export default function Map({
           maxZoom: 10,
           pitch: 50,
         });
+        console.log("markers length: " + markers.length);
       });
     }
   }, [
-    dest.destList,
+    aiComplete,
+    dest,
     map,
     mapboxgl.LngLatBounds,
     mapboxgl.Marker,
@@ -129,7 +142,7 @@ export default function Map({
         });
       }, 100);
     }
-  }, [currDest]);
+  }, [currDest, initialCoord, map]);
   return (
     <>
       <div ref={mapContainerRef} id="map"></div>

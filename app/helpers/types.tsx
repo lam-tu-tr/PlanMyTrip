@@ -20,6 +20,7 @@ export type DestCoordType = {
 };
 
 export type destType = {
+  tripId: string;
   destName: string;
   bbox: string;
   startDate: string;

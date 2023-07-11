@@ -21,7 +21,7 @@ export default function Trip() {
   //*================================================================================
   //*States declarations */
 
-  // const { currUsername, setCurrUsername } = useGlobalContext();
+  const { isWindow, setIsWindow } = useGlobalContext();
 
   const currUsername =
     typeof window !== "undefined" ? window.localStorage.currentUser : "";
@@ -37,10 +37,9 @@ export default function Trip() {
     destList: {},
   });
 
-  //hold user input and ai message inside a string
+  //hold user input
   //which will be assigned to messagepayload during submit event
   const [userMessage, setUserMessage] = useState<string>("");
-  const [aiMessage, setAiMessage] = useState<string>(``);
   //aiComplete=true when openai stream for response is complete
   const [aiComplete, setAiComplete] = useState<boolean>(false);
   //message payload will have user and aimessage objects added to it
@@ -56,7 +55,7 @@ export default function Trip() {
         dest.destName
       )} from ${dest.startDate} to ${
         dest.endDate
-      }. Make sure that the destinations are all within a city distance and that destinations within the same day are close to another so that the user won't have to drive long distances each day.  Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening).  Give the result in an indented list style using HTML elements <div class="ai-snap-section"><h2 class="ai-date" >date</h2> <aside> <h2 class="timeofday">time of day </h2> \- <a  class="ai-location" rel="noopener noreferrer" target="_blank" href="https://google.com/search?q={location}"> location</a></aside><ul class="ai-list"><li>description</li></ul></div>. Wrap the whole ai response inside a <div class="ai-text"></div>. `,
+      }. Make sure that the destinations are all within a city distance and that destinations within the same day are within 10 miles of each other so that the user won't have to drive long distances each day.  Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening).  Give the result in an indented list style using HTML elements <div class="ai-snap-section"><h2 class="ai-date" >date</h2> <aside> <h2 class="timeofday">time of day </h2> \- <a  class="ai-location" rel="noopener noreferrer" target="_blank" href="https://google.com/search?q={location}"> location</a></aside><ul class="ai-list"><li>description</li></ul></div>. Wrap the whole ai response inside a <div class="ai-text"></div>. `,
     },
   ]);
 
@@ -70,53 +69,57 @@ export default function Trip() {
   function handleConvo(e: any) {
     //!reset these variables for each time user submits adjustments
     e.preventDefault();
+    setUserMessage("");
     setAiComplete(false);
     setDest((prev) => ({
       ...prev,
       destList: {},
+      aiMessage: "",
     }));
-    setAiMessage("");
+
     setMessagePayload((prevMessage) => [
       ...prevMessage,
-      { role: "assistant", content: aiMessage },
+      { role: "assistant", content: dest.aiMessage },
       { role: "user", content: userMessage },
     ]);
-    setUserMessage("");
-    //*TODO add Map marker removals
   }
 
   //*Handle Save to db
   async function handleSaveToDB(type: string) {
     //*TODO check if trip exists before creating another using upturn or soemthing
     try {
-      console.log("handleSaveTrip");
-      const res = await fetch("../../api/trip", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          dbPayload: {
-            username: currUsername,
-            destName: dest.destName,
-            aiMessage: aiMessage,
-            destList: dest.destList,
-            bbox: dest.bbox,
-            startDate: dest.startDate,
-            endDate: dest.endDate,
+      const userFromStorage =
+        isWindow && window.sessionStorage.getItem("currentUser");
+
+      if (userFromStorage) {
+        const res = await fetch("../../api/trip", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-          type: "create",
-        }),
-      });
+          body: JSON.stringify({
+            dbPayload: {
+              username: currUsername,
+              destName: dest.destName,
+              aiMessage: dest.aiMessage,
+              destList: dest.destList,
+              bbox: dest.bbox,
+              startDate: dest.startDate,
+              endDate: dest.endDate,
+            },
+            type: "create",
+          }),
+        });
 
-      if (!res.ok) throw new Error("Failed to save to account");
+        if (!res.ok) throw new Error("Failed to save to account");
 
-      const { tripId } = await res.json();
+        const { tripId } = await res.json();
 
-      copyToClipboard(tripId);
+        copyToClipboard(tripId);
 
-      if (type === "save") router.push(`/r/tripId?tripId=${tripId}`);
-      alert("Saved to Account");
+        if (type === "save") router.push(`/r/tripId?tripId=${tripId}`);
+        alert("Saved to Account");
+      }
     } catch (err) {
       alert(err);
     }
@@ -244,7 +247,10 @@ export default function Trip() {
           if (doneReading) setAiComplete(true);
 
           const chunkValue = decoder.decode(value);
-          setAiMessage((prev) => prev + chunkValue);
+          setDest((prevDest) => ({
+            ...prevDest,
+            aiMessage: prevDest.aiMessage + chunkValue,
+          }));
         }
       } catch (err) {
         console.log(err);
@@ -258,7 +264,7 @@ export default function Trip() {
   useEffect(() => {
     const textarea = document.getElementById("chat");
     textarea!.scrollTop = textarea!.scrollHeight;
-  }, [aiMessage]);
+  }, [dest.aiMessage]);
 
   return (
     <div id="TripDetails">
@@ -287,7 +293,7 @@ export default function Trip() {
           id="chat"
           className="chat"
           dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(aiMessage, DOMPurifyConfig),
+            __html: DOMPurify.sanitize(dest.aiMessage, DOMPurifyConfig),
           }}
         ></section>
 
