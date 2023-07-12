@@ -88,6 +88,7 @@ export default function Trip() {
   //*Handle Save to db
   async function handleSaveToDB(type: string) {
     //*TODO check if trip exists before creating another using upturn or soemthing
+    console.log("saving to db");
     try {
       const userFromStorage =
         isWindow && window.sessionStorage.getItem("currentUser");
@@ -117,9 +118,8 @@ export default function Trip() {
         const { tripId } = await res.json();
 
         copyToClipboard(tripId);
-
-        if (type === "save") router.push(`/r/tripId?tripId=${tripId}`);
         alert("Saved to Account");
+        if (type === "save") router.push(`/r/tripId?tripId=${tripId}`);
       }
     } catch (err) {
       alert(err);
