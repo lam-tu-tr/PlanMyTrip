@@ -3,6 +3,8 @@ import { DestCoordType, destType } from "../helpers/types";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
+import markers from "mapbox-gl";
+
 interface MapCoord {
   currDest?: [number, number];
   destList?: DestCoordType;
@@ -23,6 +25,8 @@ export default function Map({
   require("mapbox-gl/dist/mapbox-gl.css");
   mapboxgl.accessToken = process.env.MAPBOX_KEY;
   const [map, setMap] = useState<mapboxgl.Map | null>(null);
+
+  const [markers, setMarkers] = useState<any[]>([]);
 
   //* Create the map
   useEffect(() => {
@@ -72,13 +76,7 @@ export default function Map({
   //* Add markers to map
   useEffect(() => {
     const bounds = new mapboxgl.LngLatBounds();
-    const markers: any = [];
-    console.log(dest.destList);
-    // if ( dest.destList) {
-    //   console.log("removing markers");
-    //   // markers[0].remove();
-    //   console.log("remove complete");
-    // }
+
     if (
       map &&
       dest.destList &&
@@ -88,7 +86,8 @@ export default function Map({
       //*marker into markers array
       Object.keys(dest.destList).forEach((key) => {
         const value = dest.destList[key];
-        markers.push(
+        setMarkers((prev) => [
+          ...prev,
           new mapboxgl.Marker({
             color: `#${Math.random()
               .toString(16)
@@ -97,24 +96,38 @@ export default function Map({
           })
             .setLngLat(value)
             .setPopup(new mapboxgl.Popup().setHTML(`${key}`))
-            .addTo(map)
-        );
+            .addTo(map),
+        ]);
 
         // //* iterate through makers and get the boundary box
         markers.forEach((marker: any) => {
+          // console.log(marker.getLngLat());
           bounds.extend(marker.getLngLat());
         });
-
-        // //*animate zoom & pan to bound box
-        map.fitBounds(bounds, {
-          padding: 50,
-          maxZoom: 10,
-          pitch: 50,
-        });
-        console.log("markers length: " + markers.length);
+        // console.log("bounds" + bounds);
+        // // //*animate zoom & pan to bound box
+        // map.fitBounds(bounds, {
+        //   padding: 50,
+        //   maxZoom: 10,
+        //   pitch: 50,
+        // });
+      });
+    } else if (
+      map &&
+      dest.destList &&
+      Object.getOwnPropertyNames(dest.destList).length == 0
+    ) {
+      markers.forEach((marker) => {
+        marker.remove();
       });
     }
-  }, [dest, map, mapboxgl.LngLatBounds, mapboxgl.Marker, mapboxgl.Popup]);
+  }, [
+    dest.destList,
+    map,
+    mapboxgl.LngLatBounds,
+    mapboxgl.Marker,
+    mapboxgl.Popup,
+  ]);
 
   //* Move to a destination on hovering destination name link
   useEffect(() => {
