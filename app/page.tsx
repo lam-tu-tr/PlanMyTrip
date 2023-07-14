@@ -21,6 +21,7 @@ const MobileAntDurationPicker = dynamic(
     ssr: false,
   }
 );
+import { useGlobalContext } from "@/app/Context";
 
 export default function Home() {
   const [dest, setDest] = useState<destType>({
@@ -34,7 +35,9 @@ export default function Home() {
     destList: {},
   });
 
-  const [isMobile, setIsMobile] = useState(false);
+  const { isMobile, setIsMobile } = useGlobalContext();
+
+  // const [isMobile, setIsMobile] = useState(false);
 
   const router = useRouter();
 
@@ -49,29 +52,29 @@ export default function Home() {
       alert("Please Choose Destination End Date");
     } else {
       router.push(
-        `/r/tripDetails?dest=${dest.destName}&startDate=${dest.startDate}&endDate=${dest.endDate}&bbox=${dest.bbox}&duration=${dest.duration}`
+        `/r/tripDetails?dest=${dest.destName}&startDate=${dest.startDate}&endDate=${dest.endDate}&bbox=${dest.bbox}`
       );
     }
   }
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 700);
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setIsMobile(window.innerWidth <= 700);
+  //   };
 
-    // Check if window exists (for client rendering)
-    if (typeof window !== "undefined") {
-      setIsMobile(window.innerWidth <= 700);
-      window.addEventListener("resize", handleResize);
+  //   // Check if window exists (for client rendering)
+  //   if (typeof window !== "undefined") {
+  //     setIsMobile(window.innerWidth <= 700);
+  //     window.addEventListener("resize", handleResize);
 
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    } else {
-      // Set the initial value for SSR
-      setIsMobile(false);
-    }
-  }, []);
+  //     return () => {
+  //       window.removeEventListener("resize", handleResize);
+  //     };
+  //   } else {
+  // Set the initial value for SSR
+  //     setIsMobile(false);
+  //   }
+  // }, []);
 
   useEffect(() => {
     //* Set end date based on selected duration for mobile
