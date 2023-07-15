@@ -147,7 +147,7 @@ body {
 }
 #TripDetails #map {
   width: 100%;
-  height: 30%;
+  height: 50%;
   flex-basis: 50%;
 }
 
@@ -155,7 +155,7 @@ body {
   flex: 1;
   flex-basis: 50%;
   width: 100%;
-  height: 70%;
+  height: 50%;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 0.6fr 10fr;
@@ -340,10 +340,3 @@ body {
 #account {
   height: 95svh;
 }
-/* #temp > div {
-  flex-grow: 2;
-}
-
-#temp > section {
-  flex-grow: 0;
-} */

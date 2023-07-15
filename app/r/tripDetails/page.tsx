@@ -21,10 +21,11 @@ export default function Trip() {
   //*================================================================================
   //*States declarations */
 
-  const { isWindow, setIsWindow } = useGlobalContext();
+  const [currentUser, setCurrentUser] = useState<string | null>(null);
 
-  const currUsername =
-    typeof window !== "undefined" ? window.localStorage.currentUser : "";
+  useEffect(() => {
+    setCurrentUser(window.sessionStorage.getItem("currentUser") || null);
+  }, []);
 
   //obtain data from querystring of previously submitted form
   const [dest, setDest] = useState<destType>({
@@ -88,38 +89,46 @@ export default function Trip() {
   //*Handle Save to db
   async function handleSaveToDB(type: string) {
     //*TODO check if trip exists before creating another using upturn or soemthing
-    console.log("saving to db");
+    console.log("Saving to db");
+
+    if (currentUser == null) {
+      alert("Please log in to enable trip saving and sharing");
+      return;
+    }
+
     try {
-      const userFromStorage =
-        isWindow && window.sessionStorage.getItem("currentUser");
+      // const userFromStorage =
+      //   isWindow && window.sessionStorage.getItem("currentUser");
 
-      if (userFromStorage) {
-        const res = await fetch("../../api/trip", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+      const res = await fetch("../../api/trip", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          dbPayload: {
+            username: currentUser,
+            destName: dest.destName,
+            aiMessage: dest.aiMessage,
+            destList: dest.destList,
+            bbox: dest.bbox,
+            startDate: dest.startDate,
+            endDate: dest.endDate,
           },
-          body: JSON.stringify({
-            dbPayload: {
-              username: currUsername,
-              destName: dest.destName,
-              aiMessage: dest.aiMessage,
-              destList: dest.destList,
-              bbox: dest.bbox,
-              startDate: dest.startDate,
-              endDate: dest.endDate,
-            },
-            type: "create",
-          }),
-        });
+          type: "create",
+        }),
+      });
 
-        if (!res.ok) throw new Error("Failed to save to account");
+      if (!res.ok) throw new Error("Failed to save to account");
 
-        const { tripId } = await res.json();
+      const { tripId } = await res.json();
 
-        copyToClipboard(tripId);
-        alert("Saved to Account");
-        if (type === "save") router.push(`/r/tripId?tripId=${tripId}`);
+      copyToClipboard(tripId);
+      if (type == "save") {
+        alert("Trip saved to account and clipboard");
+        router.push(`/r/tripId?tripId=${tripId}`);
+      } else {
+        alert("Copied to clipboard");
       }
     } catch (err) {
       alert(err);
@@ -133,7 +142,8 @@ export default function Trip() {
         `${window.location.href}/r/tripId?tripId=${tripId}`
       );
     } catch (err) {
-      console.log("failed to copy", err);
+      alert("Failed to copy to clipboard");
+      console.log("Clipboard save error", err);
     }
   }
   //*

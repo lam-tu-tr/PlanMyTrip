@@ -10,7 +10,6 @@ import {
   SetStateAction,
 } from "react";
 
-
 interface ContextProps {
   isWindow: boolean;
   setIsWindow: Dispatch<SetStateAction<boolean>>;
@@ -34,24 +33,24 @@ export const GlobalContextProvider = ({ children }: any) => {
 
   useEffect(() => setIsWindow(true), []);
 
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     setIsMobile(window.innerWidth <= 700);
-  //   };
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 700);
+    };
 
-  //   // Check if window exists (for client rendering)
-  //   if (typeof window !== "undefined") {
-  //     setIsMobile(window.innerWidth <= 700);
-  //     window.addEventListener("resize", handleResize);
+    // Check if window exists (for client rendering)
+    if (typeof window !== "undefined") {
+      setIsMobile(window.innerWidth <= 700);
+      window.addEventListener("resize", handleResize);
 
-  //     return () => {
-  //       window.removeEventListener("resize", handleResize);
-  //     };
-  //   } else {
-  //     // Set the initial value for SSR
-  //     setIsMobile(false);
-  //   }
-  // }, []);
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    } else {
+      // Set the initial value for SSR
+      setIsMobile(false);
+    }
+  }, []);
 
   return (
     <GlobalContext.Provider

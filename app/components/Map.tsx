@@ -3,7 +3,7 @@ import { DestCoordType, destType } from "../helpers/types";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
-import markers from "mapbox-gl";
+import { useGlobalContext } from "@/app/Context";
 
 interface MapCoord {
   currDest?: [number, number];
@@ -18,7 +18,6 @@ export default function Map({
   dest,
   setDest,
 }: MapCoord) {
-  // console.log("aiComplete: " + aiComplete);
   //*Map Box Declaration
   const mapContainerRef = useRef(null);
   const mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
@@ -28,6 +27,8 @@ export default function Map({
 
   const [markers, setMarkers] = useState<any[]>([]);
 
+  const { isMobile } = useGlobalContext();
+  console.log("ismobile: " + isMobile);
   //* Create the map
   useEffect(() => {
     //mapbox variable
@@ -71,7 +72,7 @@ export default function Map({
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mapboxgl, mapboxgl.Map, setDest]);
+  }, [mapboxgl, mapboxgl.Map, setDest, isMobile]);
 
   //* Add markers to map
   useEffect(() => {
@@ -140,17 +141,7 @@ export default function Map({
       });
     }
   }, [bounds, map]);
-  // markers.forEach((marker: any) => {
-  //   // console.log(marker.getLngLat());
-  //   bounds.extend(marker.getLngLat());
-  // });
-  // console.log("bounds" + bounds);
-  // // //*animate zoom & pan to bound box
-  // map.fitBounds(bounds, {
-  //   padding: 50,
-  //   maxZoom: 10,
-  //   pitch: 50,
-  // });
+
   //* Move to a destination on hovering destination name link
   useEffect(() => {
     if (map && JSON.stringify(currDest) !== JSON.stringify(initialCoord)) {
