@@ -9,6 +9,7 @@ import { useGlobalContext } from "@/app/Context";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
 import { destType } from "@/app/helpers/types";
+import { toastError } from "@/app/helpers/toast";
 
 export default function Account() {
   const [formData, setFormData] = useState({
@@ -46,9 +47,9 @@ export default function Account() {
 
       if (!res.ok) throw new Error("Failed to Create New Account");
       setFormData({ username: "", password: "" });
-      alert("Account Creation Successful");
+      toastError("Account Creation Successful");
     } catch (err) {
-      alert(err);
+      toastError("Couldnt Create Account");
     }
   }
   //*async currentTarget.submit doesn't work, unlike sync form submit from home page
@@ -75,7 +76,7 @@ export default function Account() {
       // console.log(JSON.stringify(result, null, 2));
 
       if (result.user === null) {
-        alert("Invalid Credentials");
+        toastError("Invalid Credentials");
       } else {
         setFormData({ username: "", password: "" });
         window.sessionStorage.setItem("currentUser", result.user.username);
@@ -84,7 +85,7 @@ export default function Account() {
       }
       // }
     } catch (err) {
-      alert(err);
+      toastError("Couldnt log in");
     }
   }
   useEffect(() => {
@@ -117,7 +118,7 @@ export default function Account() {
           console.log("finished data transfer");
         }
       } catch (err) {
-        alert(err);
+        toastError("Couldnt transfer data to server");
       }
     }
 
@@ -150,7 +151,7 @@ export default function Account() {
                     key={uuidv4()}
                     className="flex flex-row justify-between border-2 rounded-md p-5 my-3 text-xl w-full cursor-pointer "
                     onClick={() => {
-                      router.push(`/r/tripId?tripId=${trip.tripId}`);
+                      router.push(`/routes/tripId?tripId=${trip.tripId}`);
                     }}
                   >
                     <span>{trip.destName.split(",")[0].trim()}</span>

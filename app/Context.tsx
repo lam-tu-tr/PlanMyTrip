@@ -9,6 +9,8 @@ import {
   Dispatch,
   SetStateAction,
 } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface ContextProps {
   isWindow: boolean;
@@ -56,6 +58,7 @@ export const GlobalContextProvider = ({ children }: any) => {
     <GlobalContext.Provider
       value={{ isMobile, setIsMobile, isWindow, setIsWindow }}
     >
+      <ToastContainer />
       {children}
     </GlobalContext.Provider>
   );

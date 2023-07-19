@@ -11,7 +11,12 @@ import Map from "../../components/Map";
 import { useGlobalContext } from "@/app/Context";
 import { FiArrowUpCircle, FiSave, FiCopy } from "react-icons/fi";
 
+//*Toastitfy
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import DOMPurify from "isomorphic-dompurify";
+import { toastError, toastSuccess } from "@/app/helpers/toast";
 const DOMPurifyConfig = {
   ADD_ATTR: ["target"], //*allow target attribute on anchor tags to go through
 };
@@ -92,7 +97,10 @@ export default function Trip() {
     console.log("Saving to db");
 
     if (currentUser == null) {
-      alert("Please log in to enable trip saving and sharing");
+      // toastError("Please log in to enable trip saving and sharing");
+
+      toastError("Please log in to enable trip saving and sharing");
+
       return;
     }
 
@@ -125,13 +133,13 @@ export default function Trip() {
 
       copyToClipboard(tripId);
       if (type == "save") {
-        alert("Trip saved to account and clipboard");
-        router.push(`/r/tripId?tripId=${tripId}`);
+        toastSuccess("Trip saved to account and clipboard");
+        router.push(`/routes/tripId?tripId=${tripId}`);
       } else {
-        alert("Copied to clipboard");
+        toastSuccess("Copied to clipboard");
       }
     } catch (err) {
-      alert(err);
+      toastError("Couldnt copy to clipboard");
     }
   }
   //
@@ -139,10 +147,10 @@ export default function Trip() {
   async function copyToClipboard(tripId: string) {
     try {
       await navigator.clipboard.writeText(
-        `${window.location.href}/r/tripId?tripId=${tripId}`
+        `${window.location.href}/routes/tripId?tripId=${tripId}`
       );
     } catch (err) {
-      alert("Failed to copy to clipboard");
+      toastError("Failed to copy to clipboard");
       console.log("Clipboard save error", err);
     }
   }
@@ -272,10 +280,10 @@ export default function Trip() {
   }, [messagePayload]);
 
   //*Auto scrolling to bottom as aiMessage text generates
-  useEffect(() => {
-    const textarea = document.getElementById("chat");
-    textarea!.scrollTop = textarea!.scrollHeight;
-  }, [dest.aiMessage]);
+  // useEffect(() => {
+  //   const textarea = document.getElementById("chat");
+  //   textarea!.scrollTop = textarea!.scrollHeight;
+  // }, [dest.aiMessage]);
 
   return (
     <div id="TripDetails">

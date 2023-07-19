@@ -2,9 +2,8 @@ import "./globals.css";
 import { Ubuntu } from "next/font/google";
 
 import Navbar from "./components/Navbar";
-import Head from 'next/head'
+import Head from "next/head";
 import { GlobalContextProvider } from "./Context";
-
 import "@fontsource/roboto/400.css";
 const ubuntu = Ubuntu({ weight: "500", preload: false });
 

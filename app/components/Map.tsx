@@ -1,9 +1,13 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 import { DestCoordType, destType } from "../helpers/types";
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
-import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 import { useGlobalContext } from "@/app/Context";
+import { toastError } from "../helpers/toast";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+(mapboxgl as any).accessToken = process.env.MAPBOX_KEY;
 
 interface MapCoord {
   currDest?: [number, number];
@@ -20,20 +24,18 @@ export default function Map({
 }: MapCoord) {
   //*Map Box Declaration
   const mapContainerRef = useRef(null);
-  const mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
-  require("mapbox-gl/dist/mapbox-gl.css");
-  mapboxgl.accessToken = process.env.MAPBOX_KEY;
+
   const [map, setMap] = useState<mapboxgl.Map | null>(null);
 
   const [markers, setMarkers] = useState<any[]>([]);
 
   const { isMobile } = useGlobalContext();
-  console.log("ismobile: " + isMobile);
+
   //* Create the map
   useEffect(() => {
     //mapbox variable
     if (!mapboxgl.supported()) {
-      alert("Interactive Map is not supported in this browser");
+      toastError("Interactive Map is not supported in this browser");
       return;
     }
     //if there is a map Ref found, create new map

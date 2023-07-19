@@ -22,6 +22,7 @@ const MobileAntDurationPicker = dynamic(
   }
 );
 import { useGlobalContext } from "@/app/Context";
+import { toastError } from "./helpers/toast";
 
 export default function Home() {
   const [dest, setDest] = useState<destType>({
@@ -45,14 +46,14 @@ export default function Home() {
     e.preventDefault();
 
     if (e.target[0].value == "") {
-      alert("Please Choose a Destination Using the Map");
+      toastError("Please Choose a Destination Using the Map");
     } else if (e.target[1].value == "") {
-      alert("Please Choose Destination Start Date");
+      toastError("Please Choose Destination Start Date");
     } else if (e.target[2].value == "") {
-      alert("Please Choose Destination End Date");
+      toastError("Please Choose Destination End Date");
     } else {
       router.push(
-        `/r/tripDetails?dest=${dest.destName}&startDate=${dest.startDate}&endDate=${dest.endDate}&bbox=${dest.bbox}`
+        `/routes/trip-details?dest=${dest.destName}&startDate=${dest.startDate}&endDate=${dest.endDate}&bbox=${dest.bbox}`
       );
     }
   }

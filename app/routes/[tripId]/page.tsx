@@ -12,6 +12,7 @@ import { useGlobalContext } from "@/app/Context";
 import { destType } from "@/app/helpers/types";
 
 import DOMPurify from "isomorphic-dompurify";
+import { toastError } from "@/app/helpers/toast";
 const DOMPurifyConfig = {
   ADD_ATTR: ["target"], //*allow target attribute on anchor tags to go through
 };
@@ -102,7 +103,7 @@ export default function Trip() {
         });
         console.log("Vars init Successful");
       } catch (err) {
-        alert(err);
+        toastError("Couldnt get trip info");
       }
     }
 
