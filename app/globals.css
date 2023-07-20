@@ -95,38 +95,6 @@ body {
   min-height: 2.5rem;
 }
 
-@media (min-width: 700px), (orientation: landscape) {
-  #home_main {
-    padding: 4rem;
-  }
-  #home_main h1 {
-    font-size: 2.5rem;
-    justify-content: space-between;
-  }
-  #home_content {
-    max-height: 50rem;
-    height: 100%;
-    max-width: 90rem;
-    width: 100%;
-  }
-  #home_form {
-    flex-direction: row;
-    justify-content: flex-end;
-    max-height: 3rem;
-  }
-  #home_form button {
-    min-width: 15rem;
-    margin-top: 0;
-    margin-left: 2rem;
-    min-height: 2.5rem;
-  }
-  #RangePicker {
-    min-height: 1.5rem;
-    min-width: 7rem;
-    width: 100%;
-  }
-}
-
 /**-------------------------------Trip---------------------  */
 #TripDetails {
   height: 95svh;
@@ -148,12 +116,12 @@ body {
 #TripDetails #map {
   width: 100%;
   height: 50%;
-  flex-basis: 50%;
+  flex-basis: 40%;
 }
 
 #trip_form {
   flex: 1;
-  flex-basis: 50%;
+  flex-basis: 60%;
   width: 100%;
   height: 50%;
   display: grid;
@@ -172,7 +140,7 @@ body {
   align-items: center;
 }
 #h1_wrapper h1 {
-  font-size: x-large;
+  font-size: medium;
   padding: 0.5rem;
   text-align: center;
   border-bottom: 1px solid white;
@@ -189,24 +157,25 @@ body {
 #chat aside {
   display: flex;
   flex-direction: row;
-  margin: 0.5rem 0;
+  margin: 0.3rem 0;
 }
 /** chat destination text*/
 .timeofday {
-  font-size: large;
+  font-size: medium;
   margin-right: 0.5rem;
 }
 .ai-location {
   color: aqua;
   text-decoration-line: underline;
-  font-size: large;
+  font-size: medium;
   margin-left: 0.5rem;
 }
 
 /** chat date text*/
 .ai-date {
-  font-size: x-large;
-  margin-top: 1rem;
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: center;
 }
 /** chat list text*/
 .ai-list {
@@ -220,14 +189,14 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
-  margin: 0.6rem;
+  padding: 0.8rem;
+  /* margin: 0.6rem; */
 }
 #adjustment textarea {
   border-radius: 0.5rem;
-  padding: 0.2rem;
+  padding: 0 0.2rem;
   margin-right: 1rem;
-  max-height: 3rem;
+  max-height: 2.5rem;
   width: 100%;
   color: black;
 }
@@ -237,9 +206,29 @@ body {
   align-items: center;
   border: 0.1rem solid white;
   border-radius: 0.5rem;
-  min-width: 3rem;
-  height: 3rem;
+  min-width: 2.5rem;
+  height: 2.5rem;
 }
+
+.mapboxgl-ctrl-geocoder {
+  width: 200px !important;
+  height: 50px !important;
+}
+
+/* .mapboxgl-ctrl-geocoder {
+  max-width: 5rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: coral;
+}
+.mapboxgl-ctrl-geocoder--icon-search {
+  background-color: aqua;
+  margin: 0px;
+  padding: 0px;
+} */
+
 /**-------------------- Spinner Animation-------------------  */
 .spinner {
   position: relative;
@@ -282,7 +271,61 @@ body {
 }
 
 /**--------------------------------------  */
+@media (min-width: 700px) {
+  #home_main {
+    padding: 4rem;
+  }
+  #home_main h1 {
+    font-size: 2.5rem;
+    justify-content: space-between;
+  }
+  #home_content {
+    max-height: 50rem;
+    height: 100%;
+    max-width: 90rem;
+    width: 100%;
+  }
+  #home_form {
+    flex-direction: row;
+    justify-content: flex-end;
+    max-height: 3rem;
+  }
+  #home_form button {
+    min-width: 15rem;
+    margin-top: 0;
+    margin-left: 2rem;
+    min-height: 2.5rem;
+  }
+  #RangePicker {
+    min-height: 1.5rem;
+    min-width: 7rem;
+    width: 100%;
+  }
 
+  #h1_wrapper h1 {
+    font-size: x-large;
+  }
+
+  #adjustment {
+    grid-area: com;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    margin: 0.4rem;
+  }
+
+  #adjustment textarea {
+    margin-right: 1rem;
+    max-height: 3rem;
+  }
+  #adjustment button {
+    border-radius: 0.5rem;
+    min-width: 3rem;
+    height: 3rem;
+  }
+}
 @media (min-width: 900px) {
   #TripDetails {
     flex-direction: row-reverse;
