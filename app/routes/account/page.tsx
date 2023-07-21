@@ -83,8 +83,7 @@ export default function Account() {
       } else {
         setFormData({ username: "", password: "" });
         window.sessionStorage.setItem("currentUser", result.user.username);
-        // setCurrentUser(result.user.username);
-        router.push("/");
+        setCurrentUser(result.user.username);
       }
       // }
     } catch (err) {
@@ -136,7 +135,7 @@ export default function Account() {
       <form
         className={`flex  py-8 rounded-xl border-2 mx-5 ${
           currentUser
-            ? "flex-row justify-start w-full h-5/6 pl-8"
+            ? "flex-row justify-start w-full h-5/6 "
             : " flex-col justify-between items-center px-8"
         }`}
         action="../../"
@@ -145,28 +144,31 @@ export default function Account() {
         onSubmit={handleFormSubmit}
       >
         {currentUser ? (
-          <div className="temp flex w-full h-full">
-            <div className="basis-3/4 flex flex-col  justify-start items-center px-10 h-full">
+          <div className="tripList w-full h-full">
+            <div className="trips px-1 h-9">
               <h1 className="text-3xl">Trip List</h1>
-              <section className="flex flex-col justify-start items-center overflow-y-auto w-full px-5 mt-5">
+              <section className="flex flex-col justify-start items-center overflow-y-auto w-full px-5 h-full">
                 {destItems.map((trip) => (
                   <aside
                     key={uuidv4()}
-                    className="flex flex-row justify-between border-2 rounded-md p-5 my-3 text-xl w-full cursor-pointer "
+                    className="flex flex-col justify-between border-2 rounded-md p-5 my-3 text-xl w-full cursor-pointer "
                     onClick={() => {
                       router.push(`/routes/tripId?tripId=${trip.tripId}`);
                     }}
                   >
-                    <span>{trip.destName.split(",")[0].trim()}</span>
-                    <span>
-                      {trip.startDate} - {trip.endDate}
+                    <span className="tripName text-md">
+                      {trip.destName.split(",")[0].trim()}
+                    </span>
+                    <span className="tripDate flex flex-row justify-end text-sm">
+                      <span className="pr-2">{trip.startDate}</span>-
+                      <span className="pl-2">{trip.endDate}</span>
                     </span>
                   </aside>
                 ))}
               </section>
             </div>
-            <section className="basis-1/4 flex flex-row justify-around items-end">
-              <h1 className=" border-b-2 h-14 text-center flex flex-col justify-center">
+            <section className="tripControl flex flex-row justify-around items-end ">
+              <h1 className=" border-b-2 h-14 text-center flex flex-col justify-center mr-3">
                 Hello, {currentUser}
               </h1>
               <button
