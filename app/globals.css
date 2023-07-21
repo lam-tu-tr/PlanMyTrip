@@ -210,24 +210,12 @@ body {
   height: 2.5rem;
 }
 
-.mapboxgl-ctrl-geocoder {
-  width: 200px !important;
-  height: 50px !important;
+/** -----Account----  */
+#signUp:hover {
+  color: aqua;
+  text-decoration: underline;
+  cursor: pointer;
 }
-
-/* .mapboxgl-ctrl-geocoder {
-  max-width: 5rem;
-  height: 2.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: coral;
-}
-.mapboxgl-ctrl-geocoder--icon-search {
-  background-color: aqua;
-  margin: 0px;
-  padding: 0px;
-} */
 
 /**-------------------- Spinner Animation-------------------  */
 .spinner {

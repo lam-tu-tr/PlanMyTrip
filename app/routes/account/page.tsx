@@ -20,9 +20,11 @@ export default function Account() {
   //*from Context.tsx file
   const { isWindow, setIsWindow } = useGlobalContext();
 
-  const router = useRouter();
-
   const [currentUser, setCurrentUser] = useState<string | null>(null);
+
+  const [createAccount, setCreateAccount] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     setCurrentUser(window.sessionStorage.getItem("currentUser") || null);
@@ -48,6 +50,7 @@ export default function Account() {
       if (!res.ok) throw new Error("Failed to Create New Account");
       setFormData({ username: "", password: "" });
       toastError("Account Creation Successful");
+      setCreateAccount(false);
     } catch (err) {
       toastError("Couldnt Create Account");
     }
@@ -212,26 +215,33 @@ export default function Account() {
                 onChange={handleFormChange}
               />
             </section>
-            <aside className="flex flex-row justify-between items-center h-2/6 ">
-              {/* first button toggle account sign up(change background to signify) */}
-              <button
-                title="Create Account"
-                type="button"
-                className="bg-green-300 h-14 w-28 m-0 rounded-lg"
-                onClick={handleNewAccount}
-              >
-                Create Account
-              </button>
-              {/* second button signs the user in after verifying credential with server */}
-
-              <button
-                title="Login"
-                type="submit"
-                className="bg-orange-500 h-14 w-28  m-0 rounded-lg"
-              >
-                Log in
-              </button>
+            <aside className="flex flex-row justify-center items-center h-2/6 ">
+              {createAccount ? (
+                <button
+                  title="Create Account"
+                  type="button"
+                  className="bg-green-300 h-14 w-28 m-0 rounded-lg"
+                  onClick={handleNewAccount}
+                >
+                  Create Account
+                </button>
+              ) : (
+                <button
+                  title="Login"
+                  type="submit"
+                  className="bg-orange-500 h-14 w-28  m-0 rounded-lg"
+                >
+                  Log in
+                </button>
+              )}
             </aside>
+            <span
+              id="signUp"
+              className={` flex flex-row justify-end mt-5`}
+              onClick={() => setCreateAccount((prev) => !prev)}
+            >
+              {createAccount ? "Log In" : "Sign Up"}
+            </span>
           </div>
         )}
       </form>

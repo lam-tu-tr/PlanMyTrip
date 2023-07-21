@@ -131,7 +131,7 @@ export default function Map({
 
     console.log(newBounds);
     return newBounds;
-  }, [mapboxgl.LngLatBounds, markers]);
+  }, [markers]);
 
   useEffect(() => {
     // //*animate zoom & pan to bound box
