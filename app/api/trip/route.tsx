@@ -5,9 +5,8 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
-  console.log("inside POST");
   const { dbPayload, type } = await req.json();
-  console.log("payload: " + dbPayload);
+
   let res = "";
   let tripInfo;
 
@@ -38,10 +37,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         },
       });
       tripInfo = getTripRes;
-      console.log("tripInfo in trip api: " + getTripRes);
+
       break;
     case "getAllList":
-      console.log("getting all list");
       //*returns array of trips
       const getAllTripRes = await prisma.tripList.findMany({
         where: {

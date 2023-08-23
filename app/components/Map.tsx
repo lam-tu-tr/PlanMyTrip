@@ -33,12 +33,11 @@ export default function Map({
 
   //* Create the map
   useEffect(() => {
-    //mapbox variable
     if (!mapboxgl.supported()) {
       toastError("Interactive Map is not supported in this browser");
       return;
     }
-    //if there is a map Ref found, create new map
+    //*if there is a map Ref found, create new map
     if (mapContainerRef.current) {
       const newMap = new mapboxgl.Map({
         container: mapContainerRef.current,

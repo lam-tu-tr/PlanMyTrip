@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-// import { PrismaClient } from "@prisma/client";
 import { Message, AiStreamPayload } from "../../helpers/types";
-// const prisma = new PrismaClient();
+
 import {
   createParser,
   ParsedEvent,
@@ -21,13 +20,10 @@ export const runtime = "edge";
 //*-----------------------------------------------------------------------------
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
-  console.log("inside Post Function");
   const prompt: promptType = await req.json();
   if (!prompt) {
     return NextResponse.json({ error: "invalid message", status: 400 });
   }
-
-  console.log("POST Initial User Prompt: " + prompt.messages[1].content);
 
   const payload: AiStreamPayload = {
     model: "gpt-3.5-turbo",

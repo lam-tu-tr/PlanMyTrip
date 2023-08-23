@@ -8,7 +8,6 @@ import { capitalizeWords } from "../../helpers/helper-functions";
 
 import Map from "../../components/Map";
 
-import { useGlobalContext } from "@/app/Context";
 import { destType } from "@/app/helpers/types";
 
 import DOMPurify from "isomorphic-dompurify";
@@ -21,14 +20,14 @@ type DestCoordType = {
   [key: string]: [longitude: number, latitude: number];
 };
 
-//DO NOT make a page function an async function
+//*DO NOT make a page function an async function
 export default function Trip() {
   //*================================================================================
   //*States declarations */
 
   const tripId = useSearchParams().get("tripId");
 
-  //obtain data from querystring of previously submitted form
+  //*obtain data from querystring of previously submitted form
   const [dest, setDest] = useState<destType>({
     destName: "",
     bbox: "",
@@ -41,12 +40,6 @@ export default function Trip() {
   });
 
   const [currDest, setCurrDest] = useState<[number, number]>();
-
-  //*................................Functions............................................*/
-  //
-  //*
-  //
-  //*................................USE EFFECTS..................................... */
 
   useEffect(() => {
     function handleLocHover(event: any) {

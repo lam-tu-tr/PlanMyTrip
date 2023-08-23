@@ -3,7 +3,7 @@
 
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import { useGlobalContext } from "@/app/Context";
 import { v4 as uuidv4 } from "uuid";
@@ -60,7 +60,6 @@ export default function Account() {
   async function handleFormSubmit(e: any) {
     e.preventDefault();
     try {
-      // if (isWindow) {
       const res = await fetch("../../api/account", {
         method: "POST",
         headers: {
@@ -76,8 +75,6 @@ export default function Account() {
 
       const result = await res.json();
 
-      // console.log(JSON.stringify(result, null, 2));
-
       if (result.user === null) {
         toastError("Invalid Credentials");
       } else {
@@ -85,7 +82,6 @@ export default function Account() {
         window.sessionStorage.setItem("currentUser", result.user.username);
         setCurrentUser(result.user.username);
       }
-      // }
     } catch (err) {
       toastError("Couldnt log in");
     }
@@ -111,11 +107,7 @@ export default function Account() {
           if (!res.ok) throw new Error("Failed to Init Variables");
 
           const { tripInfo } = await res.json();
-          // console.log("tripInfo: " + JSON.stringify(tripInfo, null, 2));
           setDestItems(tripInfo);
-          // tripInfo.map((trip: any) => {
-          //   return setDestItems((prev) => [...prev, trip]);
-          // });
 
           console.log("finished data transfer");
         }
@@ -178,7 +170,6 @@ export default function Account() {
                   setCurrentUser(null);
                   window.sessionStorage.setItem("currentUser", "");
                 }}
-                // onClick={() => setC}
                 className="bg-orange-500 h-14 w-28  m-0 rounded-lg"
               >
                 Log Out
@@ -195,11 +186,9 @@ export default function Account() {
                 minLength={4}
                 maxLength={10}
                 required
-                //
                 name="username"
                 value={formData.username}
                 onChange={handleFormChange}
-                //
                 pattern="[a-zA-Z0-9_]+"
                 title="Invalid username. Please use only alphanumeric characters and underscore."
               />
@@ -210,7 +199,6 @@ export default function Account() {
                 minLength={4}
                 maxLength={10}
                 required
-                //
                 id="password"
                 name="password"
                 value={formData.password}

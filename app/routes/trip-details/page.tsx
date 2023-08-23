@@ -32,7 +32,7 @@ export default function Trip() {
     setCurrentUser(window.sessionStorage.getItem("currentUser") || null);
   }, []);
 
-  //obtain data from querystring of previously submitted form
+  //*obtain data from querystring of previously submitted form
   const [dest, setDest] = useState<destType>({
     destName: useSearchParams().get("dest")!,
     bbox: useSearchParams().get("bbox")!,
@@ -70,8 +70,6 @@ export default function Trip() {
 
   const router = useRouter();
 
-  //*................................Functions............................................*/
-  //
   //*handle submit, assign messages to payload
   function handleConvo(e: any) {
     //!reset these variables for each time user submits adjustments
@@ -93,21 +91,13 @@ export default function Trip() {
 
   //*Handle Save to db
   async function handleSaveToDB(type: string) {
-    //*TODO check if trip exists before creating another using upturn or soemthing
-    console.log("Saving to db");
-
     if (currentUser == null) {
-      // toastError("Please log in to enable trip saving and sharing");
-
       toastError("Please log in to enable trip saving and sharing");
 
       return;
     }
 
     try {
-      // const userFromStorage =
-      //   isWindow && window.sessionStorage.getItem("currentUser");
-
       const res = await fetch("../../api/trip", {
         method: "POST",
         headers: {
@@ -142,7 +132,6 @@ export default function Trip() {
       toastError("Couldnt copy to clipboard");
     }
   }
-  //
 
   async function copyToClipboard(tripId: string) {
     try {
@@ -154,8 +143,6 @@ export default function Trip() {
       console.log("Clipboard save error", err);
     }
   }
-  //*
-  //*................................USE EFFECTS..................................... */
   //*
   //*Select all anchor tags from aiMessage and assign mouseover event
   //*push to destList array the locations found
@@ -180,7 +167,6 @@ export default function Trip() {
       const destCoord = await destRes.json();
       const x = destCoord.features[0].center[0];
       const y = destCoord.features[0].center[1];
-      // console.log("loc " + location + " x " + x + " y " + y);
       return { x, y };
     }
 
@@ -196,7 +182,6 @@ export default function Trip() {
         const coordinates = await Promise.all(coordinatePromises);
         const updatedDestList = coordinates.reduce(
           (prevList, coordinate, index) => {
-            console.log(JSON.stringify(coordinate, null, 2));
             const location = allLocations[index].innerHTML;
             return {
               ...prevList,
@@ -278,12 +263,6 @@ export default function Trip() {
 
     handleChatRequest();
   }, [messagePayload]);
-
-  //*Auto scrolling to bottom as aiMessage text generates
-  // useEffect(() => {
-  //   const textarea = document.getElementById("chat");
-  //   textarea!.scrollTop = textarea!.scrollHeight;
-  // }, [dest.aiMessage]);
 
   return (
     <div id="TripDetails">

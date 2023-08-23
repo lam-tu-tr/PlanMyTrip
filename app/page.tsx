@@ -8,7 +8,7 @@ import Map from "./components/Map";
 import { destType } from "./helpers/types";
 import dayjs from "dayjs";
 
-//Force AntDesign component to be imported as client instead of ssr
+//*Force AntDesign component to be imported as client instead of SSR
 const AntDateRange = dynamic(() => import("./components/AntDateRange"), {
   ssr: false,
 });
@@ -38,8 +38,6 @@ export default function Home() {
 
   const { isMobile, setIsMobile } = useGlobalContext();
 
-  // const [isMobile, setIsMobile] = useState(false);
-
   const router = useRouter();
 
   function validateSubmit(e: any) {
@@ -57,25 +55,6 @@ export default function Home() {
       );
     }
   }
-
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     setIsMobile(window.innerWidth <= 700);
-  //   };
-
-  //   // Check if window exists (for client rendering)
-  //   if (typeof window !== "undefined") {
-  //     setIsMobile(window.innerWidth <= 700);
-  //     window.addEventListener("resize", handleResize);
-
-  //     return () => {
-  //       window.removeEventListener("resize", handleResize);
-  //     };
-  //   } else {
-  // Set the initial value for SSR
-  //     setIsMobile(false);
-  //   }
-  // }, []);
 
   useEffect(() => {
     //* Set end date based on selected duration for mobile
@@ -148,5 +127,3 @@ export default function Home() {
     </main>
   );
 }
-
-//*TODO EMOJI ICON or display destination name
