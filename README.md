@@ -13,7 +13,7 @@ An artificial intelligence travel itinerary generator using ChatGPT
 * Next, I integrated Mapbox on the home screen to allow location browsing. To extend this further, in the AI generated page, I mapped through the location array and created a marker on the map for each location so that users can quickly visualize and plan their trip accordingly. 
 * I also wanted to try creating a barebone account system and store user data with trip info in a relational database. For this, I chose Prisma as the ORM that interfaces with PlanetScale MySQL. This allowed me to practice communicating with a database by sending REST requests. Account system also enables trip info that are pregenerated to be retrieved and display as a static page while maintaining the interactability of Mapbox with location markers.
 
-![Pic](/Pics/drawSQL.png)
+![Pic](/Pics/drawSQL.png =250x)
 
 ## Lessons Learned:
 
