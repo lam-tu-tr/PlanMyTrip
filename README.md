@@ -14,6 +14,7 @@ An artificial intelligence travel itinerary generator using ChatGPT
 * I also wanted to try creating a barebone account system and store user data with trip info in a relational database. For this, I chose Prisma as the ORM that interfaces with PlanetScale MySQL. This allowed me to practice communicating with a database by sending REST requests. Account system also enables trip info that are pregenerated to be retrieved and display as a static page while maintaining the interactability of Mapbox with location markers.
 
 <img src="/Pics/drawSQL.png" alt="drawing" width="500"/>
+
 ## Lessons Learned:
 
 ## Other Projects:
