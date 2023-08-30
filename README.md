@@ -15,6 +15,9 @@ An artificial intelligence travel itinerary generator using ChatGPT
 
 ![Pic](/Pics/drawSQL.png)
 
+## What I learned
+* I learned that frontend developers need to look at the project as a system and integrate a myriad of different technologies together into a cohesive whole. In this single project alone, I learned and used 8 different technologies aside from HTML,CSS, and Javascript. We must be able to quickly adapt to new and ever changing web technologies. I find that quite exciting actually as there will always be problems to solve. Moreover, It was really rewarding to see the project that I worked hard on finally come together into a functional web app. I was ecstatic to be able to share it with everyone. This solidified my love for frontend development.
+* Through Vercel's speed insight tool, I also learned that there a various speed metrics that should be optimized for the best user experience: First Contentful Paint and First input delay. Since user attention span is limited, we need to quickly grasp their attention with maintain it by displaying the content of the website and allowing user input as quickly as possible. After 'finishing' the project, I realized that in my attempt to unify all the different technologies, I coded with many redundency in React states and useEffect, causing a bottleneck in speed. Armed with new knowledge, I went back and optimized my code by removing the unncessary clutters, which achieved 0.18s First Contentful Paint and 1ms First Input Delay. 
 
 ## Other Projects:
 
