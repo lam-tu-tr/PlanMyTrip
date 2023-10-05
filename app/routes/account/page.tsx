@@ -17,7 +17,7 @@ export default function Account() {
     password: "",
   });
   const [destItems, setDestItems] = useState<destType[]>([]);
-  //*from Context.tsx file
+
   const { isWindow, setIsWindow } = useGlobalContext();
 
   const [currentUser, setCurrentUser] = useState<string | null>(null);
@@ -59,6 +59,11 @@ export default function Account() {
   //*therefore, delay submit if wrong.
   async function handleFormSubmit(e: any) {
     e.preventDefault();
+
+    if (formData.username !== "Account123") {
+      toastError("Please use the provided account info");
+      return;
+    }
     try {
       const res = await fetch("../../api/account", {
         method: "POST",
@@ -117,7 +122,7 @@ export default function Account() {
     }
 
     initVars();
-  }, [isWindow]);
+  }, [isWindow, currentUser]);
 
   return (
     <div
@@ -135,6 +140,7 @@ export default function Account() {
         method="POST"
         onSubmit={handleFormSubmit}
       >
+        {/* Display list of trips if there is a user logged in */}
         {currentUser ? (
           <div className="tripList w-full h-full">
             <div className="trips px-1 h-9">
@@ -177,6 +183,7 @@ export default function Account() {
             </section>
           </div>
         ) : (
+          // display log in screen if no user logged in
           <div>
             <section className=" flex flex-col justify-around py-8 h-60 ">
               <label htmlFor="username">Username:</label>
@@ -205,7 +212,7 @@ export default function Account() {
                 onChange={handleFormChange}
               />
             </section>
-            <aside className="flex flex-row justify-center items-center h-2/6 ">
+            <aside className="flex flex-col justify-center items-center h-2/6 ">
               {createAccount ? (
                 <button
                   title="Create Account"
@@ -225,13 +232,16 @@ export default function Account() {
                 </button>
               )}
             </aside>
-            <span
+            <p className="m-5">
+              Login using <br /> Username: Account123 <br /> Password: Pass123
+            </p>
+            {/* <span
               id="signUp"
               className={` flex flex-row justify-end mt-5`}
               onClick={() => setCreateAccount((prev) => !prev)}
             >
               {createAccount ? "Log In" : "Sign Up"}
-            </span>
+            </span> */}
           </div>
         )}
       </form>
