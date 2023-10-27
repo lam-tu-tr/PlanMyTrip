@@ -36,12 +36,17 @@ body {
   /**bg*/
   background-position: center;
   background-size: cover;
-  background: rgb(83, 112, 255);
+  background: rgb(63, 70, 251);
   background: radial-gradient(
+    circle at bottom,
+    rgba(63, 70, 251, 1) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  /* background: radial-gradient(
     circle,
     rgba(83, 112, 255, 1) 29%,
     rgba(0, 172, 185, 1) 100%
-  );
+  ); */
 }
 #home_main h1 {
   font-size: 1.5rem;
