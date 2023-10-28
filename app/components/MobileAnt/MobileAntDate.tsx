@@ -3,7 +3,7 @@ import { Button, DatePicker, ConfigProvider } from "antd-mobile";
 import enUS from "antd-mobile/es/locales/en-US";
 
 import dayjs from "dayjs";
-import { destType } from "../helpers/types";
+import { destType } from "../../helpers/types";
 
 type AntProps = {
   dest: destType;
@@ -12,6 +12,7 @@ type AntProps = {
 
 export default function MobileAntDate({ dest, setDest }: AntProps) {
   const [visible1, setVisible1] = useState(false);
+
   return (
     <div>
       <ConfigProvider locale={enUS}>

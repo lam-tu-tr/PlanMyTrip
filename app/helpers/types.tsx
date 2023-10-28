@@ -2,7 +2,10 @@ export interface Message {
   role: "user" | "system" | "assistant";
   content: string;
 }
-
+export type AntProps = {
+  dest: destType;
+  setDest: React.Dispatch<React.SetStateAction<destType>>;
+};
 export interface AiStreamPayload {
   model: string;
   messages: Message[];

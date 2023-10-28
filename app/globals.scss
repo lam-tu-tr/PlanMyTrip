@@ -42,11 +42,6 @@ body {
     rgba(63, 70, 251, 1) 0%,
     rgba(0, 0, 0, 1) 100%
   );
-  /* background: radial-gradient(
-    circle,
-    rgba(83, 112, 255, 1) 29%,
-    rgba(0, 172, 185, 1) 100%
-  ); */
 }
 #home_main h1 {
   font-size: 1.5rem;
@@ -96,13 +91,14 @@ body {
   align-content: center;
   align-items: center;
   /**background colors*/
-  background-position: center;
-  background-size: cover;
-  background: rgb(83, 112, 255);
+  /* background-position: center;
+  background-size: cover; */
+
+  background: rgb(170, 42, 255);
   background: radial-gradient(
-    circle,
-    rgba(83, 112, 255, 1) 29%,
-    rgba(0, 172, 185, 1) 100%
+    circle at bottom,
+    rgba(170, 42, 255, 1) 0%,
+    rgba(32, 33, 36, 1) 68%
   );
   color: white;
 }
@@ -124,7 +120,7 @@ body {
     "loc "
     "chat "
     "com ";
-  border: 0.1rem solid white;
+  /* border: 0.1rem solid white; */
 }
 #h1_wrapper {
   grid-area: loc;
