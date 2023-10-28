@@ -34,7 +34,7 @@ export default function Trip() {
 
   //*obtain data from querystring of previously submitted form
   const [dest, setDest] = useState<destType>({
-    destName: useSearchParams().get("dest")!,
+    destName: useSearchParams().get("destName")!,
     bbox: useSearchParams().get("bbox")!,
     startDate: useSearchParams().get("startDate")!,
     endDate: useSearchParams().get("endDate")!,

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Picker, Button, ConfigProvider } from "antd-mobile";
 import enUS from "antd-mobile/es/locales/en-US";
-import { destType } from "../../helpers/types";
+import { AntMobileProps } from "../../helpers/types";
 
 const durationOptions = [
   [
@@ -15,10 +15,7 @@ const durationOptions = [
   ],
 ];
 
-type AntProps = {
-  setDest: React.Dispatch<React.SetStateAction<destType>>;
-};
-export default function MobileAntDurationPicker({ setDest }: AntProps) {
+export default function MobileAntDurationPicker({ setDest }: AntMobileProps) {
   const [value, setValue] = useState<string[]>([]);
   return (
     <ConfigProvider locale={enUS}>

@@ -1,5 +1,4 @@
-"use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import { DatePicker } from "antd";
 import { RangeValue } from "rc-picker/lib/interface";
 import { Dayjs } from "dayjs";
@@ -32,6 +31,7 @@ function AntDateRange({ setDest }: AntDateRangeProps) {
       setDates(null);
     }
   };
+
   return (
     <>
       <RangePicker

@@ -1,40 +1,45 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button, DatePicker, ConfigProvider } from "antd-mobile";
 import enUS from "antd-mobile/es/locales/en-US";
 
 import dayjs from "dayjs";
-import { destType } from "../../helpers/types";
-
-type AntProps = {
-  dest: destType;
-  setDest: React.Dispatch<React.SetStateAction<destType>>;
-};
-
-export default function MobileAntDate({ dest, setDest }: AntProps) {
-  const [visible1, setVisible1] = useState(false);
+import { AntMobileProps } from "../../helpers/types";
+// const MobileAntDate = dynamic(() => import("./components/MobileAntDate"), {
+//   ssr: false,
+// });
+// const MobileAntDurationPicker = dynamic(
+//   () => import("./components/MobileAntDurationPicker"),
+//   {
+//     ssr: false,
+//   }
+// );
+export default function MobileAntDate({ setDest }: AntMobileProps) {
+  const [visible, setVisible] = useState(false);
+  const [startDate, setStartDate] = useState("");
 
   return (
     <div>
       <ConfigProvider locale={enUS}>
         <Button
           onClick={() => {
-            setVisible1(true);
+            setVisible(true);
           }}
         >
-          StartDate{dest.startDate.length > 0 ? `: ${dest.startDate}` : ``}
+          StartDate{startDate.length > 0 ? `: ${startDate}` : ``}
         </Button>
         <DatePicker
-          visible={visible1}
+          visible={visible}
           onClose={() => {
-            setVisible1(false);
+            setVisible(false);
           }}
           precision="day"
-          onConfirm={(val) =>
+          onConfirm={(val) => {
+            setStartDate(dayjs(val).format("MMM DD, YYYY"));
             setDest((prev) => ({
               ...prev,
               startDate: dayjs(val).format("MMM DD, YYYY"),
-            }))
-          }
+            }));
+          }}
         />
       </ConfigProvider>
     </div>

@@ -1,29 +1,21 @@
 //*---------------------------------Home Page------------------------------------
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import Map from "./components/Map";
 import { destType } from "./helpers/types";
-import dayjs from "dayjs";
+
 import { useGlobalContext } from "@/app/Context";
 import { toastError } from "./helpers/toast";
 import MobileAnt from "./components/MobileAnt/MobileAnt";
+import SearchParams from "./components/SearchParams";
 
 //*Force AntDesign component to be imported as client instead of SSR
 const AntDateRange = dynamic(() => import("./components/AntDateRange"), {
   ssr: false,
 });
-// const MobileAntDate = dynamic(() => import("./components/MobileAntDate"), {
-//   ssr: false,
-// });
-// const MobileAntDurationPicker = dynamic(
-//   () => import("./components/MobileAntDurationPicker"),
-//   {
-//     ssr: false,
-//   }
-// );
 
 export default function Home() {
   const [dest, setDest] = useState<destType>({
@@ -37,7 +29,7 @@ export default function Home() {
     destList: {},
   });
 
-  const { isMobile, setIsMobile } = useGlobalContext();
+  const { isMobile } = useGlobalContext();
 
   const router = useRouter();
 
@@ -48,16 +40,16 @@ export default function Home() {
     bbox: dest.bbox,
   };
 
-  function validateSubmit(e: any, { destName, startDate, endDate, bbox }: any) {
-    if (e.target[0].value == "") {
+  function validateSubmit(e: any) {
+    if (e.target.destName.value == "") {
       toastError("Please Choose a Destination Using the Map");
-    } else if (e.target[1].value == "") {
+    } else if (e.target.startDate.value == "") {
       toastError("Please Choose Destination Start Date");
-    } else if (e.target[2].value == "") {
+    } else if (e.target.endDate.value == "") {
       toastError("Please Choose Destination End Date");
     } else {
       router.push(
-        `/routes/trip-details?dest=${destName}&startDate=${startDate}&endDate=${endDate}&bbox=${bbox}`
+        `/routes/trip-details?destName=${dest.destName}&startDate=${dest.startDate}&endDate=${dest.endDate}&bbox=${dest.bbox}`
       );
     }
   }
@@ -72,25 +64,10 @@ export default function Home() {
           action="./routes/tripDetails"
           onSubmit={(e) => {
             e.preventDefault();
-
-            validateSubmit(e, searchParamsObject);
+            validateSubmit(e);
           }}
         >
-          {/* //hidden input to set date querystring upon submission */}
-          <input
-            type="hidden"
-            required
-            name="destination"
-            value={dest.destName}
-          />
-          <input
-            type="hidden"
-            required
-            name="startDate"
-            value={dest.startDate}
-          />
-          <input type="hidden" required name="endDate" value={dest.endDate} />
-          <input type="hidden" required name="bbox" value={dest.bbox} />
+          <SearchParams params={searchParamsObject} />
 
           {isMobile ? (
             <MobileAnt dest={dest} setDest={setDest} />

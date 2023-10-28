@@ -1,12 +1,9 @@
-export interface Message {
+export type Message = {
   role: "user" | "system" | "assistant";
   content: string;
-}
-export type AntProps = {
-  dest: destType;
-  setDest: React.Dispatch<React.SetStateAction<destType>>;
 };
-export interface AiStreamPayload {
+
+export type AiStreamPayload = {
   model: string;
   messages: Message[];
   temperature: number;
@@ -16,7 +13,11 @@ export interface AiStreamPayload {
   max_tokens: number;
   stream: boolean;
   n: number;
-}
+};
+
+export type AntMobileProps = {
+  setDest: React.Dispatch<React.SetStateAction<destType>>;
+};
 
 export type DestCoordType = {
   [key: string]: [longitude: number, latitude: number];
