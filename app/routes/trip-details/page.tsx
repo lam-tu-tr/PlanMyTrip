@@ -8,6 +8,8 @@ import { capitalizeWords } from "../../helpers/helper-functions";
 import { Message, destType } from "../../helpers/types";
 import Map from "@/components/Map/Map";
 
+import setInitialPrompt from "./hooks/setInitialPrompt";
+
 // import { useGlobalContext } from "@/Context";
 import { FiArrowUpCircle, FiSave, FiCopy } from "react-icons/fi";
 
@@ -17,6 +19,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 import DOMPurify from "isomorphic-dompurify";
 import { toastError, toastSuccess } from "@/helpers/toast";
+import useFetchLocation from "./hooks/useFetchLocations";
+
 const DOMPurifyConfig = {
   ADD_ATTR: ["target"], //*allow target attribute on anchor tags to go through
 };
@@ -50,21 +54,9 @@ export default function Trip() {
   //aiComplete=true when openai stream for response is complete
   const [aiComplete, setAiComplete] = useState<boolean>(false);
   //message payload will have user and aimessage objects added to it
-  const [messagePayload, setMessagePayload] = useState<Message[]>([
-    {
-      role: "system",
-      content:
-        "You are TripGPT, you create itineraries for the user based on chosen destination and date range. You will give me the itinerary in an ordered list that has fun attractions and food locations for morning, midday and evening. The format for the ordered list answer is: Date, location and time of day in one new line, things to do as bullet list ",
-    },
-    {
-      role: "user",
-      content: `Create a detailed itinerary for my trip to ${capitalizeWords(
-        dest.destName
-      )} from ${dest.startDate} to ${
-        dest.endDate
-      }. Make sure that the destinations are all within a city distance and that destinations within the same day are within 10 miles of each other so that the user won't have to drive long distances each day.  Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening).  Give the result in an indented list style using HTML elements <div class="ai-snap-section"><h2 class="ai-date" >date</h2> <aside> <h2 class="timeofday">time of day </h2> \- <a  class="ai-location" rel="noopener noreferrer" target="_blank" href="https://google.com/search?q={location}"> location</a></aside><ul class="ai-list"><li>description</li></ul></div>. Wrap the whole ai response inside a <div class="ai-text"></div>. `,
-    },
-  ]);
+  const [messagePayload, setMessagePayload] = useState<Message[]>(
+    setInitialPrompt(dest)
+  );
 
   const [currDest, setCurrDest] = useState<[number, number]>();
 
@@ -93,7 +85,6 @@ export default function Trip() {
   async function handleSaveToDB(type: string) {
     if (currentUser == null) {
       toastError("Please log in to enable trip saving and sharing");
-
       return;
     }
 
@@ -143,64 +134,66 @@ export default function Trip() {
       console.log("Clipboard save error", err);
     }
   }
-  //*
-  //*Select all anchor tags from aiMessage and assign mouseover event
-  //*push to destList array the locations found
-  useEffect(() => {
-    const allLocations = document.querySelectorAll(".ai-location");
-    //*
-    //*Unit Function to obtain specific destination coordinate */
-    //*Called multiple times in fetchCoordinate()
-    async function getCoord(location: string) {
-      const destRes = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?bbox=${dest.bbox}&limit=2&access_token=${process.env.MAPBOX_KEY}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (!destRes.ok) {
-        throw new Error(`Failed to fetch ${location} coordinate`);
-      }
-      const destCoord = await destRes.json();
-      const x = destCoord.features[0].center[0];
-      const y = destCoord.features[0].center[1];
-      return { x, y };
-    }
 
-    //*Fetch data from Mapbox geo data to get coordinates for all destinations
-    //*assign destination as key and coordinates as values for destList
-    //*
-    const fetchCoordinates = async () => {
-      const coordinatePromises = Array.from(allLocations).map((location) => {
-        return getCoord(location.innerHTML);
-      });
+  useFetchLocation(aiComplete, setDest, dest.bbox);
+  // //*
+  // //*Select all anchor tags from aiMessage and assign mouseover event
+  // //*push to destList array the locations found
+  // useEffect(() => {
+  //   const allLocations = document.querySelectorAll(".ai-location");
+  //   //*
+  //   //*Unit Function to obtain specific destination coordinate */
+  //   //*Called multiple times in fetchCoordinate()
+  //   async function getCoord(location: string) {
+  //     const destRes = await fetch(
+  //       `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?bbox=${dest.bbox}&limit=2&access_token=${process.env.MAPBOX_KEY}`,
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     if (!destRes.ok) {
+  //       throw new Error(`Failed to fetch ${location} coordinate`);
+  //     }
+  //     const destCoord = await destRes.json();
+  //     const x = destCoord.features[0].center[0];
+  //     const y = destCoord.features[0].center[1];
+  //     return { x, y };
+  //   }
 
-      try {
-        const coordinates = await Promise.all(coordinatePromises);
-        const updatedDestList = coordinates.reduce(
-          (prevList, coordinate, index) => {
-            const location = allLocations[index].innerHTML;
-            return {
-              ...prevList,
-              [location]: [coordinate.x, coordinate.y],
-            };
-          },
-          {}
-        );
-        setDest((prev) => ({
-          ...prev,
-          destList: updatedDestList,
-        }));
-      } catch (err) {
-        console.log("Fetch Coordinate Erorr", err);
-      }
-    };
+  //   //*Fetch data from Mapbox geo data to get coordinates for all destinations
+  //   //*assign destination as key and coordinates as values for destList
+  //   //*
+  //   const fetchCoordinates = async () => {
+  //     const coordinatePromises = Array.from(allLocations).map((location) => {
+  //       return getCoord(location.innerHTML);
+  //     });
 
-    fetchCoordinates();
-  }, [aiComplete, dest.bbox]);
+  //     try {
+  //       const coordinates = await Promise.all(coordinatePromises);
+  //       const updatedDestList = coordinates.reduce(
+  //         (prevList, coordinate, index) => {
+  //           const location = allLocations[index].innerHTML;
+  //           return {
+  //             ...prevList,
+  //             [location]: [coordinate.x, coordinate.y],
+  //           };
+  //         },
+  //         {}
+  //       );
+  //       setDest((prev) => ({
+  //         ...prev,
+  //         destList: updatedDestList,
+  //       }));
+  //     } catch (err) {
+  //       console.log("Fetch Coordinate Erorr", err);
+  //     }
+  //   };
+
+  //   fetchCoordinates();
+  // }, [aiComplete, dest.bbox]);
 
   //*------------
   //** add event delegation, ai-location class mouseover bubbles up to chat class     */
