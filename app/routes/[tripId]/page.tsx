@@ -6,12 +6,12 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { capitalizeWords } from "../../helpers/helper-functions";
 
-import Map from "../../components/Map";
+import Map from "@/components/Map/Map";
 
-import { destType } from "@/app/helpers/types";
+import { destType } from "@/helpers/types";
 
 import DOMPurify from "isomorphic-dompurify";
-import { toastError } from "@/app/helpers/toast";
+import { toastError } from "@/helpers/toast";
 const DOMPurifyConfig = {
   ADD_ATTR: ["target"], //*allow target attribute on anchor tags to go through
 };

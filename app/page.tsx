@@ -4,13 +4,13 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import Map from "./components/Map";
+import Map from "@/components/Map/Map";
 import { destType } from "./helpers/types";
 
-import { useGlobalContext } from "@/app/Context";
-import { toastError } from "./helpers/toast";
-import MobileAnt from "./components/MobileAnt/MobileAnt";
-import SearchParams from "./components/SearchParams";
+import { useGlobalContext } from "@/Context";
+import { toastError } from "@/helpers/toast";
+import MobileAnt from "@/components/MobileAnt/MobileAnt";
+import SearchParams from "@/components/SearchParams";
 
 //*Force AntDesign component to be imported as client instead of SSR
 const AntDateRange = dynamic(() => import("./components/AntDateRange"), {
@@ -18,6 +18,10 @@ const AntDateRange = dynamic(() => import("./components/AntDateRange"), {
 });
 
 export default function Home() {
+  const { isMobile } = useGlobalContext();
+
+  const router = useRouter();
+
   const [dest, setDest] = useState<destType>({
     tripId: "",
     destName: "",
@@ -28,10 +32,6 @@ export default function Home() {
     aiMessage: "",
     destList: {},
   });
-
-  const { isMobile } = useGlobalContext();
-
-  const router = useRouter();
 
   const searchParamsObject = {
     destName: dest.destName,
@@ -55,7 +55,7 @@ export default function Home() {
   }
 
   return (
-    <main id="home_main" className="bg-orange-200">
+    <main id="home_main">
       <h1>Your Travel Plans Reimagined with AI-driven itineraries.</h1>
       <div id="home_content">
         <Map setDest={setDest} dest={dest} />

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { DatePicker } from "antd";
 import { RangeValue } from "rc-picker/lib/interface";
 import { Dayjs } from "dayjs";
-import { destType } from "../helpers/types";
+import { destType } from "@/helpers/types";
 
 const { RangePicker } = DatePicker;
 

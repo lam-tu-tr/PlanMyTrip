@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Picker, Button, ConfigProvider } from "antd-mobile";
 import enUS from "antd-mobile/es/locales/en-US";
-import { AntMobileProps } from "../../helpers/types";
+import { AntMobileProps } from "@/helpers/types";
 
 const durationOptions = [
   [

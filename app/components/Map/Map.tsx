@@ -1,12 +1,13 @@
 import { useEffect, useState, useRef, useMemo } from "react";
-import { DestCoordType, destType } from "../helpers/types";
 
-import { useGlobalContext } from "@/app/Context";
-import { toastError } from "../helpers/toast";
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
-import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import { useGlobalContext } from "@/Context";
+import { DestCoordType, destType } from "@/helpers/types";
+import { toastError } from "@/helpers/toast";
+
 import mapboxgl from "mapbox-gl";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 (mapboxgl as any).accessToken = process.env.MAPBOX_KEY;
 
 interface MapCoord {

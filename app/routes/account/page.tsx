@@ -5,11 +5,11 @@
 
 import { useState, useEffect } from "react";
 
-import { useGlobalContext } from "@/app/Context";
+import { useGlobalContext } from "@/Context";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
-import { destType } from "@/app/helpers/types";
-import { toastError } from "@/app/helpers/toast";
+import { destType } from "@/helpers/types";
+import { toastError } from "@/helpers/toast";
 
 export default function Account() {
   const [formData, setFormData] = useState({

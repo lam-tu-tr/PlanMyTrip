@@ -6,9 +6,9 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { capitalizeWords } from "../../helpers/helper-functions";
 import { Message, destType } from "../../helpers/types";
-import Map from "../../components/Map";
+import Map from "@/components/Map/Map";
 
-import { useGlobalContext } from "@/app/Context";
+// import { useGlobalContext } from "@/Context";
 import { FiArrowUpCircle, FiSave, FiCopy } from "react-icons/fi";
 
 //*Toastitfy
@@ -16,7 +16,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import DOMPurify from "isomorphic-dompurify";
-import { toastError, toastSuccess } from "@/app/helpers/toast";
+import { toastError, toastSuccess } from "@/helpers/toast";
 const DOMPurifyConfig = {
   ADD_ATTR: ["target"], //*allow target attribute on anchor tags to go through
 };

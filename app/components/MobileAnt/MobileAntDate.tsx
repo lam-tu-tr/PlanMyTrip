@@ -3,7 +3,7 @@ import { Button, DatePicker, ConfigProvider } from "antd-mobile";
 import enUS from "antd-mobile/es/locales/en-US";
 
 import dayjs from "dayjs";
-import { AntMobileProps } from "../../helpers/types";
+import { AntMobileProps } from "@/helpers/types";
 // const MobileAntDate = dynamic(() => import("./components/MobileAntDate"), {
 //   ssr: false,
 // });

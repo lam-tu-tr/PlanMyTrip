@@ -20,7 +20,11 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./app/*"],
+      "@/helpers": ["./app/helpers"],
+      "@/routes": ["./app/routes"],
+      "@/components": ["./app/components"],
+      "@/api": ["./app/api"]
     }
   },
   "include": [

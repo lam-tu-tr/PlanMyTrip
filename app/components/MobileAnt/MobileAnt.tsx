@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import MobileAntDate from "./MobileAntDate";
 import MobileAntDurationPicker from "./MobileAntDurationPicker";
 
-import { AntMobileProps, destType } from "../../helpers/types";
+import { AntMobileProps, destType } from "@/helpers/types";
 import dayjs from "dayjs";
 
 type extendedAntMobileProps = AntMobileProps & { dest: destType };
@@ -19,7 +19,7 @@ export default function MobileAnt({ dest, setDest }: extendedAntMobileProps) {
           .format("MMM DD, YYYY"),
       }));
     }
-  }, [dest.duration, dest.startDate]);
+  }, [dest.duration, dest.startDate, setDest]);
 
   return (
     <div id="choice-wrapper">
