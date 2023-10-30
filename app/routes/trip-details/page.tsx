@@ -3,24 +3,24 @@
 
 "use client";
 import React, { useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import Map from "@/components/Map/Map";
+
+import { useSearchParams } from "next/navigation";
 import { capitalizeWords } from "@/helpers/helper-functions";
 import { Message, destType } from "@/helpers/types";
-import Map from "@/components/Map/Map";
 
 import setInitialPrompt from "./hooks/setInitialPrompt";
 import handleSaveToDB from "./hooks/handleSaveToDB";
+import handleConvo from "./hooks/handleConvo";
+import useHandleLocationHover from "./hooks/useHandleLocationHover";
 
-// import { useGlobalContext } from "@/Context";
 import { FiArrowUpCircle, FiSave, FiCopy } from "react-icons/fi";
 
-//*Toastitfy
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 
 import DOMPurify from "isomorphic-dompurify";
-import { toastError, toastSuccess } from "@/helpers/toast";
 import useFetchLocation from "./hooks/useFetchLocations";
+import useHandleAiStream from "./hooks/useHandleAiStream";
 
 const DOMPurifyConfig = {
   ADD_ATTR: ["target"], //*allow target attribute on anchor tags to go through
@@ -30,7 +30,6 @@ const DOMPurifyConfig = {
 export default function Trip() {
   //*================================================================================
   //*States declarations */
-  const router = useRouter();
   const [currentUser, setCurrentUser] = useState<string | null>(null);
 
   useEffect(() => {
@@ -49,8 +48,7 @@ export default function Trip() {
     tripId: "",
   });
 
-  //hold user input
-  //which will be assigned to messagepayload during submit event
+  //hold user input, which will be assigned to messagepayload during submit event
   const [userMessage, setUserMessage] = useState<string>("");
   //aiComplete=true when openai stream for response is complete
   const [aiComplete, setAiComplete] = useState<boolean>(false);
@@ -61,94 +59,31 @@ export default function Trip() {
 
   const [currDest, setCurrDest] = useState<[number, number]>();
 
-  //*handle submit, assign messages to payload
-  function handleConvo(e: any) {
-    //!reset these variables for each time user submits adjustments
-    e.preventDefault();
-    setUserMessage("");
-    setAiComplete(false);
-    setDest((prev) => ({
-      ...prev,
-      destList: {},
-      aiMessage: "",
-    }));
-
-    setMessagePayload((prevMessage) => [
-      ...prevMessage,
-      { role: "assistant", content: dest.aiMessage },
-      { role: "user", content: userMessage },
-    ]);
-  }
-
   useFetchLocation(aiComplete, setDest, dest.bbox);
 
-  //*------------
-  //** add event delegation, ai-location class mouseover bubbles up to chat class     */
-  useEffect(() => {
-    function handleLocHover(event: any) {
-      setCurrDest(dest.destList[event.target.innerText]);
-    }
-    const chatSection = document.querySelector(".chat");
+  //*Stream openai response data to aiMessage, auto fetch when payload has new message added
+  useHandleAiStream(messagePayload, setAiComplete, setDest);
 
-    const handleHoverEvent = (event: any) => {
-      if (event.target.classList.contains("ai-location")) {
-        handleLocHover(event);
-      }
-    };
-    chatSection!.addEventListener("mouseover", handleHoverEvent);
-
-    return () => {
-      chatSection!.removeEventListener("mouseover", handleHoverEvent);
-    };
-  }, [dest.destList]);
-  //*------------
-  //*Stream openai response data to aiMessage, auto fetch when payload is has new message added
-  useEffect(() => {
-    async function handleChatRequest() {
-      try {
-        const res = await fetch("/api/prompt", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            messages: messagePayload,
-          }),
-        });
-
-        if (!res.ok) throw new Error("Failed to fetch API");
-
-        if (!res.body) return;
-
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder();
-        let done = false;
-
-        while (!done) {
-          const { value, done: doneReading } = await reader.read();
-          done = doneReading;
-
-          if (doneReading) setAiComplete(true);
-
-          const chunkValue = decoder.decode(value);
-          setDest((prevDest) => ({
-            ...prevDest,
-            aiMessage: prevDest.aiMessage + chunkValue,
-          }));
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    handleChatRequest();
-  }, [messagePayload]);
+  useHandleLocationHover(dest.destList, setCurrDest);
 
   return (
     <div id="TripDetails">
       <Map currDest={currDest} dest={dest} setDest={setDest} />
 
-      <form id="trip_form" onSubmit={handleConvo}>
+      <form
+        id="trip_form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleConvo(
+            dest.aiMessage,
+            userMessage,
+            setUserMessage,
+            setAiComplete,
+            setDest,
+            setMessagePayload
+          );
+        }}
+      >
         <div id="h1_wrapper">
           <button
             title="Copy Trip Link"

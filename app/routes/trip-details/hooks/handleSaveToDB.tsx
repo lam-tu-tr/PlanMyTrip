@@ -14,12 +14,6 @@ async function copyToClipboard(tripId: string) {
   }
 }
 
-// type SaveToDBProptype = {
-//   type: string;
-//   currentUser: string;
-//   dest: destType;
-// };
-
 export default async function handleSaveToDB(
   type: string,
   dest: destType,
