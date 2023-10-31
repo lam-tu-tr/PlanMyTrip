@@ -1,0 +1,188 @@
+/**-------------------------------Trip---------------------  */
+#TripDetails {
+  height: 95svh;
+  display: flex;
+  flex-direction: column;
+
+  background-color: #0e1012;
+  opacity: 1;
+  background-image: linear-gradient(#161719 1.1px, transparent 1.1px),
+    linear-gradient(to right, #161719 1.1px, #0e1012 1.1px);
+  background-size: 22px 22px;
+  color: white;
+
+  #map {
+    height: 40%;
+  }
+
+  #trip_form {
+    height: 60%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 10fr 1fr;
+    grid-template-areas:
+      "itinerary"
+      "com ";
+    /* border: 0.1rem solid white; */
+
+    h1 {
+      font-size: medium;
+      padding: 0.5rem;
+      text-align: center;
+      border-bottom: 1px solid white;
+      margin-bottom: 0.5rem;
+    }
+    #itinerary_container {
+      grid-area: itinerary;
+
+      overflow: auto;
+      padding: 0 1rem;
+      scroll-snap-type: y mandatory;
+      scroll-padding: 2rem;
+      aside {
+        display: flex;
+        flex-direction: row;
+        margin: 0.3rem 0;
+      }
+      > div {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin: 1rem 0;
+        button {
+          width: 2rem;
+          height: 2rem;
+        }
+      }
+    }
+    #adjustment {
+      grid-area: com;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 0.8rem;
+
+      textarea {
+        border-radius: 0.5rem;
+        padding: 0 0.2rem;
+        margin-right: 1rem;
+        max-height: 2.5rem;
+        width: 100%;
+        color: black;
+      }
+      button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 0.1rem solid white;
+        border-radius: 0.5rem;
+        min-width: 2.5rem;
+        height: 2.5rem;
+      }
+    }
+  }
+}
+
+/** chat destination text*/
+.timeofday {
+  font-size: medium;
+  margin-right: 0.5rem;
+}
+.ai-location {
+  color: aqua;
+  text-decoration-line: underline;
+  font-size: medium;
+  margin-left: 0.5rem;
+}
+
+/** chat date text*/
+.ai-date {
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: center;
+}
+/** chat list text*/
+.ai-list {
+  padding-left: 3rem;
+  list-style-type: disc;
+}
+
+/**--------------------------------------  */
+
+@media (min-width: 700px) {
+  #adjustment {
+    grid-area: com;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+
+    textarea {
+      margin-right: 1rem;
+      max-height: 3rem;
+    }
+    button {
+      border-radius: 0.5rem;
+      min-width: 3rem;
+      height: 3rem;
+    }
+  }
+
+  .tripName {
+    font-size: x-large;
+  }
+  .tripDate {
+    font-size: x-large;
+  }
+}
+@media (min-width: 900px) {
+  #TripDetails {
+    flex-direction: row-reverse;
+    padding: 1rem;
+    gap: 1rem;
+
+    #map {
+      height: 100%;
+      flex-basis: 50%;
+      border-radius: 1rem;
+    }
+    #trip_form {
+      height: 100%;
+      flex-basis: 50%;
+    }
+  }
+
+  .tripList {
+    flex-direction: row;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  .trips {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+  }
+  .trips aside {
+    flex-direction: row;
+  }
+  .tripControl {
+    margin-top: 10px;
+    flex-basis: 20%;
+    /* flex-grow: 1; */
+  }
+}
+@media (min-width: 1400px) {
+  #TripDetails {
+    gap: 2rem;
+    #map {
+      flex-basis: 70%;
+    }
+    #trip_form {
+      flex-basis: 30%;
+    }
+  }
+}

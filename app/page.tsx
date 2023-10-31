@@ -5,6 +5,8 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import Map from "@/components/Map/Map";
+import Button from "@/components/Button/Button";
+
 import { destType } from "./helpers/types";
 
 import { useGlobalContext } from "@/Context";
@@ -74,14 +76,7 @@ export default function Home() {
           ) : (
             <AntDateRange setDest={setDest} />
           )}
-
-          <button
-            className=" bg-blue-300 rounded-md"
-            title="Generate Itinerary"
-            type="submit"
-          >
-            Generate Itinerary
-          </button>
+          <Button />
         </form>
       </div>
     </main>

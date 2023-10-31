@@ -11,7 +11,7 @@ export default function useHandleLocationHover(
     function handleLocHover(event: any) {
       setCurrDest(destList[event.target.innerText]);
     }
-    const chatSection = document.querySelector(".chat");
+    const chatSection = document.querySelector(".itinerary");
 
     const handleHoverEvent = (event: any) => {
       if (event.target.classList.contains("ai-location")) {

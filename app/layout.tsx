@@ -1,7 +1,7 @@
 import "./globals.scss";
 import { Ubuntu } from "next/font/google";
 
-import Navbar from "./components/Navbar";
+import Navbar from "@/components/Navbar/Navbar";
 
 import { GlobalContextProvider } from "./Context";
 import "@fontsource/roboto/400.css";
