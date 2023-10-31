@@ -4,8 +4,8 @@
 import React, { useEffect, useState } from "react";
 
 import Map from "@/components/Map/Map";
-import Itinerary from "./components/Itinerary";
-import AiChatBox from "./components/AiChatBox";
+import Itinerary from "./components/Itinerary/Itinerary";
+import AiChatBox from "./components/AiChatBox/AiChatBox";
 
 import { useSearchParams } from "next/navigation";
 import { Message, destType } from "@/helpers/types";
@@ -15,10 +15,8 @@ import handleConvo from "./hooks/handleConvo";
 import useHandleLocationHover from "./hooks/useHandleLocationHover";
 import useFetchLocation from "./hooks/useFetchLocations";
 import useHandleAiStream from "./hooks/useHandleAiStream";
-import useMessage from "antd/es/message/useMessage";
 
 import "./trip-details.scss";
-// import "react-toastify/dist/ReactToastify.css";
 
 export default function Trip() {
   const [currentUser, setCurrentUser] = useState<string | null>(null);
