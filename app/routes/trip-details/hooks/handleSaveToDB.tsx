@@ -2,7 +2,6 @@
 
 import { toastError, toastSuccess } from "@/helpers/toast";
 import { destType } from "@/helpers/types";
-import router from "next/router";
 
 async function copyToClipboard(tripId: string) {
   try {

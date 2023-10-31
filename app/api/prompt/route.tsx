@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Message, AiStreamPayload } from "../../helpers/types";
+import { Message, AiStreamPayload } from "@/helpers/types";
 
 import {
   createParser,
@@ -7,17 +7,18 @@ import {
   ReconnectInterval,
 } from "eventsource-parser";
 
-type promptType = {
-  messages: Message[];
-};
-
 export const runtime = "edge";
+
 //*------------------------------------------------------------------------------
 //* POST a chat request to openAI chatcompletion endpoint
 //* reuseable for additional request for chat conversation
 //* the req.prompt ill get more complex as more {role:string,content:string} object
 //*    gets added to prompt by user and system
 //*-----------------------------------------------------------------------------
+
+type promptType = {
+  messages: Message[];
+};
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const prompt: promptType = await req.json();

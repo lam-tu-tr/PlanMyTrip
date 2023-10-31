@@ -1,8 +1,10 @@
-import handleSaveToDB from "../hooks/handleSaveToDB";
+import handleSaveToDB from "@/routes/trip-details/hooks/handleSaveToDB";
 import { destType } from "@/helpers/types";
 import { FiCopy, FiSave } from "react-icons/fi";
 import { capitalizeWords } from "@/helpers/helper-functions";
 import DOMPurify from "dompurify";
+
+import "./Itinerary.scss";
 
 const DOMPurifyConfig = {
   ADD_ATTR: ["target"], //*allow target attribute on anchor tags to go through

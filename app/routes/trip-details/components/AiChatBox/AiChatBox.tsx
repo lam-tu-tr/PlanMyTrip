@@ -1,6 +1,8 @@
 import React from "react";
 import { FiArrowUpCircle } from "react-icons/fi";
 
+import "./AiChatBox.scss";
+
 type AiChatBoxType = {
   userMessage: string;
   aiComplete: boolean;

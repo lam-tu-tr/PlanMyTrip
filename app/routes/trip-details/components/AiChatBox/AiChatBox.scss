@@ -1,0 +1,52 @@
+#adjustment {
+  grid-area: com;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0.8rem;
+
+  textarea {
+    border-radius: 0.5rem;
+    padding: 0 0.2rem;
+    margin-right: 1rem;
+    max-height: 2.5rem;
+    width: 100%;
+    color: black;
+  }
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0.1rem solid white;
+    border-radius: 0.5rem;
+    min-width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
+@media (min-width: 700px) {
+  #adjustment {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+
+    textarea {
+      margin-right: 1rem;
+      max-height: 3rem;
+    }
+    button {
+      border-radius: 0.5rem;
+      min-width: 3rem;
+      height: 3rem;
+    }
+  }
+  .tripName {
+    font-size: x-large;
+  }
+  .tripDate {
+    font-size: x-large;
+  }
+}
