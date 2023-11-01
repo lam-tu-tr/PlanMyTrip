@@ -18,7 +18,7 @@ const durationOptions = [
 export default function MobileAntDurationPicker({ setDest }: AntMobileProps) {
   const [value, setValue] = useState<string[]>([]);
   return (
-    <div>
+    <div className="home-button">
       <ConfigProvider locale={enUS}>
         <Picker
           columns={durationOptions}

@@ -57,12 +57,11 @@ export default function Home() {
   }
 
   return (
-    <main id="home_main" className="page-container">
+    <main id="home-main" className="page-container">
       <h1>Your Travel Plans Reimagined with AI-driven itineraries.</h1>
       <div id="home_content">
         <Map setDest={setDest} dest={dest} />
         <form
-          id="home_form"
           action="./routes/tripDetails"
           onSubmit={(e) => {
             e.preventDefault();
