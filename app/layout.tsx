@@ -8,6 +8,7 @@ import "@fontsource/roboto/400.css";
 const ubuntu = Ubuntu({ weight: "500", preload: false });
 
 import { Analytics } from "@vercel/analytics/react";
+import Topography from "./components/Topography/Topography";
 export const metadata = {
   title: "AI Intinerary Planner",
   description: "Generate trip itinerary using AI",
@@ -34,6 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={ubuntu.className}>
+        <Topography />
         <Navbar />
         <GlobalContextProvider>{children}</GlobalContextProvider>
         <Analytics />

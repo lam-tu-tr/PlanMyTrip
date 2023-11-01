@@ -53,7 +53,7 @@ export default function Trip() {
   useHandleLocationHover(dest.destList, setCurrDest);
 
   return (
-    <div id="TripDetails">
+    <div id="TripDetails" className="page-container">
       <Map currDest={currDest} dest={dest} setDest={setDest} />
 
       <form

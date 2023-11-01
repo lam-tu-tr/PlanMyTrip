@@ -1,244 +1,34 @@
 @use "./sass/scrollBar.scss";
+@use "./sass//style_reset.scss";
+@use "./sass/z_index.scss";
+@use "./sass//spinner.scss";
+@use "./routes/account/account.scss";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
 body {
-  opacity: 1;
+  // opacity: 1;
   overflow: hidden;
-
   min-width: 20rem;
-  display: flex;
-  flex-direction: column;
-  color: white;
 
-  height: 100svh;
-}
-.MainNav {
-  height: 5svh;
-  background-color: rgba(16, 16, 16, 1);
-}
-
-/** ---------------------Home Page----------------------- */
-#home_main {
-  position: relative;
-  flex-grow: 2;
-  height: 95svh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-content: center;
-  align-items: center;
-  padding: 0 1rem;
-  /**bg*/
-  background-position: center;
-  background-size: cover;
-  background: rgb(63, 70, 251);
-  background: radial-gradient(
-    circle at bottom,
-    rgba(63, 70, 251, 1) 0%,
-    rgba(0, 0, 0, 1) 100%
-  );
-}
-#home_main h1 {
-  font-size: 1.5rem;
-  margin: 1rem 0;
-  padding: 0 2rem;
-  text-align: center;
-  color: white;
-}
-#home_content {
-  /* min-width: 24rem; */
-  width: 100%;
-  max-height: 34rem;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-#home_content #map {
-  flex-grow: 20;
-  display: flex;
-  border-radius: 10px;
-}
-
-#home_form {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  justify-content: space-between;
-  align-content: center;
-  margin-top: 1rem;
-}
-#RangePicker {
-  min-height: 2rem;
-  min-width: 2rem;
-  color: black;
-}
-#home_form button {
-  margin-top: 0.8rem;
-  min-height: 2.5rem;
-}
-
-/** -----Account----  */
-#account {
   color: white;
   background: #232323;
 }
-#signUp:hover {
-  color: aqua;
-  text-decoration: underline;
-  cursor: pointer;
-}
-.tripList {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-size: small;
-}
-.trips {
-  flex-basis: 90%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* flex-grow: 10; */
-}
-.trips aside {
-  display: flex;
-  flex-direction: column;
-  /* justify-content: space-between; */
-}
 
-.tripControl {
-  margin-top: 10px;
-  flex-basis: 10%;
-  /* flex-grow: 1; */
-}
-/**-------------------- Spinner Animation-------------------  */
-.spinner {
+.page-container {
   position: relative;
-  min-width: 3rem;
-  height: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.spinner::before,
-.spinner::after {
-  border: 5px solid #ffffff;
-  border-radius: 50%;
-  position: absolute;
-  content: "";
-  display: block;
-}
-
-.spinner::before {
-  width: 1.8rem;
-  height: 1.8rem;
-  border-bottom-color: transparent;
-  border-left-color: transparent;
-  animation: spinner-1o3y8q 1.0499999999999998s infinite linear reverse;
-}
-
-.spinner::after {
-  animation: spinner-1o3y8q 0.7s infinite linear;
-  height: 3rem;
-  width: 3rem;
-  border-right-color: transparent;
-  border-top-color: transparent;
-}
-
-@keyframes spinner-1o3y8q {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/**--------------------------------------  */
-
-@media (max-width: 450px) {
-  .mapboxgl-ctrl-geocoder {
-    font-size: 16px !important;
-    max-width: 270px !important;
-  }
-}
-
-@media (min-width: 700px) {
-  #home_main {
-    padding: 4rem;
-  }
-  #home_main h1 {
-    font-size: 2.5rem;
-    justify-content: space-between;
-  }
-  #home_content {
-    max-height: 50rem;
-    height: 100%;
-    max-width: 90rem;
-    width: 100%;
-  }
-  #home_form {
-    flex-direction: row;
-    justify-content: flex-end;
-    max-height: 3rem;
-  }
-  #home_form button {
-    min-width: 15rem;
-    margin-top: 0;
-    margin-left: 2rem;
-    min-height: 2.5rem;
-  }
-  #RangePicker {
-    min-height: 1.5rem;
-    min-width: 7rem;
-    width: 100%;
-  }
-}
-@media (min-width: 900px) {
-}
-@media (min-width: 1400px) {
-}
-#choice-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 100%;
-}
-#choice-wrapper button {
-  width: 100%;
-  height: 2.2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: 1rem;
-  margin-top: 0rem;
-  border-radius: 0.3rem;
-}
-#choice-wrapper > span {
-  text-align: center;
-  height: 2.4rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: 1rem;
-  border-radius: 0.3rem;
-}
-
-/** Map */
-.mapboxgl-popup-content {
-  color: black;
-}
-/**-------------------------------Account---------------------  */
-#account {
   height: 95svh;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+h1 {
+  font-size: clamp(1.5rem, 0.8571rem + 2.8571vw, 3rem);
+  padding: 1.5rem 0;
+  text-align: center;
+  color: white;
 }

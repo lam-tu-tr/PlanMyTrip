@@ -5,6 +5,7 @@ import MobileAntDurationPicker from "./MobileAntDurationPicker";
 
 import { AntMobileProps, destType } from "@/helpers/types";
 import dayjs from "dayjs";
+import "./Ant.scss";
 
 type extendedAntMobileProps = AntMobileProps & { dest: destType };
 
@@ -22,11 +23,11 @@ export default function MobileAnt({ dest, setDest }: extendedAntMobileProps) {
   }, [dest.duration, dest.startDate, setDest]);
 
   return (
-    <div id="choice-wrapper">
+    <div className="ant-mobile-wrapper">
       <MobileAntDate setDest={setDest} />
 
       <MobileAntDurationPicker setDest={setDest} />
-      <span
+      <div
         className={
           dest.endDate.length !== 0
             ? "bg-white color"
@@ -34,7 +35,7 @@ export default function MobileAnt({ dest, setDest }: extendedAntMobileProps) {
         }
       >
         {dest.endDate.length !== 0 ? `End Date: ${dest.endDate}` : `End Date `}
-      </span>
+      </div>
     </div>
   );
 }
