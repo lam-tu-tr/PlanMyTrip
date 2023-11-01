@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
 import { destType } from "@/helpers/types";
 import { toastError } from "@/helpers/toast";
+import Topography from "@/components/Topography/Topography";
 
 export default function Account() {
   const [formData, setFormData] = useState({
@@ -125,10 +126,7 @@ export default function Account() {
   }, [isWindow, currentUser]);
 
   return (
-    <div
-      id="account"
-      className=" flex flex-row justify-center items-center  bg-gradient-to-r from-fuchsia-500 to-cyan-500"
-    >
+    <div id="account" className=" flex flex-row justify-center items-center  ">
       <form
         className={`flex  py-8 rounded-xl border-2 mx-5 ${
           currentUser
@@ -245,6 +243,7 @@ export default function Account() {
           </div>
         )}
       </form>
+      <Topography />
     </div>
   );
 }
