@@ -1,0 +1,36 @@
+#account {
+  color: white;
+  background: #232323;
+  display: grid;
+  place-content: center;
+}
+#signUp:hover {
+  color: aqua;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.tripList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: small;
+}
+.trips {
+  flex-basis: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* flex-grow: 10; */
+}
+.trips aside {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+}
+
+.tripControl {
+  margin-top: 10px;
+  flex-basis: 10%;
+  /* flex-grow: 1; */
+}

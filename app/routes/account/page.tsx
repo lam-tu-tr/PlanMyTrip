@@ -126,7 +126,7 @@ export default function Account() {
   }, [isWindow, currentUser]);
 
   return (
-    <div id="account" className=" flex flex-row justify-center items-center  ">
+    <div id="account" className="page-container">
       <form
         className={`flex  py-8 rounded-xl border-2 mx-5 ${
           currentUser

@@ -18,32 +18,34 @@ const durationOptions = [
 export default function MobileAntDurationPicker({ setDest }: AntMobileProps) {
   const [value, setValue] = useState<string[]>([]);
   return (
-    <ConfigProvider locale={enUS}>
-      <Picker
-        columns={durationOptions}
-        value={value}
-        onConfirm={(value) => {
-          setValue([value.toString()]);
-          setDest((prev) => ({
-            ...prev,
-            duration: value.toString(),
-          }));
-        }}
-        onSelect={(val, extend) => {
-          setValue([value.toString()]);
-        }}
-      >
-        {(items, { open }) => {
-          return (
-            <Button onClick={open}>
-              Duration
-              {typeof value[0] !== "undefined" && value[0].length > 0
-                ? `:  ${value[0]}` + (value[0] == "1" ? " day" : " days")
-                : ""}
-            </Button>
-          );
-        }}
-      </Picker>
-    </ConfigProvider>
+    <div className="home-button">
+      <ConfigProvider locale={enUS}>
+        <Picker
+          columns={durationOptions}
+          value={value}
+          onConfirm={(value) => {
+            setValue([value.toString()]);
+            setDest((prev) => ({
+              ...prev,
+              duration: value.toString(),
+            }));
+          }}
+          onSelect={(val, extend) => {
+            setValue([value.toString()]);
+          }}
+        >
+          {(items, { open }) => {
+            return (
+              <Button onClick={open}>
+                Duration
+                {typeof value[0] !== "undefined" && value[0].length > 0
+                  ? `:  ${value[0]}` + (value[0] == "1" ? " day" : " days")
+                  : ""}
+              </Button>
+            );
+          }}
+        </Picker>
+      </ConfigProvider>
+    </div>
   );
 }

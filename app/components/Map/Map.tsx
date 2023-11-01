@@ -4,6 +4,7 @@ import { useGlobalContext } from "@/Context";
 import { DestCoordType, destType } from "@/helpers/types";
 import { toastError } from "@/helpers/toast";
 
+import "./Map.scss";
 import mapboxgl from "mapbox-gl";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -23,7 +24,6 @@ export default function Map({
   dest,
   setDest,
 }: MapCoord) {
-  //*Map Box Declaration
   const mapContainerRef = useRef(null);
 
   const [map, setMap] = useState<mapboxgl.Map | null>(null);

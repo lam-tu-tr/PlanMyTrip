@@ -18,7 +18,7 @@ export default function MobileAntDate({ setDest }: AntMobileProps) {
   const [startDate, setStartDate] = useState("");
 
   return (
-    <div>
+    <div className="home-button">
       <ConfigProvider locale={enUS}>
         <Button
           onClick={() => {

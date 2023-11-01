@@ -6,14 +6,13 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import Map from "@/components/Map/Map";
 import Button from "@/components/Button/Button";
-
+import "./home.scss";
 import { destType } from "./helpers/types";
 
 import { useGlobalContext } from "@/Context";
 import { toastError } from "@/helpers/toast";
 import MobileAnt from "@/components/Ant/MobileAnt";
 import SearchParams from "@/components/SearchParams";
-import Topography from "./components/Topography/Topography";
 
 //*Force AntDesign component to be imported as client instead of SSR
 const AntDateRange = dynamic(() => import("@/components/Ant/AntDateRange"), {
@@ -58,12 +57,11 @@ export default function Home() {
   }
 
   return (
-    <main id="home_main">
+    <main id="home-main" className="page-container">
       <h1>Your Travel Plans Reimagined with AI-driven itineraries.</h1>
       <div id="home_content">
         <Map setDest={setDest} dest={dest} />
         <form
-          id="home_form"
           action="./routes/tripDetails"
           onSubmit={(e) => {
             e.preventDefault();
@@ -80,7 +78,6 @@ export default function Home() {
           <Button />
         </form>
       </div>
-      <Topography />
     </main>
   );
 }
