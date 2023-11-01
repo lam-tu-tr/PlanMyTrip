@@ -13,6 +13,7 @@ import { useGlobalContext } from "@/Context";
 import { toastError } from "@/helpers/toast";
 import MobileAnt from "@/components/Ant/MobileAnt";
 import SearchParams from "@/components/SearchParams";
+import Topography from "./components/Topography/Topography";
 
 //*Force AntDesign component to be imported as client instead of SSR
 const AntDateRange = dynamic(() => import("@/components/Ant/AntDateRange"), {
@@ -79,6 +80,7 @@ export default function Home() {
           <Button />
         </form>
       </div>
+      <Topography />
     </main>
   );
 }

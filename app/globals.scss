@@ -27,6 +27,7 @@ body {
 
 /** ---------------------Home Page----------------------- */
 #home_main {
+  position: relative;
   flex-grow: 2;
   height: 95svh;
   display: flex;
@@ -88,6 +89,7 @@ body {
 /** -----Account----  */
 #account {
   color: white;
+  background: #232323;
 }
 #signUp:hover {
   color: aqua;
