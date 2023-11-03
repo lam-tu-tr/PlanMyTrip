@@ -23,7 +23,7 @@ export default function setInitialPrompt(dest: destType): Message[] {
           <li>description</li>
         </ul>
       </div>. Wrap the whole ai response inside a <div class="ai-text"></div>. 
-      Note that each day contains Morning-Midday-Evening`,
+      Note that each ai-day contains Morning-Midday-Evening timeofday`,
     },
   ];
 }

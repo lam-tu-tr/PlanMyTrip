@@ -13,7 +13,6 @@ body {
   overflow: hidden;
   min-width: 20rem;
 
-
   color: white;
   background: #232323;
 }
@@ -27,8 +26,7 @@ body {
   align-content: center;
   align-items: center;
 
-  // padding: 1rem;
-
+  padding: 1rem;
 }
 h1 {
   font-size: clamp(1.5rem, 0.8571rem + 2.8571vw, 3rem);
