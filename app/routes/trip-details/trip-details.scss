@@ -1,5 +1,4 @@
 #TripDetails {
-  height: 95svh;
   display: flex;
   flex-direction: column;
 
@@ -23,14 +22,6 @@
     grid-template-areas:
       "itinerary"
       "com ";
-
-    h1 {
-      font-size: 1.5rem;
-      text-wrap: pretty;
-      text-align: start;
-      border-bottom: 1px solid white;
-      margin-bottom: 1rem;
-    }
   }
 }
 

@@ -75,7 +75,7 @@ export default function Home() {
           ) : (
             <AntDateRange setDest={setDest} />
           )}
-          <Button />
+          <Button endDate={dest.endDate} />
         </form>
       </div>
     </main>
