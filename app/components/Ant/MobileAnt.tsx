@@ -23,16 +23,19 @@ export default function MobileAnt({ dest, setDest }: extendedAntMobileProps) {
   }, [dest.duration, dest.startDate, setDest]);
 
   return (
-    <div className="ant-mobile-wrapper">
+
+    <div>
+
       <MobileAntDate setDest={setDest} />
 
       <MobileAntDurationPicker setDest={setDest} />
       <div
         className={` home-button
             ${
-              dest.endDate.length !== 0
-                ? "bg-white color"
-                : "border-dashed border-white border-2 text-white"
+              dest.endDate.length == 0
+                ? "border-dashed border-white border-2 text-[##dfdfdf]"
+                : "bg-white color"
+
             }
           `}
       >

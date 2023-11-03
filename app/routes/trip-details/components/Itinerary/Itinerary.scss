@@ -30,20 +30,29 @@
 
   overflow: auto;
   padding: 0 1rem;
-  scroll-snap-type: y mandatory;
+  // scroll-snap-type: y mandatory;
   scroll-padding: 0.5rem;
+  position: relative;
 
+  margin-top: 0.5rem;
   aside {
     display: flex;
     flex-direction: row;
     margin: 0.3rem 0;
   }
-
+  h1 {
+    font-size: 1.5rem;
+    text-wrap: pretty;
+    text-align: start;
+    border-bottom: 1px solid white;
+    margin-bottom: 1rem;
+    padding: 1rem 0;
+  }
   > div {
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
-    margin: 1rem 0;
+    // margin: 1rem 0;
     button {
       width: 2rem;
       height: 2rem;
