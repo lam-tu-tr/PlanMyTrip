@@ -17,15 +17,19 @@
   text-align: center;
 
   margin: 0.7rem auto 0 auto;
+
   border-radius: 2rem;
+
   font-size: 1rem;
 
   &:last-child {
     padding: 0.5rem 0;
   }
+
   button,
   div {
     border-radius: 2rem;
+
     width: 100%;
   }
 }

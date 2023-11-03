@@ -24,11 +24,13 @@
 #map {
   flex-grow: 20;
   display: flex;
+
 }
 @media (min-width: 700px) {
   #map {
     border-radius: 10px;
   }
+
 }
 @media (max-width: 450px) {
   .mapboxgl-ctrl-geocoder {

@@ -23,7 +23,9 @@ export default function MobileAnt({ dest, setDest }: extendedAntMobileProps) {
   }, [dest.duration, dest.startDate, setDest]);
 
   return (
+
     <div>
+
       <MobileAntDate setDest={setDest} />
 
       <MobileAntDurationPicker setDest={setDest} />
@@ -33,6 +35,7 @@ export default function MobileAnt({ dest, setDest }: extendedAntMobileProps) {
               dest.endDate.length == 0
                 ? "border-dashed border-white border-2 text-[##dfdfdf]"
                 : "bg-white color"
+
             }
           `}
       >

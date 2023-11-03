@@ -7,6 +7,7 @@ interface ButtonProps {
 export default function Button({ endDate }: ButtonProps) {
   return (
     <button
+
       className={`home-button submit-button  ${
         endDate.length !== 0 ? "submit-highlight " : ""
       }`}
@@ -14,6 +15,7 @@ export default function Button({ endDate }: ButtonProps) {
       type="submit"
     >
       <div className="glow-on-hover">Generate Itinerary</div>
+
     </button>
   );
 }

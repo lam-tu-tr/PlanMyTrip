@@ -18,11 +18,13 @@ export default function MobileAntDate({ setDest }: AntMobileProps) {
   const [startDate, setStartDate] = useState("");
 
   return (
+
     <div
       className={`home-button ${
         startDate.length == 0 ? "pre-select-color" : ""
       }`}
     >
+
       <ConfigProvider locale={enUS}>
         <Button
           onClick={() => {
