@@ -19,11 +19,11 @@ export default function Navbar() {
         <span>ItineraryGenie</span>
       </Link>
 
-      <span>
+      {/* <span>
         <Link className=" text-center text-white" href="/routes/account">
           Login
         </Link>
-      </span>
+      </span> */}
     </nav>
   );
 }
