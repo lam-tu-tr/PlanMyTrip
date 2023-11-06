@@ -9,8 +9,9 @@ const ubuntu = Ubuntu({ weight: "500", preload: false });
 
 import { Analytics } from "@vercel/analytics/react";
 import Topography from "./components/Topography/Topography";
+import SigninProvider from "./components/SigninButton/SigninProvider";
 export const metadata = {
-  title: "AI Intinerary Planner",
+  title: "Itinerary Genie",
   description: "Generate trip itinerary using AI",
   keywords: [
     "next.js",
@@ -21,9 +22,10 @@ export const metadata = {
     "chatgpt",
     "mapbox",
     "api",
+    "Typescript",
   ],
   author: [
-    { name: "Lam Tran", url: "https://www.linkedin.com/in/lam-tran-ucsd/" },
+    { name: "Lam Tran", url: "https://www.linkedin.com/in/lam-t-tran/" },
   ],
 };
 
@@ -35,9 +37,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={ubuntu.className}>
-        <Topography />
-        <Navbar />
-        <GlobalContextProvider>{children}</GlobalContextProvider>
+        <SigninProvider>
+          <Topography />
+          <Navbar />
+          <GlobalContextProvider>{children}</GlobalContextProvider>
+        </SigninProvider>
         <Analytics />
       </body>
     </html>

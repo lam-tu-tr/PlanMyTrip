@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/assets/itinerarygenie_favicon.png";
 import "./Navbar.scss";
+import SigninButton from "../SigninButton/SigninButton";
 
 export default function Navbar() {
   return (
@@ -19,11 +20,9 @@ export default function Navbar() {
         <span>ItineraryGenie</span>
       </Link>
 
-      {/* <span>
-        <Link className=" text-center text-white" href="/routes/account">
-          Login
-        </Link>
-      </span> */}
+      <div>
+        <SigninButton />
+      </div>
     </nav>
   );
 }

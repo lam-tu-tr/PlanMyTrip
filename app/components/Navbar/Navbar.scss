@@ -2,11 +2,12 @@ nav {
   height: 5svh;
 
   background-color: transparent;
-  font-size: 1.2rem;
 
+  * {
+    color: white;
+  }
   a {
     height: 100%;
-    color: white;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -18,11 +19,12 @@ nav {
       min-width: 2rem;
       min-height: 2rem;
     }
-
-    &:last-child {
-      background-color: #007afc;
-      border-radius: 1rem;
-      padding: 0 1rem;
-    }
+  }
+  div {
+    background-color: #007afc;
+    border-radius: 1rem;
+    padding: 0 1rem;
+    // display: flex;
+    // flex-direction: row;
   }
 }

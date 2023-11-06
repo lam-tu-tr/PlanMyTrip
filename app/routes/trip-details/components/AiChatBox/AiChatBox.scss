@@ -4,13 +4,13 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 0.5rem;
+  padding: 0 0.5rem;
 
   textarea {
     border-radius: 0.5rem;
     padding: 0 0.2rem;
     margin-right: 1rem;
-    max-height: 2.5rem;
+    max-height: 2rem;
     width: 100%;
     color: black;
   }
@@ -20,8 +20,8 @@
     align-items: center;
     border: 0.1rem solid white;
     border-radius: 0.5rem;
-    min-width: 2.5rem;
-    height: 2.5rem;
+    min-width: 2rem;
+    height: 2rem;
   }
 }
 

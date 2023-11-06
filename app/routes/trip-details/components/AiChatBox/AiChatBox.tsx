@@ -25,7 +25,7 @@ export default function AiChatBox({
       />
       {aiComplete ? (
         <button title="Submit adjustments" type="submit">
-          <FiArrowUpCircle className="w-8 h-8" />
+          <FiArrowUpCircle className="w-6 h-6" />
         </button>
       ) : (
         <div className="spinner"></div>
