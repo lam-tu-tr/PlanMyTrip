@@ -4,25 +4,30 @@ import type {
 } from "next";
 import { getProviders, signIn } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/api/auth/[...nextauth]/route";
+
+import styles from "./SignIn.module.scss";
 
 export default function SignIn({
   providers,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
-    <>
-      {Object.values(providers).map((provider) => (
-        <div key={provider.name}>
-          <button onClick={() => signIn(provider.id)}>
-            Sign in with {provider.name}
-          </button>
-        </div>
-      ))}
-    </>
+    <div className={`${styles["signIn-wrapper"]} page-container`}>
+      SIGNIN
+      {providers &&
+        Object.values(providers).map((provider) => (
+          <div key={provider.name}>
+            <button onClick={() => signIn(provider.id)}>
+              Sign in with {provider.name}
+            </button>
+          </div>
+        ))}
+    </div>
   );
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await getServerSession(context.req, context.res, {});
+  const session = await getServerSession(context.req, context.res, authOptions);
 
   // If the user is already logged in, redirect.
   // Note: Make sure not to redirect to the same page
@@ -33,6 +38,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const providers = await getProviders();
 
+  console.log("providers", providers);
   return {
     props: { providers: providers ?? [] },
   };

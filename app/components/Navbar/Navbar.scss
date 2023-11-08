@@ -2,6 +2,7 @@ nav {
   height: 5svh;
 
   background-color: transparent;
+  font-size: 1rem;
 
   * {
     color: white;
@@ -15,7 +16,6 @@ nav {
 
     span:first-child {
       position: relative;
-
       min-width: 2rem;
       min-height: 2rem;
     }
@@ -24,7 +24,11 @@ nav {
     background-color: #007afc;
     border-radius: 1rem;
     padding: 0 1rem;
-    // display: flex;
-    // flex-direction: row;
+  }
+}
+
+@media (min-width: 700px) {
+  nav {
+    font-size: 1.2rem;
   }
 }

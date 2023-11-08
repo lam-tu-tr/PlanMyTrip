@@ -9,10 +9,13 @@ const ubuntu = Ubuntu({ weight: "500", preload: false });
 
 import { Analytics } from "@vercel/analytics/react";
 import Topography from "./components/Topography/Topography";
-import SigninProvider from "./components/SigninButton/SigninProvider";
+import SigninProvider from "./components/Signin/SigninProvider";
+
 export const metadata = {
   title: "Itinerary Genie",
+
   description: "Generate trip itinerary using AI",
+
   keywords: [
     "next.js",
     "React",
@@ -23,7 +26,11 @@ export const metadata = {
     "mapbox",
     "api",
     "Typescript",
+    "Itinerary",
+    "trip",
+    "planner",
   ],
+
   author: [
     { name: "Lam Tran", url: "https://www.linkedin.com/in/lam-t-tran/" },
   ],
