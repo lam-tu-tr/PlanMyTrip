@@ -17,7 +17,19 @@ export default function setInitialPrompt(dest: destType): Message[] {
       }. Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening). Give the result in an indented list style using HTML elements <div class="ai-day">
         <h2 class="ai-date" >Day X - [Date]</h2> 
         <aside> 
-          <h2 class="timeofday">time of day </h2> \- <a  class="ai-location" rel="noopener noreferrer" target="_blank" href="https://google.com/search?q={location}"> location</a>
+          <h2 class="timeofday">Morning</h2> \- <a  class="ai-location" rel="noopener noreferrer" target="_blank" href="https://google.com/search?q={location}"> location</a>
+        </aside>
+        <ul class="ai-list">
+          <li>description</li>
+        </ul>
+        <aside> 
+          <h2 class="timeofday">Midday</h2> \- <a  class="ai-location" rel="noopener noreferrer" target="_blank" href="https://google.com/search?q={location}"> location</a>
+        </aside>
+        <ul class="ai-list">
+          <li>description</li>
+        </ul>
+        <aside> 
+          <h2 class="timeofday">Evening</h2> \- <a  class="ai-location" rel="noopener noreferrer" target="_blank" href="https://google.com/search?q={location}"> location</a>
         </aside>
         <ul class="ai-list">
           <li>description</li>
