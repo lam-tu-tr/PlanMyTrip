@@ -4,7 +4,6 @@ import type {
 } from "next";
 import { getProviders, signIn } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/api/auth/[...nextauth]/route";
 
 import styles from "./SignIn.module.scss";
 import ExtProviderButton from "@/components/Signin/ExtProviderButton";
