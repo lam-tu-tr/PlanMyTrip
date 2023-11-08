@@ -6,12 +6,12 @@ import Navbar from "@/components/Navbar/Navbar";
 import { GlobalContextProvider } from "./Context";
 import "@fontsource/roboto/400.css";
 const ubuntu = Ubuntu({ weight: "500", preload: false });
-
+import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import Topography from "./components/Topography/Topography";
 import SigninProvider from "./components/Signin/SigninProvider";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Itinerary Genie",
 
   description: "Generate trip itinerary using AI",
@@ -31,7 +31,7 @@ export const metadata = {
     "planner",
   ],
 
-  author: [
+  authors: [
     { name: "Lam Tran", url: "https://www.linkedin.com/in/lam-t-tran/" },
   ],
 };
