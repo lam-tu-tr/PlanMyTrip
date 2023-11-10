@@ -8,11 +8,11 @@ type ExtProviderButtonProp = {
 };
 
 export default function ExtProviderButton({ provider }: ExtProviderButtonProp) {
-  async function handleGoogleSignin() {
-    signIn("google", { callbackUrl: "http://localhost:3000" });
+  async function handleProviderSignin() {
+    signIn(provider, { callbackUrl: "http://localhost:3000" });
   }
   return (
-    <button type="button" onClick={handleGoogleSignin}>
+    <button type="button" onClick={handleProviderSignin}>
       Sign in with {capitalFirstLetter(provider)}
     </button>
   );

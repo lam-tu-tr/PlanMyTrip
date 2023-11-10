@@ -9,8 +9,8 @@ const ubuntu = Ubuntu({ weight: "500", preload: false });
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import Topography from "./components/Topography/Topography";
-import SigninProvider from "./components/Signin/SigninProvider";
-
+import SessionProvider from "./components/Signin/SessionProvider";
+import { getServerSession } from "next-auth/next";
 export const metadata: Metadata = {
   title: "Itinerary Genie",
 
@@ -36,19 +36,21 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession();
+
   return (
     <html lang="en">
       <body className={ubuntu.className}>
-        <SigninProvider>
+        <SessionProvider session={session}>
           <Topography />
           <Navbar />
           <GlobalContextProvider>{children}</GlobalContextProvider>
-        </SigninProvider>
+        </SessionProvider>
         <Analytics />
       </body>
     </html>
