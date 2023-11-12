@@ -1,7 +1,6 @@
 .signIn-container {
   color: white;
   border-radius: 10px;
-  padding: 2rem;
   display: flex;
   flex-direction: column;
   button {
@@ -9,5 +8,9 @@
     background-color: #232323;
     margin-bottom: 1rem;
     border-radius: 5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 1.2rem;
   }
 }

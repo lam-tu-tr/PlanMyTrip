@@ -12,7 +12,7 @@ export default function SigninButton() {
         <p>{session.user.name}</p>
         <button
           onClick={() => signOut()}
-          className="bg-orange-400 rounded-xl px-2 ml-4"
+          className="bg-orange-400 rounded-xl px-4 ml-4"
         >
           Sign Out
         </button>
@@ -23,7 +23,7 @@ export default function SigninButton() {
   return (
     <button
       onClick={() => signIn()}
-      className="bg-blue-400 rounded-xl px-2 ml-4"
+      className="bg-blue-400 rounded-xl px-4 ml-4"
     >
       Sign in
     </button>
