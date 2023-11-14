@@ -51,7 +51,6 @@ export default async function RootLayout({
           <GlobalContextProvider>
             <Topography />
             <Navbar />
-
             {children}
           </GlobalContextProvider>
         </SessionProvider>

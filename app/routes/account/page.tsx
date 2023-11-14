@@ -15,6 +15,9 @@ import Image from "next/image";
 import { getSession, useSession } from "next-auth/react";
 import { Session } from "next-auth";
 
+import styles from "./account.module.scss";
+import Card from "./components/Card/Card";
+
 const Account: NextPage = () => {
   const { data: session } = useSession({
     required: true,
@@ -22,10 +25,6 @@ const Account: NextPage = () => {
       redirect("/routes/SignIn?callbackUrl=/routes/account");
     },
   });
-
-  const user_name = session?.user?.name;
-  const user_avatar = session?.user?.image;
-  const user_email = session?.user?.email;
 
   // const [formData, setFormData] = useState({
   //   username: "",
@@ -40,14 +39,31 @@ const Account: NextPage = () => {
   // const [createAccount, setCreateAccount] = useState(false);
 
   // const router = useRouter();
-
-  return (
-    <div id="account" className="page-container">
-      <section className="signIn-container">{user_name}</section>
-      {user_avatar && (
-        <Image src={user_avatar} width={40} height={40} alt="Profile Picture" />
-      )}
-    </div>
-  );
+  if (session && session.user) {
+    const user_name = session.user.name;
+    const user_avatar = session.user.image;
+    const user_email = session.user.email;
+    return (
+      <div className="page-container">
+        <section className={`${styles["account-body"]}`}>
+          <section className={`${styles["user-profile"]}`}>
+            {user_avatar && (
+              <div>
+                <Image src={user_avatar} fill={true} alt="Profile Picture" />
+              </div>
+            )}
+            <span>
+              <h2>{user_name}</h2>
+              <p>{user_email}</p>
+            </span>
+          </section>
+          <section className={`${styles["trip-list"]}`}>
+            <Card />
+          </section>
+        </section>
+      </div>
+    );
+  }
+  return <></>;
 };
 export default Account;

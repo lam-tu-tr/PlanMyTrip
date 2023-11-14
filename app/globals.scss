@@ -2,7 +2,6 @@
 @use "./sass//style_reset.scss";
 @use "./sass/z_index.scss";
 @use "./sass//spinner.scss";
-@use "./routes/account/account.scss";
 
 @tailwind base;
 @tailwind components;
@@ -19,7 +18,6 @@ body {
 .page-container {
   position: relative;
   height: 94svh;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -32,7 +30,9 @@ h1 {
   text-align: center;
   color: white;
 }
-
+h2 {
+  font-size: clamp(1.5rem, 0.7986rem + 1.6032vw, 2rem);
+}
 .icon {
   width: 2rem;
   height: 2rem;
