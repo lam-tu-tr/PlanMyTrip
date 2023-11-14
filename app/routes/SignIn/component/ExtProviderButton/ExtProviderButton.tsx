@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { getProviders, signIn } from "next-auth/react";
 
 import { FcGoogle } from "react-icons/fc";
 import { BsGithub } from "react-icons/bs";
@@ -22,7 +22,9 @@ const providerList: providerType[] = [
 
 export default function ExtProviderButton() {
   async function handleProviderSignin(providerName: string) {
-    signIn(providerName, { callbackUrl: "http://localhost:3000" });
+    signIn(providerName, {
+      callbackUrl: "http://localhost:3000/routes/account",
+    });
   }
   return (
     <>
@@ -30,7 +32,9 @@ export default function ExtProviderButton() {
         return (
           <button
             type="button"
-            onClick={() => handleProviderSignin(provider.name)}
+            onClick={() =>
+              handleProviderSignin(provider.name.toLocaleLowerCase())
+            }
             key={index}
           >
             <span>{provider.icon}</span>Sign in with {provider.name}

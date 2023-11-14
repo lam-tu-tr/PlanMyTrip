@@ -41,15 +41,19 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  //NOTE MANDATORY to get session across pages
   const session = await getServerSession();
 
   return (
     <html lang="en">
       <body className={ubuntu.className}>
         <SessionProvider session={session}>
-          <Topography />
-          <Navbar />
-          <GlobalContextProvider>{children}</GlobalContextProvider>
+          <GlobalContextProvider>
+            <Topography />
+            <Navbar />
+
+            {children}
+          </GlobalContextProvider>
         </SessionProvider>
         <Analytics />
       </body>

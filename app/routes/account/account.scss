@@ -1,14 +1,3 @@
-#account {
-  color: white;
-  background: #232323;
-  display: grid;
-  place-content: center;
-}
-#signUp:hover {
-  color: aqua;
-  text-decoration: underline;
-  cursor: pointer;
-}
 .tripList {
   display: flex;
   flex-direction: column;
@@ -33,4 +22,20 @@
   margin-top: 10px;
   flex-basis: 10%;
   /* flex-grow: 1; */
+}
+.signIn-container {
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  button {
+    padding: 1rem 2rem;
+    background-color: #232323;
+    margin-bottom: 1rem;
+    border-radius: 5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 1.2rem;
+  }
 }
