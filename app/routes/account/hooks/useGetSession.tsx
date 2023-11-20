@@ -13,7 +13,7 @@ export default function useGetSession() {
   const dispatch = useDispatch();
 
   console.log(session.data);
-  console.log(session.user);
+  console.log(session.user_metadata);
   useEffect(() => {
     const getSession = async () => {
       const { data, error } = await supabase.auth.getSession();
@@ -21,6 +21,6 @@ export default function useGetSession() {
     };
 
     getSession();
-  }, []);
+  }, [dispatch]);
   return <div>temperary</div>;
 }

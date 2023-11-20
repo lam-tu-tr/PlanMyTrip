@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Session, User } from "@supabase/supabase-js";
+import { Session, UserMetadata } from "@supabase/supabase-js";
 
 interface SessionState {
   data: Session | null;
-  user: User | null;
+  user_metadata: UserMetadata | null;
 }
 //set initial value
 const initialState: SessionState = {
   data: null,
-  user: null,
+  user_metadata: null,
 };
 
 export const sessionSlice = createSlice({
@@ -18,11 +18,11 @@ export const sessionSlice = createSlice({
     setSession: (state, action) => {
       const { session } = action.payload;
       state.data = session;
-      state.user = session.user;
+      state.user_metadata = session.user.user_metadata;
     },
-    logOut: (state, action) => {
+    logOut: (state) => {
       state.data = null;
-      state.user = null;
+      state.user_metadata = null;
     },
   },
 });
@@ -31,5 +31,3 @@ export const sessionSlice = createSlice({
 export const { setSession, logOut } = sessionSlice.actions;
 
 export default sessionSlice.reducer;
-
-export const userSelector = (state: SessionState) => state?.user;

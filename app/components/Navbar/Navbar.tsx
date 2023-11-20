@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/assets/itinerarygenie_favicon.png";
 import "./Navbar.scss";
-// import SigninButton from "../Signin/SigninButton";
+import SigninButton from "../Signin/SigninButton";
 
 export default function Navbar() {
   return (
@@ -20,8 +20,7 @@ export default function Navbar() {
         <span>ItineraryGenie</span>
       </Link>
 
-      {/* <SigninButton /> */}
-      <a href="/routes/SignIn">Sign In</a>
+      <SigninButton />
     </nav>
   );
 }

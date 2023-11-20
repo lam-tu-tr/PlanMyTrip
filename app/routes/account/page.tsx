@@ -17,57 +17,51 @@ import styles from "./account.module.scss";
 import Card from "./components/Card/Card";
 import supabase from "@/supabase/supabaseClient";
 import useGetSession from "./hooks/useGetSession";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/context/store";
+
+import { TbLogout } from "react-icons/tb";
+import { logOut } from "@/context/slices/session/sessionSlice";
 
 export default function Account() {
+  const session = useSelector((state: RootState) => state.session);
+  const user = session.user_metadata;
+  // const session_data = session.data;
+  console.log(session);
+  const dispatch = useDispatch();
+
   useGetSession();
-  // // const { data: session } = useSession({
-  // //   required: true,
-  // //   onUnauthenticated() {
-  // //     redirect("/routes/SignIn?callbackUrl=/routes/account");
-  // //   },
-  // // });
 
-  // // const [formData, setFormData] = useState({
-  // //   username: "",
-  // //   password: "",
-  // // });
-  // // const [destItems, setDestItems] = useState<destType[]>([]);
+  if (session && user) {
+    const user_name = user.full_name;
+    const user_avatar = user.picture;
+    const user_email = user.email;
 
-  // // const { isWindow, setIsWindow } = useGlobalContext();
-
-  // // const [currentUser, setCurrentUser] = useState<string | null>(null);
-
-  // // const [createAccount, setCreateAccount] = useState(false);
-
-  // // const router = useRouter();
-  // if (session && session.user) {
-  //   const user_name = session.user.name;
-  //   const user_avatar = session.user.image;
-  //   const user_email = session.user.email;
-  //   return (
-  //     <div className="page-container">
-  //       <section className={`${styles["account-body"]}`}>
-  //         <section className={`${styles["user-profile"]}`}>
-  //           {user_avatar && (
-  //             <div>
-  //               <Image src={user_avatar} fill={true} alt="Profile Picture" />
-  //             </div>
-  //           )}
-  //           <span>
-  //             <h2>{user_name}</h2>
-  //             <p>{user_email}</p>
-  //           </span>
-  //           <button type="button" onClick={() => signOut()}>
-  //             {" "}
-  //             Sign Out
-  //           </button>
-  //         </section>
-  //         <section className={`${styles["trip-list"]}`}>
-  //           <Card />
-  //         </section>
-  //       </section>
-  //     </div>
-  //   );
-  // }
-  return <div>temp</div>;
+    return (
+      <div className="page-container">
+        <section className={`${styles["account-body"]}`}>
+          <section className={`${styles["user-profile"]}`}>
+            {user_avatar && (
+              <span>
+                <div>
+                  <Image src={user_avatar} fill={true} alt="Profile Picture" />
+                </div>
+                <span>
+                  <h2>{user_name}</h2>
+                  <p>{user_email}</p>
+                </span>
+              </span>
+            )}
+            <a href="/" onClick={() => dispatch(logOut())}>
+              <TbLogout className="w-8 h-8" />
+            </a>
+          </section>
+          <section className={`${styles["trip-list"]}`}>
+            <Card />
+          </section>
+        </section>
+      </div>
+    );
+  }
+  return <></>;
 }
