@@ -19,6 +19,8 @@ const AntDateRange = dynamic(() => import("@/components/Ant/AntDateRange"), {
   ssr: false,
 });
 
+import supabase from "@/supabase/supabaseClient";
+
 export default function Home() {
   const { isMobile } = useGlobalContext();
 

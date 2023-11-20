@@ -1,6 +1,5 @@
 //*--------------------------/tripDetails?destination=___ & date=______etc------------------------------------
 
-"use client";
 import React, { useEffect, useState } from "react";
 
 import Map from "@/components/Map/Map";
