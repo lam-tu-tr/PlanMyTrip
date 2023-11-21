@@ -12,7 +12,8 @@ export default function SigninButton() {
           {session.user.image && (
             <Image
               src={session.user.image}
-              fill={true}
+              width={40}
+              height={40}
               alt="User Profile Pic"
               className="rounded-3xl"
             />

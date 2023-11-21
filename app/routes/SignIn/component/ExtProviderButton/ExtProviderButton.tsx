@@ -25,6 +25,7 @@ export default function ExtProviderButton() {
     signIn(providerName, {
       callbackUrl: "http://localhost:3000/routes/account",
     });
+    //TODO POST CREDENTIAL TO database before navigating
   }
   return (
     <>

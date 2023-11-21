@@ -12,9 +12,9 @@ import { destType } from "@/helpers/types";
 import { toastError } from "@/helpers/toast";
 import Topography from "@/components/Topography/Topography";
 import Image from "next/image";
-import { getSession, useSession } from "next-auth/react";
+import { getSession, useSession, signOut } from "next-auth/react";
 import { Session } from "next-auth";
-
+import { TbLogout } from "react-icons/tb";
 import styles from "./account.module.scss";
 import Card from "./components/Card/Card";
 
@@ -39,6 +39,11 @@ const Account: NextPage = () => {
   // const [createAccount, setCreateAccount] = useState(false);
 
   // const router = useRouter();
+  const handleSignOut = async () => {
+    console.log("handlesignout");
+    const signOutRes = await signOut({ callbackUrl: "http://localhost:3000/" });
+  };
+
   if (session && session.user) {
     const user_name = session.user.name;
     const user_avatar = session.user.image;
@@ -49,13 +54,21 @@ const Account: NextPage = () => {
           <section className={`${styles["user-profile"]}`}>
             {user_avatar && (
               <div>
-                <Image src={user_avatar} fill={true} alt="Profile Picture" />
+                <Image
+                  src={user_avatar}
+                  width={50}
+                  height={50}
+                  alt="Profile Picture"
+                />
               </div>
             )}
             <span>
               <h2>{user_name}</h2>
               <p>{user_email}</p>
             </span>
+            <button type="button" onClick={handleSignOut}>
+              <TbLogout className="w-8 h-8" />
+            </button>
           </section>
           <section className={`${styles["trip-list"]}`}>
             <Card />

@@ -12,7 +12,8 @@ export default function Navbar() {
         <span>
           <Image
             src={Logo}
-            fill={true}
+            width={35}
+            height={35}
             style={{ objectFit: "contain" }}
             alt="ItineraryGenie Logo"
           ></Image>

@@ -12,6 +12,10 @@
 /** chat date text*/
 .ai-day {
   margin: 2rem 0;
+  aside {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .ai-date {
