@@ -9,6 +9,7 @@ type providerType = {
   name: string;
   icon: React.ReactNode;
 };
+
 const providerList: providerType[] = [
   {
     name: "Google",

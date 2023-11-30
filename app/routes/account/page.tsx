@@ -1,6 +1,5 @@
 //*
 //*--------------------------/routes/account------------------------------------
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -18,7 +17,7 @@ import { TbLogout } from "react-icons/tb";
 import styles from "./account.module.scss";
 import Card from "./components/Card/Card";
 
-const Account: NextPage = () => {
+export default function Account() {
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
@@ -78,5 +77,4 @@ const Account: NextPage = () => {
     );
   }
   return <></>;
-};
-export default Account;
+}
