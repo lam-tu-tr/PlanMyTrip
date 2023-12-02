@@ -2,7 +2,6 @@ import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import supabase from "@/supabase/supabaseClient";
-import Email from "next-auth/providers/email";
 const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
@@ -19,7 +18,6 @@ const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async signIn({ profile }) {
-      // console.log(profile);
       console.log("adding user to db");
       try {
         const { data, error } = await supabase
@@ -27,32 +25,23 @@ const authOptions: NextAuthOptions = {
           .select("email")
           .eq("email", profile?.email);
 
+        if (error) {
+          console.error("Error verifying account in db", error);
+          return false;
+        }
+
         if (data && data.length == 0) {
-          // console.log("update");
           await supabase
             .from("users")
-            .insert({ name: profile?.name, email: profile?.email })
+            .upsert({ name: profile?.name, email: profile?.email })
             .select();
         }
-        // const { data, error } = await supabase
-        //   .from("users")
-        //   .insert([{ name: profile?.name, email: profile?.email }])
-        //   .select();
-        console.log(data);
+
         return true;
       } catch (error) {
-        console.log();
+        console.error("Error adding account to db", error);
         return false;
       }
-      // const isAllowedToSignIn = true;
-      // if (isAllowedToSignIn) {
-      //   return true;
-      // } else {
-      //   // Return false to display a default error message
-      //   return false;
-      //   // Or you can return a URL to redirect to:
-      //   // return '/unauthorized'
-      // }
     },
   },
 };

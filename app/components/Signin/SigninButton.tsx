@@ -7,15 +7,18 @@ export default function SigninButton() {
 
   if (session && session.user) {
     return (
-      <a href="/routes/account" className="flex flex-row py-2">
-        <div className=" relative h-full aspect-square">
+      <a
+        href="/routes/account"
+        className="flex flex-row justify-center items-center py-2"
+      >
+        <div className=" relative h-full aspect-square flex justify-center items-center">
           {session.user.image && (
             <Image
               src={session.user.image}
               width={40}
               height={40}
               alt="User Profile Pic"
-              className="rounded-3xl"
+              className="rounded-3xl "
             />
           )}
         </div>

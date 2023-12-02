@@ -1,4 +1,5 @@
 //*
+//TODO Not needed anymore since supabase nextauth??
 //*Handle account data CRUD to PlanetScale using Prisma
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";

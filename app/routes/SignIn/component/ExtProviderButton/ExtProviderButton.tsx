@@ -1,6 +1,6 @@
 "use client";
 
-import { getProviders, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 import { FcGoogle } from "react-icons/fc";
 import { BsGithub } from "react-icons/bs";
@@ -24,7 +24,7 @@ const providerList: providerType[] = [
 export default function ExtProviderButton() {
   async function handleProviderSignin(providerName: string) {
     signIn(providerName, {
-      callbackUrl: "http://localhost:3000/routes/account",
+      callbackUrl: "/routes/account",
     });
     //TODO POST CREDENTIAL TO database before navigating
   }

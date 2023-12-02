@@ -18,11 +18,6 @@ export default async function handleSaveToDB(
   dest: destType,
   currentUser: string | null
 ) {
-  if (currentUser == null) {
-    toastError("Please log in to enable trip saving and sharing");
-    return;
-  }
-
   try {
     const res = await fetch("../../../api/trip", {
       method: "POST",
@@ -48,6 +43,7 @@ export default async function handleSaveToDB(
     const { tripId } = await res.json();
 
     copyToClipboard(tripId);
+
     if (type == "save") {
       toastSuccess("Trip saved to account and clipboard");
       // router.push(`/routes/tripId?tripId=${tripId}`);
