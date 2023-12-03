@@ -33,3 +33,11 @@ export type destType = {
   duration: string;
   destList: DestCoordType;
 };
+
+export type CardProps = {
+  destination_name: string;
+  bbox: string;
+  start_date: string;
+  end_date: string;
+  created_date: string;
+};

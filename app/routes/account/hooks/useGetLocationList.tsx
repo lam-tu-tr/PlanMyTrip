@@ -1,9 +1,9 @@
 import { toastError } from "@/helpers/toast";
-import { destType } from "@/helpers/types";
+import { CardProps, destType } from "@/helpers/types";
 import React, { SetStateAction, useEffect } from "react";
 
 interface UseGetLocationListProps {
-  setDestItems: React.Dispatch<React.SetStateAction<destType[]>>;
+  setDestItems: React.Dispatch<React.SetStateAction<CardProps[]>>;
 }
 
 export default function useGetLocationList({
@@ -30,6 +30,7 @@ export default function useGetLocationList({
         if (!res.ok) throw new Error("Failed to Init Variables");
 
         const { tripInfo } = await res.json();
+        console.log("tripInfo", tripInfo);
         setDestItems(tripInfo);
 
         console.log("finished data transfer");

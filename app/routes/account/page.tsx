@@ -9,7 +9,7 @@ import { useSession, signOut } from "next-auth/react";
 import { TbLogout } from "react-icons/tb";
 import styles from "./account.module.scss";
 import Card from "./components/Card/Card";
-import { destType } from "@/helpers/types";
+import { CardProps, destType } from "@/helpers/types";
 import { useState } from "react";
 import useGetLocationList from "./hooks/useGetLocationList";
 
@@ -25,7 +25,7 @@ export default function Account() {
   //   username: "",
   //   password: "",
   // });
-  const [destItems, setDestItems] = useState<destType[]>([]);
+  const [destItems, setDestItems] = useState<CardProps[]>([]);
 
   useGetLocationList({ setDestItems });
   // const { isWindow, setIsWindow } = useGlobalContext();
@@ -67,7 +67,7 @@ export default function Account() {
             </button>
           </section>
           <section className={`${styles["trip-list"]}`}>
-            <Card />
+            <Card destItems={destItems} />
           </section>
         </section>
       </div>

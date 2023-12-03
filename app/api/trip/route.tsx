@@ -62,15 +62,22 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       break;
     case "getAllList":
       //*returns array of trips
-      const getAllTripRes = await prisma.tripList.findMany({
-        where: {
-          userTrip: dbPayload,
-        },
-        orderBy: {
-          dateCreated: "desc",
-        },
-      });
-      tripInfo = getAllTripRes;
+
+      const { data, error: error2 } = await supabase
+        .from("trip")
+        .select("destination_name,bbox, start_date, end_date,created_date")
+        .eq("email", user.email);
+
+      // console.log("fetched user list", data);
+      // const getAllTripRes = await prisma.tripList.findMany({
+      //   where: {
+      //     userTrip: dbPayload,
+      //   },
+      //   orderBy: {
+      //     dateCreated: "desc",
+      //   },
+      // });
+      tripInfo = data;
       break;
   }
 
