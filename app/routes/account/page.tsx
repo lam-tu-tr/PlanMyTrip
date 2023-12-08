@@ -1,24 +1,20 @@
 //*
 //*--------------------------/routes/account------------------------------------
-
 "use client";
 
-import { useState, useEffect } from "react";
-import type { InferGetServerSidePropsType, NextPage } from "next";
-import { useGlobalContext } from "@/Context";
-import { v4 as uuidv4 } from "uuid";
-import { redirect, useRouter } from "next/navigation";
-import { destType } from "@/helpers/types";
-import { toastError } from "@/helpers/toast";
-import Topography from "@/components/Topography/Topography";
+import { redirect } from "next/navigation";
+
 import Image from "next/image";
-import { getSession, useSession, signOut } from "next-auth/react";
-import { Session } from "next-auth";
+import { useSession, signOut } from "next-auth/react";
 import { TbLogout } from "react-icons/tb";
 import styles from "./account.module.scss";
-import Card from "./components/Card/Card";
+import LocationCard from "../../components/LocationCard/LocationCard";
+import { CardProps } from "@/helpers/types";
+import { useState } from "react";
+import useFetchLocationList from "./hooks/useFetchLocationList";
+import { BsCommand } from "react-icons/bs";
 
-const Account: NextPage = () => {
+export default function Account() {
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
@@ -26,22 +22,13 @@ const Account: NextPage = () => {
     },
   });
 
-  // const [formData, setFormData] = useState({
-  //   username: "",
-  //   password: "",
-  // });
-  // const [destItems, setDestItems] = useState<destType[]>([]);
+  const [destItems, setDestItems] = useState<CardProps[]>([]);
 
-  // const { isWindow, setIsWindow } = useGlobalContext();
+  useFetchLocationList({ setDestItems });
 
-  // const [currentUser, setCurrentUser] = useState<string | null>(null);
-
-  // const [createAccount, setCreateAccount] = useState(false);
-
-  // const router = useRouter();
   const handleSignOut = async () => {
     console.log("handlesignout");
-    const signOutRes = await signOut({ callbackUrl: "http://localhost:3000/" });
+    const signOutRes = await signOut({ callbackUrl: "/" });
   };
 
   if (session && session.user) {
@@ -70,13 +57,24 @@ const Account: NextPage = () => {
               <TbLogout className="w-8 h-8" />
             </button>
           </section>
-          <section className={`${styles["trip-list"]}`}>
-            <Card />
-          </section>
+          <h1>Itineraries</h1>
+          {destItems.length == 0 ? (
+            <section className={styles.empty}>
+              <div>
+                <BsCommand className="w-48 h-48" />
+                <h2>View your generated itineraries here</h2>
+              </div>
+            </section>
+          ) : (
+            <ul className={`${styles["trip-list"]}`}>
+              {destItems.map((item, index) => {
+                return <LocationCard key={index} cardItem={item} />;
+              })}
+            </ul>
+          )}
         </section>
       </div>
     );
   }
   return <></>;
-};
-export default Account;
+}

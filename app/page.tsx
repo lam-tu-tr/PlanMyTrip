@@ -12,7 +12,7 @@ import { destType } from "./helpers/types";
 import { useGlobalContext } from "@/Context";
 import { toastError } from "@/helpers/toast";
 import MobileAnt from "@/components/Ant/MobileAnt";
-import SearchParams from "@/components/SearchParams";
+import SearchParams from "@/components/SearchParams/SearchParams";
 
 //*Force AntDesign component to be imported as client instead of SSR
 const AntDateRange = dynamic(() => import("@/components/Ant/AntDateRange"), {
