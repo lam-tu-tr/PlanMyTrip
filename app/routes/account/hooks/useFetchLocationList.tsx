@@ -2,44 +2,34 @@ import { toastError } from "@/helpers/toast";
 import { CardProps, destType } from "@/helpers/types";
 import React, { SetStateAction, useEffect } from "react";
 
-interface UseGetLocationListProps {
+interface UseFetchLocationListProps {
   setDestItems: React.Dispatch<React.SetStateAction<CardProps[]>>;
 }
 
 export default function useGetLocationList({
   setDestItems,
-}: UseGetLocationListProps) {
+}: UseFetchLocationListProps) {
   useEffect(() => {
     async function initVars() {
       setDestItems([]);
 
       try {
-        // const userFromStorage =
-        //   isWindow && window.sessionStorage.getItem("currentUser");
-        const res = await fetch("../../api/trip", {
-          method: "POST",
+        const res = await fetch("../../api/trip/getUserTrips", {
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            // dbPayload: userFromStorage,
-            type: "getAllList",
-          }),
         });
 
         if (!res.ok) throw new Error("Failed to Init Variables");
 
         const { tripInfo } = await res.json();
-        console.log("tripInfo", tripInfo);
         setDestItems(tripInfo);
-
-        console.log("finished data transfer");
       } catch (err) {
-        toastError("Couldnt transfer data to server");
+        toastError("Couldnt get itineraries from server");
       }
     }
 
     initVars();
   }, [setDestItems]);
-  return <></>;
 }

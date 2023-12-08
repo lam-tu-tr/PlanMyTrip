@@ -8,10 +8,11 @@ import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
 import { TbLogout } from "react-icons/tb";
 import styles from "./account.module.scss";
-import Card from "./components/Card/Card";
-import { CardProps, destType } from "@/helpers/types";
+import LocationCard from "../../components/LocationCard/LocationCard";
+import { CardProps } from "@/helpers/types";
 import { useState } from "react";
-import useGetLocationList from "./hooks/useGetLocationList";
+import useFetchLocationList from "./hooks/useFetchLocationList";
+import { BsCommand } from "react-icons/bs";
 
 export default function Account() {
   const { data: session } = useSession({
@@ -21,20 +22,10 @@ export default function Account() {
     },
   });
 
-  // const [formData, setFormData] = useState({
-  //   username: "",
-  //   password: "",
-  // });
   const [destItems, setDestItems] = useState<CardProps[]>([]);
 
-  useGetLocationList({ setDestItems });
-  // const { isWindow, setIsWindow } = useGlobalContext();
+  useFetchLocationList({ setDestItems });
 
-  // const [currentUser, setCurrentUser] = useState<string | null>(null);
-
-  // const [createAccount, setCreateAccount] = useState(false);
-
-  // const router = useRouter();
   const handleSignOut = async () => {
     console.log("handlesignout");
     const signOutRes = await signOut({ callbackUrl: "/" });
@@ -66,9 +57,21 @@ export default function Account() {
               <TbLogout className="w-8 h-8" />
             </button>
           </section>
-          <section className={`${styles["trip-list"]}`}>
-            <Card destItems={destItems} />
-          </section>
+          <h1>Itineraries</h1>
+          {destItems.length == 0 ? (
+            <section className={styles.empty}>
+              <div>
+                <BsCommand className="w-48 h-48" />
+                <h2>View your generated itineraries here</h2>
+              </div>
+            </section>
+          ) : (
+            <ul className={`${styles["trip-list"]}`}>
+              {destItems.map((item, index) => {
+                return <LocationCard key={index} cardItem={item} />;
+              })}
+            </ul>
+          )}
         </section>
       </div>
     );

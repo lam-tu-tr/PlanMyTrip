@@ -1,4 +1,4 @@
-#TripDetails {
+.TripDetails {
   display: flex;
   flex-direction: column;
 
@@ -14,7 +14,7 @@
     width: 100%;
   }
 
-  #trip_form {
+  .trip_form {
     height: 60%;
 
     display: grid;
@@ -56,7 +56,7 @@
   }
 }
 @media (min-width: 900px) {
-  #TripDetails {
+  .TripDetails {
     flex-direction: row-reverse;
     padding: 1rem;
     gap: 1rem;
@@ -66,7 +66,7 @@
       flex-basis: 50%;
       border-radius: 1rem;
     }
-    #trip_form {
+    .trip_form {
       height: 100%;
       flex-basis: 50%;
     }
@@ -94,12 +94,12 @@
   }
 }
 @media (min-width: 1400px) {
-  #TripDetails {
+  .TripDetails {
     gap: 2rem;
     #map {
       flex-basis: 70%;
     }
-    #trip_form {
+    .trip_form {
       flex-basis: 30%;
     }
   }

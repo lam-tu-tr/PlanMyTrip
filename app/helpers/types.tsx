@@ -35,6 +35,7 @@ export type destType = {
 };
 
 export type CardProps = {
+  id: string;
   destination_name: string;
   bbox: string;
   start_date: string;

@@ -12,23 +12,22 @@ const DOMPurifyConfig = {
 
 type ItineraryType = {
   dest: destType;
-  currentUser: string | null;
 };
 
-export default function Itinerary({ dest, currentUser }: ItineraryType) {
+export default function Itinerary({ dest }: ItineraryType) {
   return (
     <section id="itinerary_container">
       <div>
         <button
           title="Copy Trip Link"
-          onClick={() => handleSaveToDB("", dest, currentUser)}
+          onClick={() => handleSaveToDB("", dest)}
           type="button"
         >
           <FiCopy className="w-full h-full" />
         </button>
         <button
           title="Save to Account"
-          onClick={() => handleSaveToDB("save", dest, currentUser)}
+          onClick={() => handleSaveToDB("save", dest)}
           type="button"
         >
           <FiSave className="w-full h-full" />

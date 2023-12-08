@@ -4,8 +4,8 @@
 import React, { useEffect, useState } from "react";
 
 import Map from "@/components/Map/Map";
-import Itinerary from "./components/Itinerary/Itinerary";
-import AiChatBox from "./components/AiChatBox/AiChatBox";
+import Itinerary from "../../components/Itinerary/Itinerary";
+import AiChatBox from "../../components/AiChatBox/AiChatBox";
 
 import { useSearchParams } from "next/navigation";
 import { Message, destType } from "@/helpers/types";
@@ -53,11 +53,11 @@ export default function Trip() {
   useHandleLocationHover(dest.destList, setCurrDest);
 
   return (
-    <div id="TripDetails" className="page-container">
+    <div className="TripDetails page-container">
       <Map currDest={currDest} dest={dest} setDest={setDest} />
 
       <form
-        id="trip_form"
+        className="trip_form"
         onSubmit={(e) => {
           e.preventDefault();
           handleConvo(
@@ -70,7 +70,7 @@ export default function Trip() {
           );
         }}
       >
-        <Itinerary dest={dest} currentUser={currentUser} />
+        <Itinerary dest={dest} />
         <AiChatBox
           userMessage={userMessage}
           aiComplete={aiComplete}

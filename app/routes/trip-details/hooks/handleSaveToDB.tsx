@@ -1,7 +1,6 @@
-//*Handle Save to db
-
 import { toastError, toastSuccess } from "@/helpers/toast";
 import { destType } from "@/helpers/types";
+import { getServerSession } from "next-auth";
 
 async function copyToClipboard(tripId: string) {
   try {
@@ -13,20 +12,15 @@ async function copyToClipboard(tripId: string) {
   }
 }
 
-export default async function handleSaveToDB(
-  type: string,
-  dest: destType,
-  currentUser: string | null
-) {
+export default async function handleSaveToDB(type: string, dest: destType) {
   try {
-    const res = await fetch("../../../api/trip", {
+    const res = await fetch("../../../api/trip/saveTrip", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         dbPayload: {
-          username: currentUser,
           destName: dest.destName,
           aiMessage: dest.aiMessage,
           destList: dest.destList,
@@ -34,7 +28,6 @@ export default async function handleSaveToDB(
           startDate: dest.startDate,
           endDate: dest.endDate,
         },
-        type: "create",
       }),
     });
 
