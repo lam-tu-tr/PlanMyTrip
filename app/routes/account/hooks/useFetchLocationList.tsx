@@ -6,12 +6,10 @@ interface UseFetchLocationListProps {
   setDestItems: React.Dispatch<React.SetStateAction<CardProps[]>>;
 }
 
-export default function useGetLocationList({
-  setDestItems,
-}: UseFetchLocationListProps) {
+export default function useGetLocationList() {
   useEffect(() => {
     async function initVars() {
-      setDestItems([]);
+      // setDestItems([]);
 
       try {
         const res = await fetch("../../api/trip/getUserTrips", {
@@ -24,12 +22,12 @@ export default function useGetLocationList({
         if (!res.ok) throw new Error("Failed to Init Variables");
 
         const { tripInfo } = await res.json();
-        setDestItems(tripInfo);
+        // setDestItems(tripInfo);
       } catch (err) {
-        toastError("Couldnt get itineraries from server");
+        // toastError("Couldnt get itineraries from server");
       }
     }
 
     initVars();
-  }, [setDestItems]);
+  }, []);
 }

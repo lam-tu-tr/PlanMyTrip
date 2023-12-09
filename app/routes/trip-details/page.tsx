@@ -10,8 +10,8 @@ import AiChatBox from "../../components/AiChatBox/AiChatBox";
 import { useSearchParams } from "next/navigation";
 import { Message, destType } from "@/helpers/types";
 
-import setInitialPrompt from "./hooks/setInitialPrompt";
-import handleConvo from "./hooks/handleConvo";
+import setInitialPrompt from "./helpers/setInitialPrompt";
+import handleConvo from "./helpers/handleConvo";
 import useHandleLocationHover from "./hooks/useHandleLocationHover";
 import useFetchLocation from "./hooks/useFetchLocations";
 import useHandleAiStream from "./hooks/useHandleAiStream";

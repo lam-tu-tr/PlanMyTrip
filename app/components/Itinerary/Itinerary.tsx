@@ -1,4 +1,4 @@
-import handleSaveToDB from "@/routes/trip-details/hooks/handleSaveToDB";
+import handleSaveToDB from "@/routes/trip-details/helpers/handleSaveToDB";
 import { destType } from "@/helpers/types";
 import { FiCopy, FiSave } from "react-icons/fi";
 import { capitalizeWords } from "@/helpers/helper-functions";
