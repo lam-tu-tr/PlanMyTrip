@@ -14,11 +14,10 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: "/routes/SignIn",
+    signIn: "/routes/signin",
   },
   callbacks: {
     async signIn({ profile }) {
-      console.log("adding user to db");
       try {
         const { data, error } = await supabase
           .from("users")
@@ -46,21 +45,4 @@ const authOptions: NextAuthOptions = {
   },
 };
 
-//profile object
-// {
-//   iss: 'https://accounts.google.com',
-//   azp: '979043192014-l7ctgpdmmmt1aj9q8285hu603q59ior4.apps.googleusercontent.com',
-//   aud: '979043192014-l7ctgpdmmmt1aj9q8285hu603q59ior4.apps.googleusercontent.com',
-//   sub: '101848548609272717307',
-//   email: 'lam.tu.tran2073@gmail.com',
-//   email_verified: true,
-//   at_hash: 'rGEL4_p2zrJzZb7lh4YNww',
-//   name: 'Lam Bam',
-//   picture: 'https://lh3.googleusercontent.com/a/ACg8ocLHSZ9Q0JipchMgfW0ZKjd3haTjxsf4lx59HvNouH_0mw=s96-c',
-//   given_name: 'Lam',
-//   family_name: 'Bam',
-//   locale: 'en',
-//   iat: 1701301145,
-//   exp: 1701304745
-// }
 export default authOptions;

@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./LocationCard.module.scss";
 import { CardProps } from "@/helpers/types";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 
 type AccountCardProps = {
@@ -15,8 +14,10 @@ export default function LocationCard({ cardItem }: AccountCardProps) {
         href={`/routes/trip?id=${cardItem.id}`}
         className={styles.card_link}
       >
-        {/* <input type="hidden" required name="tripId" value={cardItem.id} /> */}
-        <p>{cardItem.destination_name}</p>
+        <p>
+          <span>{cardItem.destination_name}</span>
+          <span></span>
+        </p>
         <p>
           From: <br />
           {cardItem.start_date}

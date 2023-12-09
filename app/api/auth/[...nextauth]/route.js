@@ -1,4 +1,4 @@
-//catch all for auth
+//*catch all for auth
 
 import NextAuth from "next-auth/next";
 import authOptions from "./auth";

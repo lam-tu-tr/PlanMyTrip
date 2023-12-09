@@ -1,8 +1,9 @@
 "use client";
 
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
-export default function SigninButton() {
+
+export default function SignInButton() {
   const { data: session } = useSession();
 
   if (session && session.user) {

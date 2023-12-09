@@ -9,12 +9,10 @@ import {
 
 export const runtime = "edge";
 
-//*------------------------------------------------------------------------------
 //* POST a chat request to openAI chatcompletion endpoint
 //* reuseable for additional request for chat conversation
 //* the req.prompt ill get more complex as more {role:string,content:string} object
 //*    gets added to prompt by user and system
-//*-----------------------------------------------------------------------------
 
 type promptType = {
   messages: Message[];
@@ -49,6 +47,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 //* It then parses the stream response into individual events, filters out the "DONE" event, and encodes the
 //* text content of each event as a Uint8Array. The function returns a ReadableStream object that
 //* can be consumed by the caller.
+
 async function AiStream(payload: AiStreamPayload) {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();

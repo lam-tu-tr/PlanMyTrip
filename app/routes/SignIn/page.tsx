@@ -1,5 +1,5 @@
 import styles from "./SignIn.module.scss";
-import ExtProviderButton from "./component/ExtProviderButton/ExtProviderButton";
+import ExtProviderButton from "@/components/ExtProviderButton/ExtProviderButton";
 
 export default function SignIn() {
   return (
