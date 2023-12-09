@@ -5,7 +5,7 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import Map from "@/components/Map/Map";
-import Button from "@/components/Button/Button";
+import GenerateButton from "@/components/Button/GenerateButton";
 import "./home.scss";
 import { destType } from "./helpers/types";
 
@@ -75,7 +75,7 @@ export default function Home() {
           ) : (
             <AntDateRange setDest={setDest} />
           )}
-          <Button endDate={dest.endDate} />
+          <GenerateButton endDate={dest.endDate} />
         </form>
       </div>
     </main>

@@ -15,7 +15,10 @@ import { toastError } from "@/helpers/toast";
 import { useRouter } from "next/navigation";
 import useFetchTripInfo from "./hooks/useFetchTripInfo";
 import Itinerary from "@/components/Itinerary/Itinerary";
+
 import AiChatBox from "@/components/AiChatBox/AiChatBox";
+
+import "../trip-details/trip-details.scss";
 const DOMPurifyConfig = {
   ADD_ATTR: ["target"], //*allow target attribute on anchor tags to go through
 };

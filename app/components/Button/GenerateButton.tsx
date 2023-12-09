@@ -1,5 +1,5 @@
 import React from "react";
-import "./Button.scss";
+import "./GenerateButton.scss";
 interface ButtonProps {
   endDate: string; // Specify the type of the endDate prop
 }
@@ -7,7 +7,6 @@ interface ButtonProps {
 export default function Button({ endDate }: ButtonProps) {
   return (
     <button
-
       className={`home-button submit-button  ${
         endDate.length !== 0 ? "submit-highlight " : ""
       }`}
@@ -15,7 +14,6 @@ export default function Button({ endDate }: ButtonProps) {
       type="submit"
     >
       <div className="glow-on-hover">Generate Itinerary</div>
-
     </button>
   );
 }
