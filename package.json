@@ -57,7 +57,6 @@
     "@types/react-date-range": "^1.4.4",
     "@types/react-datepicker": "^4.11.2",
     "@types/uuid": "^9.0.2",
-    "prisma": "^4.16.2",
     "ts-node": "^10.9.1",
     "tslib": "^2.5.2",
     "typescript": "^5.0.4"
