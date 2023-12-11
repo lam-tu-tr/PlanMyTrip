@@ -2,7 +2,7 @@ import { handleSaveToDB } from "@/routes/trip-details/helpers/handleSaveToDB";
 import { destType } from "@/helpers/types";
 import { FiCopy } from "react-icons/fi";
 import { capitalizeWords } from "@/helpers/helper-functions";
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 
 import "./Itinerary.scss";
 
@@ -15,6 +15,7 @@ type ItineraryType = {
 };
 
 export function Itinerary({ dest }: ItineraryType) {
+  //
   return (
     <section id="itinerary_container">
       <div>
