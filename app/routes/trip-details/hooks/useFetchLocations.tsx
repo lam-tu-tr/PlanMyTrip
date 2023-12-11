@@ -1,35 +1,44 @@
-import { destType } from "@/helpers/types";
-import { useEffect } from "react";
+import { Coordinate, destType } from "@/helpers/types";
+import { useEffect, useRef } from "react";
 import { handleGetLocationCoordinate } from "../helpers/handleGetLocationCoordinate";
+import { handlePromiseAllWithRetries } from "../helpers/handlePromiseAllWithRetries";
 
 export function useFetchLocation(
   aiComplete: boolean,
   setDest: React.Dispatch<React.SetStateAction<destType>>,
   bbox: string
 ) {
-  //*
-  //*Select all anchor tags from aiMessage
-  //*push to destList array the locations found within anchor tag
-  //*
+  const isFirstRender = useRef(true);
   useEffect(() => {
-    const allLocations = document.querySelectorAll(".ai-location");
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    //Select all anchor tags from aiMessage
+    //push to destList array the locations found within anchor tag
+    const location_arr = document.querySelectorAll(".ai-location");
 
-    //*Fetch data from Mapbox geo data to get coordinates for all destinations
-    //*assign destination as key and coordinates as values for destList
-    //*
     const fetchCoordinates = async () => {
-      const coordinatePromises = Array.from(allLocations).map((location) => {
+      //Create array of promises
+      const coordinate_promise_arr: Promise<Coordinate>[] = Array.from(
+        location_arr
+      ).map((location) => {
         return handleGetLocationCoordinate(location.innerHTML, bbox);
       });
 
       try {
-        const coordinates = await Promise.all(coordinatePromises);
-        const updatedDestList = coordinates.reduce(
+        console.log("trying promiseall");
+        const coordinates_arr: Coordinate[] = await handlePromiseAllWithRetries(
+          coordinate_promise_arr
+        );
+
+        console.log("returned promiseall", coordinates_arr);
+        const updatedDestList = coordinates_arr.reduce(
           (prevList, coordinate, index) => {
-            const location = allLocations[index].innerHTML;
+            const location_name: string = location_arr[index].innerHTML;
             return {
               ...prevList,
-              [location]: [coordinate.x, coordinate.y],
+              [location_name]: coordinate,
             };
           },
           {}
@@ -38,8 +47,8 @@ export function useFetchLocation(
           ...prev,
           destList: updatedDestList,
         }));
-      } catch (err) {
-        console.log("Fetch Coordinate Erorr", err);
+      } catch (error) {
+        console.log("Fetch Coordinate Error", error);
       }
     };
 

@@ -19,8 +19,10 @@ export type AntMobileProps = {
   setDest: React.Dispatch<React.SetStateAction<destType>>;
 };
 
-export type DestCoordType = {
-  [key: string]: [longitude: number, latitude: number];
+export type Coordinate = [longitude: number, latitude: number];
+
+export type DestCoordinateType = {
+  [key: string]: Coordinate;
 };
 
 export type destType = {
@@ -31,7 +33,7 @@ export type destType = {
   endDate: string;
   aiMessage: string;
   duration: string;
-  destList: DestCoordType;
+  destList: DestCoordinateType;
 };
 
 export type CardTripInfoType = {
