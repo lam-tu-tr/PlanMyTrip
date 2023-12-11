@@ -1,4 +1,4 @@
-//* -----------
+//* Context Practice
 "use client";
 
 import {
@@ -9,31 +9,23 @@ import {
   Dispatch,
   SetStateAction,
 } from "react";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface ContextProps {
-  isWindow: boolean;
-  setIsWindow: Dispatch<SetStateAction<boolean>>;
-
   isMobile: boolean;
   setIsMobile: Dispatch<SetStateAction<boolean>>;
 }
 
 const GlobalContext = createContext<ContextProps>({
-  isWindow: false,
-  setIsWindow: () => {},
-
   isMobile: false,
   setIsMobile: () => {},
 });
 
 export const GlobalContextProvider = ({ children }: any) => {
   //*global variables for every page
-  const [isWindow, setIsWindow] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => setIsWindow(true), []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -55,9 +47,7 @@ export const GlobalContextProvider = ({ children }: any) => {
   }, []);
 
   return (
-    <GlobalContext.Provider
-      value={{ isMobile, setIsMobile, isWindow, setIsWindow }}
-    >
+    <GlobalContext.Provider value={{ isMobile, setIsMobile }}>
       <ToastContainer />
       {children}
     </GlobalContext.Provider>

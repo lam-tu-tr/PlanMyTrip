@@ -3,7 +3,7 @@
 import { signOut } from "next-auth/react";
 import { TbLogout } from "react-icons/tb";
 
-export default function SignOutButton() {
+export function SignOutButton() {
   const handleSignOut = async () => {
     await signOut({ callbackUrl: "/" });
   };

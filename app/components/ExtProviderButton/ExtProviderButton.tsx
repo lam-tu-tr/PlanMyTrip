@@ -21,7 +21,7 @@ const providerList: providerType[] = [
   },
 ];
 
-export default function ExtProviderButton() {
+export function ExtProviderButton() {
   async function handleProviderSignin(providerName: string) {
     signIn(providerName, {
       callbackUrl: "/routes/account",

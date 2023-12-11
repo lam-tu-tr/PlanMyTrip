@@ -1,7 +1,7 @@
 import { capitalizeWords } from "@/helpers/helper-functions";
 import { Message, destType } from "@/helpers/types";
 
-export default function setInitialPrompt(dest: destType): Message[] {
+export function handleSetInitialPrompt(dest: destType): Message[] {
   return [
     {
       role: "system",

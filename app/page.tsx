@@ -3,16 +3,18 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
-import Map from "@/components/Map/Map";
-import GenerateButton from "@/components/Button/GenerateButton";
-import "./home.scss";
+
 import { destType } from "./helpers/types";
+import { useRouter } from "next/navigation";
+import { toastError } from "@/helpers/toast";
+
+import { Map } from "@/components/Map/Map";
+import { GenerateButton } from "@/components/Button/GenerateButton";
+import MobileAnt from "@/components/Ant/MobileAnt";
+import { SearchParams } from "@/components/SearchParams/SearchParams";
 
 import { useGlobalContext } from "@/Context";
-import { toastError } from "@/helpers/toast";
-import MobileAnt from "@/components/Ant/MobileAnt";
-import SearchParams from "@/components/SearchParams/SearchParams";
+import "./home.scss";
 
 //*Force AntDesign component to be imported as client instead of SSR
 const AntDateRange = dynamic(() => import("@/components/Ant/AntDateRange"), {

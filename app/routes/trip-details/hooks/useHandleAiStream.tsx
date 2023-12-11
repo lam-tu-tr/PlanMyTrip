@@ -1,9 +1,10 @@
 import { Message, destType } from "@/helpers/types";
 import { useEffect } from "react";
 
-export default function useHandleAiStream(
+export function useHandleAiStream(
   messagePayload: Message[],
   setAiComplete: React.Dispatch<React.SetStateAction<boolean>>,
+
   setDest: React.Dispatch<React.SetStateAction<destType>>
 ) {
   useEffect(() => {
@@ -39,8 +40,8 @@ export default function useHandleAiStream(
             aiMessage: prevDest.aiMessage + chunkValue,
           }));
         }
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
+        console.error(error);
       }
     }
 

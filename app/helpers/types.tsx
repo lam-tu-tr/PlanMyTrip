@@ -34,7 +34,7 @@ export type destType = {
   destList: DestCoordType;
 };
 
-export type CardProps = {
+export type CardTripInfoType = {
   id: string;
   destination_name: string;
   bbox: string;

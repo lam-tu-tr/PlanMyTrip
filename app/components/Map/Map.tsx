@@ -18,19 +18,12 @@ interface MapCoord {
   dest: destType;
   setDest: React.Dispatch<React.SetStateAction<destType>>;
 }
-export default function Map({
-  currDest,
-  initialCoord,
-  dest,
-  setDest,
-}: MapCoord) {
+export function Map({ currDest, initialCoord, dest, setDest }: MapCoord) {
   const mapContainerRef = useRef(null);
 
   const [map, setMap] = useState<mapboxgl.Map | null>(null);
 
   const [markers, setMarkers] = useState<any[]>([]);
-
-  const { isMobile } = useGlobalContext();
 
   //* Create the map
   useEffect(() => {
@@ -74,7 +67,7 @@ export default function Map({
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mapboxgl, mapboxgl.Map, setDest, isMobile]);
+  }, [mapboxgl, mapboxgl.Map, setDest]);
 
   //* Add markers to map
   useEffect(() => {

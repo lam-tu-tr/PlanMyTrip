@@ -1,6 +1,6 @@
-import handleSaveToDB from "@/routes/trip-details/helpers/handleSaveToDB";
+import { handleSaveToDB } from "@/routes/trip-details/helpers/handleSaveToDB";
 import { destType } from "@/helpers/types";
-import { FiCopy, FiSave } from "react-icons/fi";
+import { FiCopy } from "react-icons/fi";
 import { capitalizeWords } from "@/helpers/helper-functions";
 import DOMPurify from "dompurify";
 
@@ -14,26 +14,21 @@ type ItineraryType = {
   dest: destType;
 };
 
-export default function Itinerary({ dest }: ItineraryType) {
+export function Itinerary({ dest }: ItineraryType) {
   return (
     <section id="itinerary_container">
       <div>
         <button
           title="Copy Trip Link"
-          onClick={() => handleSaveToDB("", dest)}
+          onClick={() => handleSaveToDB(dest)}
           type="button"
         >
           <FiCopy className="w-full h-full" />
         </button>
-        <button
-          title="Save to Account"
-          onClick={() => handleSaveToDB("save", dest)}
-          type="button"
-        >
-          <FiSave className="w-full h-full" />
-        </button>
       </div>
+
       <h1>Trip to {capitalizeWords(dest.destName!)}</h1>
+
       <section
         className="itinerary"
         dangerouslySetInnerHTML={{

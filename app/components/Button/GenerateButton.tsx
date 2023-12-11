@@ -4,7 +4,7 @@ interface ButtonProps {
   endDate: string; // Specify the type of the endDate prop
 }
 
-export default function Button({ endDate }: ButtonProps) {
+export function GenerateButton({ endDate }: ButtonProps) {
   return (
     <button
       className={`home-button submit-button  ${

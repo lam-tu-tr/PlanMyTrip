@@ -1,30 +1,24 @@
-//*--------------------------/tripDetails?destination=___ & date=______etc------------------------------------
-
 "use client";
+
 import React, { useEffect, useState } from "react";
 
-import Map from "@/components/Map/Map";
-import Itinerary from "../../components/Itinerary/Itinerary";
-import AiChatBox from "../../components/AiChatBox/AiChatBox";
+import { Map } from "@/components/Map/Map";
+import { Itinerary } from "../../components/Itinerary/Itinerary";
+import { AiChatBox } from "../../components/AiChatBox/AiChatBox";
 
 import { useSearchParams } from "next/navigation";
 import { Message, destType } from "@/helpers/types";
 
-import setInitialPrompt from "./helpers/setInitialPrompt";
-import handleConvo from "./helpers/handleConvo";
-import useHandleLocationHover from "./hooks/useHandleLocationHover";
-import useFetchLocation from "./hooks/useFetchLocations";
-import useHandleAiStream from "./hooks/useHandleAiStream";
+import { handleSetInitialPrompt } from "./helpers/handleSetInitialPrompt";
+import { handleConversation } from "./helpers/handleConversation";
+import { useHandleLocationHover } from "./hooks/useHandleLocationHover";
+import { useFetchLocation } from "./hooks/useFetchLocations";
+import { useHandleAiStream } from "./hooks/useHandleAiStream";
+import { handleSaveToDB } from "./helpers/handleSaveToDB";
 
 import "./trip-details.scss";
 
 export default function Trip() {
-  const [currentUser, setCurrentUser] = useState<string | null>(null);
-
-  useEffect(() => {
-    setCurrentUser(window.sessionStorage.getItem("currentUser") || null);
-  }, []);
-
   const [dest, setDest] = useState<destType>({
     destName: useSearchParams().get("destName")!,
     bbox: useSearchParams().get("bbox")!,
@@ -43,8 +37,19 @@ export default function Trip() {
   const [currDest, setCurrDest] = useState<[number, number]>();
 
   const [messagePayload, setMessagePayload] = useState<Message[]>(
-    setInitialPrompt(dest)
+    handleSetInitialPrompt(dest)
   );
+
+  useEffect(() => {
+    if (!aiComplete) return;
+
+    //*set debounce to prevent multiple calls when aiComplete and dest trigger renders simutaneously
+    const timeoutId = setTimeout(() => {
+      handleSaveToDB(dest);
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [aiComplete, dest]);
 
   useFetchLocation(aiComplete, setDest, dest.bbox);
 
@@ -60,7 +65,7 @@ export default function Trip() {
         className="trip_form"
         onSubmit={(e) => {
           e.preventDefault();
-          handleConvo(
+          handleConversation(
             dest.aiMessage,
             userMessage,
             setUserMessage,

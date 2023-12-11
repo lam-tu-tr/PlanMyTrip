@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
-export default async function FetchLocationList() {
+export async function handleFetchLocationList() {
   const session = await getServerSession();
   const user = session?.user;
 
@@ -20,11 +20,11 @@ export default async function FetchLocationList() {
       }),
     });
 
-    if (!res.ok) throw new Error("Failed to Init Variables");
+    if (!res.ok) throw new Error("Failed to get itinerary list from db");
 
-    const { tripInfo } = await res.json();
+    const { cardItineraryList } = await res.json();
 
-    return tripInfo;
+    return cardItineraryList;
   } catch (err) {
     console.log(err);
   }

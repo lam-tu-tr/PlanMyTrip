@@ -10,7 +10,7 @@ type Params = {
 };
 
 //hidden input to set date querystring upon submission
-export default function SearchParams({ params }: Params) {
+export function SearchParams({ params }: Params) {
   return (
     <>
       {Object.entries(params).map(([key, value], index) => (

@@ -1,4 +1,7 @@
-export default async function getCoord(location: string, bbox: string) {
+export async function handleGetLocationCoordinate(
+  location: string,
+  bbox: string
+) {
   const destRes = await fetch(
     `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?bbox=${bbox}&limit=2&access_token=${process.env.MAPBOX_KEY}`,
     {

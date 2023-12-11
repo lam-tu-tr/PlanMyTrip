@@ -9,7 +9,7 @@ type AiChatBoxType = {
   setUserMessage: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export default function AiChatBox({
+export function AiChatBox({
   userMessage,
   aiComplete,
   setUserMessage,

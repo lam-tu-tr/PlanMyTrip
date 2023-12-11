@@ -3,7 +3,7 @@ import "./Topography.scss";
 
 //https://codepen.io/coffeecircle/pen/YqdWpW
 
-export default function Topography() {
+export function Topography() {
   return (
     <svg
       version="1.1"

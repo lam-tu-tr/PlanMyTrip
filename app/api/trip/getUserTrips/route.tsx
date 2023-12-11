@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import supabase from "@/supabase/supabaseClient";
-import { getServerSession } from "next-auth";
+import { CardTripInfoType } from "@/helpers/types";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const { user_email } = await req.json();
-  // const user_email = req.body;
-  console.log("user_email", user_email);
-  //TODO Create type for server tripInfo
-  let tripInfo = [];
+
+  let cardItineraryList: CardTripInfoType[] = [];
 
   const { data, error } = await supabase
     .from("trip")
@@ -17,8 +15,10 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
   if (error) return NextResponse.json({ status: 400, error: error });
 
-  // console.log("tripData", data);
-  tripInfo = data;
+  cardItineraryList = data;
 
-  return NextResponse.json({ status: 200, tripInfo: tripInfo });
+  return NextResponse.json({
+    status: 200,
+    cardItineraryList: cardItineraryList,
+  });
 }

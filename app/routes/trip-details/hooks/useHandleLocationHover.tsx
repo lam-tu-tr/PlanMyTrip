@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
-//** add event delegation, ai-location class mouseover bubbles up to chat class     */
-export default function useHandleLocationHover(
+//** add event delegation, ai-location class mouseover bubbles up to chat class*/
+export function useHandleLocationHover(
   destList: any,
   setCurrDest: React.Dispatch<
     React.SetStateAction<[number, number] | undefined>

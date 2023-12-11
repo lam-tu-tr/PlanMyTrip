@@ -1,24 +1,16 @@
-//*
-//*--------------------------/tripId?tripId=________________------------------------------------
 "use client";
-import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 
-import Map from "@/components/Map/Map";
-
+import React, { useState } from "react";
 import { destType } from "@/helpers/types";
 
-import useFetchTripInfo from "./hooks/useFetchTripInfo";
-import Itinerary from "@/components/Itinerary/Itinerary";
+import { useSearchParams } from "next/navigation";
+import { Map } from "@/components/Map/Map";
+import { Itinerary } from "@/components/Itinerary/Itinerary";
 
-import AiChatBox from "@/components/AiChatBox/AiChatBox";
+import { useFetchTripInfo } from "./hooks/useFetchTripInfo";
+import { useHandleLocationHover } from "../trip-details/hooks/useHandleLocationHover";
 
-import "../trip-details/trip-details.scss";
-import useHandleLocationHover from "../trip-details/hooks/useHandleLocationHover";
-
-type DestCoordType = {
-  [key: string]: [longitude: number, latitude: number];
-};
+import "../trip-details/trip-details.scss"; //same style sheet as trip-details
 
 export default function Trip() {
   const tripId = useSearchParams().get("id")!;

@@ -1,6 +1,6 @@
 import { Message, destType } from "@/helpers/types";
 
-export default function handleConvo(
+export function handleConversation(
   aiMessage: string,
   userMessage: string,
   setUserMessage: React.Dispatch<React.SetStateAction<string>>,

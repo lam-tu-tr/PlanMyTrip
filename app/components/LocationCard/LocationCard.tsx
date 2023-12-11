@@ -1,13 +1,13 @@
 import React from "react";
 import styles from "./LocationCard.module.scss";
-import { CardProps } from "@/helpers/types";
+import { CardTripInfoType } from "@/helpers/types";
 import Link from "next/link";
 
 type AccountCardProps = {
-  cardItem: CardProps;
+  cardItem: CardTripInfoType;
 };
 
-export default function LocationCard({ cardItem }: AccountCardProps) {
+export function LocationCard({ cardItem }: AccountCardProps) {
   return (
     <li className={`${styles.card}`}>
       <Link

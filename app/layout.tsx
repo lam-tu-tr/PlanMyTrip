@@ -8,9 +8,10 @@ import "@fontsource/roboto/400.css";
 const ubuntu = Ubuntu({ weight: "500", preload: false });
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
-import Topography from "./components/Topography/Topography";
-import SessionProvider from "./components/Auth/SessionProvider";
+import { Topography } from "./components/Topography/Topography";
 import { getServerSession } from "next-auth/next";
+import SessionProvider from "./components/Auth/SessionProvider";
+
 export const metadata: Metadata = {
   title: "Itinerary Genie",
 
