@@ -1,7 +1,9 @@
 import { capitalizeWords } from "@/helpers/helper-functions";
-import { Message, destType } from "@/helpers/types";
+import { Message, destinationType } from "@/helpers/types";
 
-export function handleSetInitialPrompt(dest: destType): Message[] {
+export function handleSetInitialPrompt(
+  destination: destinationType
+): Message[] {
   return [
     {
       role: "system",
@@ -11,9 +13,9 @@ export function handleSetInitialPrompt(dest: destType): Message[] {
     {
       role: "user",
       content: `Create a detailed itinerary for my trip to ${capitalizeWords(
-        dest.destName
-      )} from ${dest.startDate} to ${
-        dest.endDate
+        destination.name
+      )} from ${destination.start_date} to ${
+        destination.end_date
       }. Structure the itinerary for each day: Start with "Day X - [Date]" and divide it into different time slots (e.g., Morning, Midday, Evening). Give the result in an indented list style using HTML elements <div class="ai-day">
         <h2 class="ai-date" >Day X - [Date]</h2> 
         <aside> 

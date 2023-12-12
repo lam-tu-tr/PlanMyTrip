@@ -16,7 +16,7 @@ export type AiStreamPayload = {
 };
 
 export type AntMobileProps = {
-  setDest: React.Dispatch<React.SetStateAction<destType>>;
+  setDest: React.Dispatch<React.SetStateAction<destinationType>>;
 };
 
 export type Coordinate = [longitude: number, latitude: number];
@@ -25,15 +25,16 @@ export type DestCoordinateType = {
   [key: string]: Coordinate;
 };
 
-export type destType = {
-  tripId: string;
-  destName: string;
+export type destinationType = {
+  trip_id: string;
+  name: string;
   bbox: string;
-  startDate: string;
-  endDate: string;
+  start_date: string;
+  end_date: string;
   aiMessage: string;
   duration: string;
-  destList: DestCoordinateType;
+  created_date: string;
+  location_list: DestCoordinateType;
 };
 
 export type CardTripInfoType = {

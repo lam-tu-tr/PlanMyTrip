@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 
-import { useGlobalContext } from "@/Context";
-import { DestCoordType, destType } from "@/helpers/types";
+import { destinationType } from "@/helpers/types";
 import { toastError } from "@/helpers/toast";
 
 import "./Map.scss";
@@ -13,12 +12,16 @@ import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 
 interface MapCoord {
   currDest?: [number, number];
-  destList?: DestCoordType;
   initialCoord?: [number, number];
-  dest: destType;
-  setDest: React.Dispatch<React.SetStateAction<destType>>;
+  destination: destinationType;
+  setDestination: React.Dispatch<React.SetStateAction<destinationType>>;
 }
-export function Map({ currDest, initialCoord, dest, setDest }: MapCoord) {
+export function Map({
+  currDest,
+  initialCoord,
+  destination,
+  setDestination,
+}: MapCoord) {
   const mapContainerRef = useRef(null);
 
   const [map, setMap] = useState<mapboxgl.Map | null>(null);
@@ -55,9 +58,9 @@ export function Map({ currDest, initialCoord, dest, setDest }: MapCoord) {
       newMap.addControl(geocoder);
 
       geocoder.on("result", (event) => {
-        setDest((prevState: any) => ({
+        setDestination((prevState: any) => ({
           ...prevState,
-          destName: event.result.place_name,
+          name: event.result.place_name,
           bbox: event.result.bbox.toString(),
         }));
       });
@@ -67,19 +70,19 @@ export function Map({ currDest, initialCoord, dest, setDest }: MapCoord) {
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mapboxgl, mapboxgl.Map, setDest]);
+  }, [mapboxgl, mapboxgl.Map, setDestination]);
 
   //* Add markers to map
   useEffect(() => {
     if (
       map &&
-      dest.destList &&
-      Object.getOwnPropertyNames(dest.destList).length > 0
+      destination.location_list &&
+      Object.getOwnPropertyNames(destination.location_list).length > 0
     ) {
       //*Loop through dest.destList and set a marker for each destination, and pushing
       //*marker into markers array
-      Object.keys(dest.destList).forEach((key) => {
-        const value = dest.destList[key];
+      Object.keys(destination.location_list).forEach((key) => {
+        const value = destination.location_list[key];
         setMarkers((prev) => [
           ...prev,
           new mapboxgl.Marker({
@@ -95,8 +98,8 @@ export function Map({ currDest, initialCoord, dest, setDest }: MapCoord) {
       });
     } else if (
       map &&
-      dest.destList &&
-      Object.getOwnPropertyNames(dest.destList).length == 0
+      destination.location_list &&
+      Object.getOwnPropertyNames(destination.location_list).length == 0
     ) {
       markers.forEach((marker) => {
         marker.remove();
@@ -104,7 +107,7 @@ export function Map({ currDest, initialCoord, dest, setDest }: MapCoord) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    dest.destList,
+    destination,
     map,
     mapboxgl.LngLatBounds,
     mapboxgl.Marker,
@@ -122,7 +125,6 @@ export function Map({ currDest, initialCoord, dest, setDest }: MapCoord) {
       newBounds.extend(marker.getLngLat());
     });
 
-    console.log(newBounds);
     return newBounds;
   }, [markers]);
 

@@ -1,5 +1,4 @@
-import { handleSaveToDB } from "@/routes/trip-details/helpers/handleSaveToDB";
-import { destType } from "@/helpers/types";
+import { destinationType } from "@/helpers/types";
 import { FiCopy } from "react-icons/fi";
 import { capitalizeWords } from "@/helpers/helper-functions";
 import DOMPurify from "isomorphic-dompurify";
@@ -11,14 +10,15 @@ const DOMPurifyConfig = {
 };
 
 type ItineraryType = {
-  dest: destType;
+  aiMessage: string;
+  destination: string;
 };
 
-export function Itinerary({ dest }: ItineraryType) {
+export function Itinerary({ aiMessage, destination }: ItineraryType) {
   //
   return (
     <section id="itinerary_container">
-      <div>
+      {/* <div>
         <button
           title="Copy Trip Link"
           onClick={() => handleSaveToDB(dest)}
@@ -26,14 +26,14 @@ export function Itinerary({ dest }: ItineraryType) {
         >
           <FiCopy className="w-full h-full" />
         </button>
-      </div>
+      </div> */}
 
-      <h1>Trip to {capitalizeWords(dest.destName!)}</h1>
+      <h1>Trip to {capitalizeWords(destination!)}</h1>
 
       <section
         className="itinerary"
         dangerouslySetInnerHTML={{
-          __html: DOMPurify.sanitize(dest.aiMessage, DOMPurifyConfig),
+          __html: DOMPurify.sanitize(aiMessage, DOMPurifyConfig),
         }}
       ></section>
     </section>

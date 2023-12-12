@@ -7,7 +7,7 @@ import { Itinerary } from "../../components/Itinerary/Itinerary";
 import { AiChatBox } from "../../components/AiChatBox/AiChatBox";
 
 import { useSearchParams } from "next/navigation";
-import { Message, destType } from "@/helpers/types";
+import { Message, destinationType } from "@/helpers/types";
 
 import { handleSetInitialPrompt } from "./helpers/handleSetInitialPrompt";
 import { handleConversation } from "./helpers/handleConversation";
@@ -19,15 +19,16 @@ import { handleSaveToDB } from "./helpers/handleSaveToDB";
 import "./trip-details.scss";
 
 export default function Trip() {
-  const [dest, setDest] = useState<destType>({
-    destName: useSearchParams().get("destName")!,
+  const [destination, setDestination] = useState<destinationType>({
+    name: useSearchParams().get("destination")!,
     bbox: useSearchParams().get("bbox")!,
-    startDate: useSearchParams().get("startDate")!,
-    endDate: useSearchParams().get("endDate")!,
+    start_date: useSearchParams().get("start_date")!,
+    end_date: useSearchParams().get("end_date")!,
     duration: useSearchParams().get("duration") || "",
     aiMessage: "",
-    destList: {},
-    tripId: "",
+    created_date: "",
+    location_list: {},
+    trip_id: "",
   });
 
   const [userMessage, setUserMessage] = useState<string>("");
@@ -37,45 +38,56 @@ export default function Trip() {
   const [currDest, setCurrDest] = useState<[number, number]>();
 
   const [messagePayload, setMessagePayload] = useState<Message[]>(
-    handleSetInitialPrompt(dest)
+    handleSetInitialPrompt(destination)
   );
 
   useEffect(() => {
-    if (!aiComplete) return;
+    if (!aiComplete || destination.trip_id.length !== 0) return;
 
     //*set debounce to prevent multiple calls when aiComplete and dest trigger renders simutaneously
-    const timeoutId = setTimeout(() => {
-      handleSaveToDB(dest);
+    const timeoutId = setTimeout(async () => {
+      const db_id = await handleSaveToDB(destination);
+      setDestination((prevDest: destinationType) => ({
+        ...prevDest,
+        trip_id: db_id,
+      }));
     }, 300);
 
     return () => clearTimeout(timeoutId);
-  }, [aiComplete, dest]);
+  }, [aiComplete, destination]);
 
-  useFetchLocation(aiComplete, setDest, dest.bbox);
+  useFetchLocation(aiComplete, setDestination, destination.bbox);
 
-  useHandleAiStream(messagePayload, setAiComplete, setDest);
+  useHandleAiStream(messagePayload, setAiComplete, setDestination);
 
-  useHandleLocationHover(dest.destList, setCurrDest);
+  useHandleLocationHover(destination.location_list, setCurrDest);
 
   return (
     <div className="TripDetails page-container">
-      <Map currDest={currDest} dest={dest} setDest={setDest} />
+      <Map
+        currDest={currDest}
+        destination={destination}
+        setDestination={setDestination}
+      />
 
       <form
         className="trip_form"
         onSubmit={(e) => {
           e.preventDefault();
           handleConversation(
-            dest.aiMessage,
+            destination.aiMessage,
             userMessage,
             setUserMessage,
             setAiComplete,
-            setDest,
+            setDestination,
             setMessagePayload
           );
         }}
       >
-        <Itinerary dest={dest} />
+        <Itinerary
+          aiMessage={destination.aiMessage}
+          destination={destination.name}
+        />
         <AiChatBox
           userMessage={userMessage}
           aiComplete={aiComplete}

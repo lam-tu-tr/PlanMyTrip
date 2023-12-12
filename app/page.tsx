@@ -4,7 +4,7 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 
-import { destType } from "./helpers/types";
+import { destinationType } from "./helpers/types";
 import { useRouter } from "next/navigation";
 import { toastError } from "@/helpers/toast";
 
@@ -26,34 +26,36 @@ export default function Home() {
 
   const router = useRouter();
 
-  const [dest, setDest] = useState<destType>({
-    tripId: "",
-    destName: "",
+  const [destination, setDestination] = useState<destinationType>({
+    trip_id: "",
+    name: "",
     bbox: "",
-    startDate: "",
-    endDate: "",
+    start_date: "",
+    end_date: "",
     duration: "",
     aiMessage: "",
-    destList: {},
+    created_date: "",
+    location_list: {},
   });
 
   const searchParamsObject = {
-    destName: dest.destName,
-    startDate: dest.startDate,
-    endDate: dest.endDate,
-    bbox: dest.bbox,
+    destination_name: destination.name,
+    start_date: destination.start_date,
+    end_date: destination.end_date,
+    bbox: destination.bbox,
   };
 
   function validateSubmit(e: any) {
-    if (e.target.destName.value == "") {
+    console.log("target", e.target);
+    if (e.target.destination_name.value == "") {
       toastError("Please Choose a Destination Using the Map");
-    } else if (e.target.startDate.value == "") {
+    } else if (e.target.start_date.value == "") {
       toastError("Please Choose Destination Start Date");
-    } else if (e.target.endDate.value == "") {
+    } else if (e.target.end_date.value == "") {
       toastError("Please Choose Destination End Date");
     } else {
       router.push(
-        `/routes/trip-details?destName=${dest.destName}&startDate=${dest.startDate}&endDate=${dest.endDate}&bbox=${dest.bbox}`
+        `/routes/trip-details?destination=${destination.name}&start_date=${destination.start_date}&end_date=${destination.end_date}&bbox=${destination.bbox}`
       );
     }
   }
@@ -62,7 +64,7 @@ export default function Home() {
     <main id="home-main" className="page-container">
       <h1>Your Travel Plans Reimagined with AI-driven itineraries.</h1>
       <div id="home_content">
-        <Map setDest={setDest} dest={dest} />
+        <Map setDestination={setDestination} destination={destination} />
         <form
           action="./routes/tripDetails"
           onSubmit={(e) => {
@@ -73,11 +75,11 @@ export default function Home() {
           <SearchParams params={searchParamsObject} />
 
           {isMobile ? (
-            <MobileAnt dest={dest} setDest={setDest} />
+            <MobileAnt dest={destination} setDest={setDestination} />
           ) : (
-            <AntDateRange setDest={setDest} />
+            <AntDateRange setDest={setDestination} />
           )}
-          <GenerateButton endDate={dest.endDate} />
+          <GenerateButton endDate={destination.end_date} />
         </form>
       </div>
     </main>

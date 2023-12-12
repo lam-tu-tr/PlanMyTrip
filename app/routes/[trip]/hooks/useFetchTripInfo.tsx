@@ -1,12 +1,15 @@
 import { toastError } from "@/helpers/toast";
-import { destType } from "@/helpers/types";
+import { destinationType } from "@/helpers/types";
 import React, { useEffect } from "react";
 
 type useFetchTripInfoProp = {
-  tripId: string;
-  setDest: React.Dispatch<React.SetStateAction<destType>>;
+  trip_id: string;
+  setDestination: React.Dispatch<React.SetStateAction<destinationType>>;
 };
-export function useFetchTripInfo({ tripId, setDest }: useFetchTripInfoProp) {
+export function useFetchTripInfo({
+  trip_id,
+  setDestination,
+}: useFetchTripInfoProp) {
   useEffect(() => {
     async function fetchTripInfo() {
       try {
@@ -16,7 +19,7 @@ export function useFetchTripInfo({ tripId, setDest }: useFetchTripInfoProp) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            trip_id: tripId,
+            trip_id: trip_id,
           }),
         });
 
@@ -25,15 +28,16 @@ export function useFetchTripInfo({ tripId, setDest }: useFetchTripInfoProp) {
         const { tripData } = await res.json();
 
         if (tripData) {
-          setDest({
-            destName: tripData.destination_name,
+          setDestination({
+            name: tripData.destination_name,
             bbox: tripData.bbox,
-            startDate: tripData.start_date,
-            endDate: tripData.end_date,
+            start_date: tripData.start_date,
+            end_date: tripData.end_date,
             aiMessage: tripData.ai_response,
-            destList: tripData.location_list,
+            location_list: tripData.location_list,
+            created_date: new Date().toString(),
             duration: "",
-            tripId: tripData.id,
+            trip_id: tripData.id,
           });
         }
       } catch (err) {
@@ -42,5 +46,5 @@ export function useFetchTripInfo({ tripId, setDest }: useFetchTripInfoProp) {
     }
 
     fetchTripInfo();
-  }, [setDest, tripId]);
+  }, [setDestination, trip_id]);
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { destType } from "@/helpers/types";
+import { destinationType } from "@/helpers/types";
 
 import { useSearchParams } from "next/navigation";
 import { Map } from "@/components/Map/Map";
@@ -13,29 +13,37 @@ import { useHandleLocationHover } from "../trip-details/hooks/useHandleLocationH
 import "../trip-details/trip-details.scss"; //same style sheet as trip-details
 
 export default function Trip() {
-  const tripId = useSearchParams().get("id")!;
+  const trip_id = useSearchParams().get("id")!;
 
-  const [dest, setDest] = useState<destType>({
-    destName: "",
+  const [destination, setDestination] = useState<destinationType>({
+    name: "",
     bbox: "",
-    startDate: "",
-    endDate: "",
+    start_date: "",
+    end_date: "",
     duration: "",
     aiMessage: "",
-    destList: {},
-    tripId: "",
+    location_list: {},
+    created_date: "",
+    trip_id: "",
   });
 
-  useFetchTripInfo({ tripId, setDest });
+  useFetchTripInfo({ trip_id, setDestination });
 
   const [currDest, setCurrDest] = useState<[number, number]>();
-  useHandleLocationHover(dest.destList, setCurrDest);
+  useHandleLocationHover(destination.location_list, setCurrDest);
 
   return (
     <div className="TripDetails page-container">
-      <Map currDest={currDest} dest={dest} setDest={setDest} />
+      <Map
+        currDest={currDest}
+        destination={destination}
+        setDestination={setDestination}
+      />
       <section className="itinerary_container">
-        <Itinerary dest={dest} />
+        <Itinerary
+          aiMessage={destination.aiMessage}
+          destination={destination.name}
+        />
       </section>
     </div>
   );

@@ -22,6 +22,6 @@ export async function handleGetLocationCoordinate(
     coordinate_obj.features[0].center[0],
     coordinate_obj.features[0].center[1],
   ];
-  console.log("getting location coordinate: ", location);
+
   return location_coordinate;
 }

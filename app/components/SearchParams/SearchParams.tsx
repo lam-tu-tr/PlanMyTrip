@@ -2,9 +2,9 @@ import React from "react";
 
 type Params = {
   params: {
-    destName: string;
-    startDate: string;
-    endDate: string;
+    destination_name: string;
+    start_date: string;
+    end_date: string;
     bbox: string;
   };
 };

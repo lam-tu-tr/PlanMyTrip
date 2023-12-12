@@ -5,10 +5,8 @@ export function handlePromiseAllWithRetries(
   maxRetries: number = 3,
   delay: number = 1000
 ): Promise<Coordinate[]> {
-  // return Promise.all(promise_arr);
   async function retry(): Promise<Coordinate[]> {
     for (let attempt = 0; attempt < maxRetries; attempt++) {
-      console.log("trying promise all ");
       try {
         const results = await Promise.all(promise_arr);
         return results;
@@ -22,7 +20,7 @@ export function handlePromiseAllWithRetries(
         }
       }
     }
-    // Added return statement for TypeScript
+
     throw new Error("Unreachable code");
   }
 

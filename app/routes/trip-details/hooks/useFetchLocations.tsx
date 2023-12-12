@@ -1,11 +1,12 @@
-import { Coordinate, destType } from "@/helpers/types";
+import { Coordinate, destinationType } from "@/helpers/types";
 import { useEffect, useRef } from "react";
 import { handleGetLocationCoordinate } from "../helpers/handleGetLocationCoordinate";
 import { handlePromiseAllWithRetries } from "../helpers/handlePromiseAllWithRetries";
+import { toastError } from "@/helpers/toast";
 
 export function useFetchLocation(
   aiComplete: boolean,
-  setDest: React.Dispatch<React.SetStateAction<destType>>,
+  setDestination: React.Dispatch<React.SetStateAction<destinationType>>,
   bbox: string
 ) {
   const isFirstRender = useRef(true);
@@ -27,12 +28,10 @@ export function useFetchLocation(
       });
 
       try {
-        console.log("trying promiseall");
         const coordinates_arr: Coordinate[] = await handlePromiseAllWithRetries(
           coordinate_promise_arr
         );
 
-        console.log("returned promiseall", coordinates_arr);
         const updatedDestList = coordinates_arr.reduce(
           (prevList, coordinate, index) => {
             const location_name: string = location_arr[index].innerHTML;
@@ -43,15 +42,17 @@ export function useFetchLocation(
           },
           {}
         );
-        setDest((prev) => ({
+
+        setDestination((prev) => ({
           ...prev,
-          destList: updatedDestList,
+          location_list: updatedDestList,
         }));
       } catch (error) {
         console.log("Fetch Coordinate Error", error);
+        toastError("Unable to retrieve location coordinates");
       }
     };
 
     fetchCoordinates();
-  }, [aiComplete, bbox, setDest]);
+  }, [aiComplete, bbox, setDestination]);
 }

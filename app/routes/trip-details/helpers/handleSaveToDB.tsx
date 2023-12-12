@@ -1,7 +1,7 @@
 import { toastError, toastSuccess } from "@/helpers/toast";
-import { destType } from "@/helpers/types";
+import { destinationType } from "@/helpers/types";
 
-export async function handleSaveToDB(dest: destType) {
+export async function handleSaveToDB(destination: destinationType) {
   try {
     const res = await fetch("../../../api/trip/saveTrip", {
       method: "POST",
@@ -10,12 +10,12 @@ export async function handleSaveToDB(dest: destType) {
       },
       body: JSON.stringify({
         dbPayload: {
-          destName: dest.destName,
-          aiMessage: dest.aiMessage,
-          destList: dest.destList,
-          bbox: dest.bbox,
-          startDate: dest.startDate,
-          endDate: dest.endDate,
+          name: destination.name,
+          aiMessage: destination.aiMessage,
+          location_list: destination.location_list,
+          bbox: destination.bbox,
+          start_date: destination.start_date,
+          end_date: destination.end_date,
         },
       }),
     });
@@ -24,14 +24,7 @@ export async function handleSaveToDB(dest: destType) {
 
     const { trip_id } = await res.json();
 
-    // copyToClipboard(tripId);
-
-    // if (type == "save") {
-    //   toastSuccess("Trip saved to account and clipboard");
-    // } else {
     //   //TODO separate copy to clipboard, if signed in, look for the unique url from database, otherwise, copy the stringparams url.
-    //   toastSuccess("Copied to clipboard");
-    // }
     return trip_id;
   } catch (error) {
     console.error(error);

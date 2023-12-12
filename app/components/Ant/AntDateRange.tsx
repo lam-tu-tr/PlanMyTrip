@@ -2,12 +2,12 @@ import { useState } from "react";
 import { DatePicker } from "antd";
 import { RangeValue } from "rc-picker/lib/interface";
 import { Dayjs } from "dayjs";
-import { destType } from "@/helpers/types";
+import { destinationType } from "@/helpers/types";
 
 const { RangePicker } = DatePicker;
 
 type AntDateRangeProps = {
-  setDest: React.Dispatch<React.SetStateAction<destType>>;
+  setDest: React.Dispatch<React.SetStateAction<destinationType>>;
 };
 
 function AntDateRange({ setDest }: AntDateRangeProps) {
@@ -40,8 +40,8 @@ function AntDateRange({ setDest }: AntDateRangeProps) {
         onChange={(date: RangeValue<Dayjs>, formatString: [string, string]) => {
           setDest((prev) => ({
             ...prev,
-            startDate: formatString[0],
-            endDate: formatString[1],
+            start_date: formatString[0],
+            end_date: formatString[1],
           }));
         }}
         value={dates || value}

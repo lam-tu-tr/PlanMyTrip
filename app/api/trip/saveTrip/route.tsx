@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import supabase from "@/supabase/supabaseClient";
 
 import { getServerSession } from "next-auth";
+import { destinationType } from "@/helpers/types";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
-  const { dbPayload } = await req.json();
+  const { dbPayload }: { dbPayload: destinationType } = await req.json();
 
   const session = await getServerSession();
   const user = session?.user;
@@ -20,12 +21,12 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     .from("trip")
     .insert({
       email: user.email,
-      destination_name: dbPayload.destName,
+      destination_name: dbPayload.name,
       ai_response: dbPayload.aiMessage,
-      location_list: dbPayload.destList,
+      location_list: dbPayload.location_list,
       bbox: dbPayload.bbox,
-      start_date: dbPayload.startDate,
-      end_date: dbPayload.endDate,
+      start_date: dbPayload.start_date,
+      end_date: dbPayload.end_date,
       created_date: new Date(),
     })
     .select("id");

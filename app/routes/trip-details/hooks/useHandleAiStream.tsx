@@ -1,11 +1,11 @@
-import { Message, destType } from "@/helpers/types";
+import { Message, destinationType } from "@/helpers/types";
 import { useEffect } from "react";
 
 export function useHandleAiStream(
   messagePayload: Message[],
   setAiComplete: React.Dispatch<React.SetStateAction<boolean>>,
 
-  setDest: React.Dispatch<React.SetStateAction<destType>>
+  setDestination: React.Dispatch<React.SetStateAction<destinationType>>
 ) {
   useEffect(() => {
     async function handleAiStream() {
@@ -35,7 +35,7 @@ export function useHandleAiStream(
           if (doneReading) setAiComplete(true);
 
           const chunkValue = decoder.decode(value);
-          setDest((prevDest) => ({
+          setDestination((prevDest) => ({
             ...prevDest,
             aiMessage: prevDest.aiMessage + chunkValue,
           }));
@@ -46,5 +46,5 @@ export function useHandleAiStream(
     }
 
     handleAiStream();
-  }, [messagePayload, setAiComplete, setDest]);
+  }, [messagePayload, setAiComplete, setDestination]);
 }
