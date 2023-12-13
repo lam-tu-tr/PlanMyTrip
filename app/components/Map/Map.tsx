@@ -1,20 +1,23 @@
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useState, useRef } from "react";
 
-import { destinationType } from "@/helpers/types";
-import { toastError } from "@/helpers/toast";
+import { DestinationType } from "@/helpers/types";
 
-import "./Map.scss";
 import mapboxgl from "mapbox-gl";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+
+import { useCreateMap } from "./hooks/useCreateMap";
+import { useAddMarkers } from "./hooks/useAddMarkers";
+import { useHandleBoundAndHover } from "./hooks/useHandleBoundAndHover";
 (mapboxgl as any).accessToken = process.env.MAPBOX_KEY;
+
+import "./Map.scss";
 
 interface MapCoord {
   currDest?: [number, number];
   initialCoord?: [number, number];
-  destination: destinationType;
-  setDestination: React.Dispatch<React.SetStateAction<destinationType>>;
+  destination: DestinationType;
+  setDestination: React.Dispatch<React.SetStateAction<DestinationType>>;
 }
 export function Map({
   currDest,
@@ -28,137 +31,11 @@ export function Map({
 
   const [markers, setMarkers] = useState<any[]>([]);
 
-  //* Create the map
-  useEffect(() => {
-    if (!mapboxgl.supported()) {
-      toastError("Interactive Map is not supported in this browser");
-      return;
-    }
-    //*if there is a map Ref found, create new map
-    if (mapContainerRef.current) {
-      const newMap = new mapboxgl.Map({
-        container: mapContainerRef.current,
-        style: "mapbox://styles/mapbox/streets-v12",
-        center: [-79.2, 21.945],
-        zoom: 1.5,
-        pitch: 0,
-      });
-      newMap.on("load", () => {
-        setMap(newMap);
-      });
+  useCreateMap({ mapContainerRef, setMap, setDestination });
 
-      newMap.addControl(new mapboxgl.NavigationControl(), "top-left");
+  useAddMarkers({ map, destination, markers, setMarkers });
 
-      const geocoder = new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl,
-        placeholder: "Choose a destination",
-        zoom: 9,
-      });
-      newMap.addControl(geocoder);
+  useHandleBoundAndHover({ markers, map, currDest, initialCoord });
 
-      geocoder.on("result", (event) => {
-        setDestination((prevState: any) => ({
-          ...prevState,
-          name: event.result.place_name,
-          bbox: event.result.bbox.toString(),
-        }));
-      });
-
-      return () => {
-        newMap.remove();
-      };
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mapboxgl, mapboxgl.Map, setDestination]);
-
-  //* Add markers to map
-  useEffect(() => {
-    if (
-      map &&
-      destination.location_list &&
-      Object.getOwnPropertyNames(destination.location_list).length > 0
-    ) {
-      //*Loop through dest.destList and set a marker for each destination, and pushing
-      //*marker into markers array
-      Object.keys(destination.location_list).forEach((key) => {
-        const value = destination.location_list[key];
-        setMarkers((prev) => [
-          ...prev,
-          new mapboxgl.Marker({
-            color: `#${Math.random()
-              .toString(16)
-              .slice(2, 8)
-              .padStart(6, "0")}`,
-          })
-            .setLngLat(value)
-            .setPopup(new mapboxgl.Popup().setHTML(`${key}`))
-            .addTo(map),
-        ]);
-      });
-    } else if (
-      map &&
-      destination.location_list &&
-      Object.getOwnPropertyNames(destination.location_list).length == 0
-    ) {
-      markers.forEach((marker) => {
-        marker.remove();
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    destination,
-    map,
-    mapboxgl.LngLatBounds,
-    mapboxgl.Marker,
-    mapboxgl.Popup,
-  ]);
-
-  // //* iterate through makers and get the boundary box
-  const bounds = useMemo(() => {
-    const newBounds = new mapboxgl.LngLatBounds();
-
-    if (markers.length === 0) {
-      return null; // Return null if there are no markers
-    }
-    markers.forEach((marker) => {
-      newBounds.extend(marker.getLngLat());
-    });
-
-    return newBounds;
-  }, [markers]);
-
-  useEffect(() => {
-    // //*animate zoom & pan to bound box
-    if (map && bounds) {
-      map.fitBounds(bounds, {
-        padding: 50,
-        maxZoom: 10,
-        pitch: 50,
-      });
-    }
-  }, [bounds, map]);
-
-  //* Move to a destination on hovering destination name link
-  useEffect(() => {
-    if (map && JSON.stringify(currDest) !== JSON.stringify(initialCoord)) {
-      setTimeout(() => {
-        map.flyTo({
-          center: currDest,
-          zoom: 14,
-          curve: 1.8,
-          speed: 1.5,
-          pitch: 50,
-          easing(t) {
-            return t;
-          },
-        });
-      }, 100);
-    }
-  }, [currDest, initialCoord, map]);
-  return (
-    <>
-      <div ref={mapContainerRef} id="map"></div>
-    </>
-  );
+  return <div ref={mapContainerRef} id="map"></div>;
 }

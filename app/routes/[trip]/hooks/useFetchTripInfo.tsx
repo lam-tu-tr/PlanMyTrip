@@ -1,10 +1,10 @@
 import { toastError } from "@/helpers/toast";
-import { destinationType } from "@/helpers/types";
+import { DestinationType } from "@/helpers/types";
 import React, { useEffect } from "react";
 
 type useFetchTripInfoProp = {
   trip_id: string;
-  setDestination: React.Dispatch<React.SetStateAction<destinationType>>;
+  setDestination: React.Dispatch<React.SetStateAction<DestinationType>>;
 };
 export function useFetchTripInfo({
   trip_id,

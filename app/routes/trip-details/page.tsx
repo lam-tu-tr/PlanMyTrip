@@ -7,7 +7,7 @@ import { Itinerary } from "../../components/Itinerary/Itinerary";
 import { AiChatBox } from "../../components/AiChatBox/AiChatBox";
 
 import { useSearchParams } from "next/navigation";
-import { Message, destinationType } from "@/helpers/types";
+import { Message, DestinationType } from "@/helpers/types";
 
 import { handleSetInitialPrompt } from "./helpers/handleSetInitialPrompt";
 import { handleConversation } from "./helpers/handleConversation";
@@ -19,7 +19,7 @@ import { handleSaveToDB } from "./helpers/handleSaveToDB";
 import "./trip-details.scss";
 
 export default function Trip() {
-  const [destination, setDestination] = useState<destinationType>({
+  const [destination, setDestination] = useState<DestinationType>({
     name: useSearchParams().get("destination")!,
     bbox: useSearchParams().get("bbox")!,
     start_date: useSearchParams().get("start_date")!,
@@ -47,7 +47,7 @@ export default function Trip() {
     //*set debounce to prevent multiple calls when aiComplete and dest trigger renders simutaneously
     const timeoutId = setTimeout(async () => {
       const db_id = await handleSaveToDB(destination);
-      setDestination((prevDest: destinationType) => ({
+      setDestination((prevDest: DestinationType) => ({
         ...prevDest,
         trip_id: db_id,
       }));
@@ -87,6 +87,7 @@ export default function Trip() {
         <Itinerary
           aiMessage={destination.aiMessage}
           destination={destination.name}
+          trip_id={destination.trip_id}
         />
         <AiChatBox
           userMessage={userMessage}

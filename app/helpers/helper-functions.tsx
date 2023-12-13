@@ -16,10 +16,10 @@ export function capitalFirstLetter(text: string) {
   return text[0].toUpperCase() + text.slice(1, text.length);
 }
 
-async function copyToClipboard(trip_id: string) {
+export async function copyToClipboard(trip_id: string) {
   try {
     await navigator.clipboard.writeText(
-      `${window.location.href}/routes/trip?id=${trip_id}`
+      `${window.location.origin}/routes/trip?id=${trip_id}`
     );
   } catch (err) {
     toastError("Failed to copy to clipboard, please try again");

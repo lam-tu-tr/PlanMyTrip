@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import supabase from "@/supabase/supabaseClient";
 
 import { getServerSession } from "next-auth";
-import { destinationType } from "@/helpers/types";
+import { DestinationType } from "@/helpers/types";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
-  const { dbPayload }: { dbPayload: destinationType } = await req.json();
+  const { dbPayload }: { dbPayload: DestinationType } = await req.json();
 
   const session = await getServerSession();
   const user = session?.user;

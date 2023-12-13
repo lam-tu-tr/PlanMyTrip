@@ -1,11 +1,11 @@
-import { Message, destinationType } from "@/helpers/types";
+import { Message, DestinationType } from "@/helpers/types";
 
 export function handleConversation(
   aiMessage: string,
   userMessage: string,
   setUserMessage: React.Dispatch<React.SetStateAction<string>>,
   setAiComplete: React.Dispatch<React.SetStateAction<boolean>>,
-  setDest: React.Dispatch<React.SetStateAction<destinationType>>,
+  setDest: React.Dispatch<React.SetStateAction<DestinationType>>,
   setMessagePayload: React.Dispatch<React.SetStateAction<Message[]>>
 ) {
   setUserMessage("");

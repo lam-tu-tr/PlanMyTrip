@@ -1,8 +1,8 @@
-import { destinationType } from "@/helpers/types";
-import { FiCopy } from "react-icons/fi";
+import { FaRegCopy } from "react-icons/fa";
 import { capitalizeWords } from "@/helpers/helper-functions";
 import DOMPurify from "isomorphic-dompurify";
 
+import { copyToClipboard } from "../../helpers/helper-functions";
 import "./Itinerary.scss";
 
 const DOMPurifyConfig = {
@@ -12,23 +12,23 @@ const DOMPurifyConfig = {
 type ItineraryType = {
   aiMessage: string;
   destination: string;
+  trip_id: string;
 };
 
-export function Itinerary({ aiMessage, destination }: ItineraryType) {
+export function Itinerary({ aiMessage, destination, trip_id }: ItineraryType) {
   //
   return (
     <section id="itinerary_container">
-      {/* <div>
+      <div>
+        <h1>Trip to {capitalizeWords(destination!)}</h1>
         <button
           title="Copy Trip Link"
-          onClick={() => handleSaveToDB(dest)}
+          onClick={() => copyToClipboard(trip_id)}
           type="button"
         >
-          <FiCopy className="w-full h-full" />
+          <FaRegCopy className="w-full h-full" />
         </button>
-      </div> */}
-
-      <h1>Trip to {capitalizeWords(destination!)}</h1>
+      </div>
 
       <section
         className="itinerary"

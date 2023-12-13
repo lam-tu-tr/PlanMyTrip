@@ -16,7 +16,7 @@ export type AiStreamPayload = {
 };
 
 export type AntMobileProps = {
-  setDest: React.Dispatch<React.SetStateAction<destinationType>>;
+  setDest: React.Dispatch<React.SetStateAction<DestinationType>>;
 };
 
 export type Coordinate = [longitude: number, latitude: number];
@@ -25,7 +25,7 @@ export type DestCoordinateType = {
   [key: string]: Coordinate;
 };
 
-export type destinationType = {
+export type DestinationType = {
   trip_id: string;
   name: string;
   bbox: string;

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { destinationType } from "@/helpers/types";
+import { DestinationType } from "@/helpers/types";
 
 import { useSearchParams } from "next/navigation";
 import { Map } from "@/components/Map/Map";
@@ -15,7 +15,7 @@ import "../trip-details/trip-details.scss"; //same style sheet as trip-details
 export default function Trip() {
   const trip_id = useSearchParams().get("id")!;
 
-  const [destination, setDestination] = useState<destinationType>({
+  const [destination, setDestination] = useState<DestinationType>({
     name: "",
     bbox: "",
     start_date: "",
@@ -43,6 +43,7 @@ export default function Trip() {
         <Itinerary
           aiMessage={destination.aiMessage}
           destination={destination.name}
+          trip_id={destination.trip_id}
         />
       </section>
     </div>

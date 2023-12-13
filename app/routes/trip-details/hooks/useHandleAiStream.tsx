@@ -1,11 +1,11 @@
-import { Message, destinationType } from "@/helpers/types";
+import { Message, DestinationType } from "@/helpers/types";
 import { useEffect } from "react";
 
 export function useHandleAiStream(
   messagePayload: Message[],
   setAiComplete: React.Dispatch<React.SetStateAction<boolean>>,
 
-  setDestination: React.Dispatch<React.SetStateAction<destinationType>>
+  setDestination: React.Dispatch<React.SetStateAction<DestinationType>>
 ) {
   useEffect(() => {
     async function handleAiStream() {

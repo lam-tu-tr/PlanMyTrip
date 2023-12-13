@@ -1,4 +1,4 @@
-import { Coordinate, destinationType } from "@/helpers/types";
+import { Coordinate, DestinationType } from "@/helpers/types";
 import { useEffect, useRef } from "react";
 import { handleGetLocationCoordinate } from "../helpers/handleGetLocationCoordinate";
 import { handlePromiseAllWithRetries } from "../helpers/handlePromiseAllWithRetries";
@@ -6,10 +6,11 @@ import { toastError } from "@/helpers/toast";
 
 export function useFetchLocation(
   aiComplete: boolean,
-  setDestination: React.Dispatch<React.SetStateAction<destinationType>>,
+  setDestination: React.Dispatch<React.SetStateAction<DestinationType>>,
   bbox: string
 ) {
   const isFirstRender = useRef(true);
+
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
