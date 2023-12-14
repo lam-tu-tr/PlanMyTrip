@@ -26,15 +26,16 @@ export type DestCoordinateType = {
 };
 
 export type DestinationType = {
-  trip_id: string;
   name: string;
+  description: string;
+  trip_id: string;
   bbox: string;
   start_date: string;
   end_date: string;
-  aiMessage: string;
-  duration: string;
+  ai_message: string;
+  duration: number;
   created_date: string;
-  location_list: DestCoordinateType;
+  locations: DestCoordinateType;
 };
 
 export type CardTripInfoType = {

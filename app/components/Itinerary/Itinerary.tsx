@@ -10,12 +10,12 @@ const DOMPurifyConfig = {
 };
 
 type ItineraryType = {
-  aiMessage: string;
+  ai_message: string;
   destination: string;
   trip_id: string;
 };
 
-export function Itinerary({ aiMessage, destination, trip_id }: ItineraryType) {
+export function Itinerary({ ai_message, destination, trip_id }: ItineraryType) {
   //
   return (
     <section id="itinerary_container">
@@ -33,7 +33,7 @@ export function Itinerary({ aiMessage, destination, trip_id }: ItineraryType) {
       <section
         className="itinerary"
         dangerouslySetInnerHTML={{
-          __html: DOMPurify.sanitize(aiMessage, DOMPurifyConfig),
+          __html: DOMPurify.sanitize(ai_message, DOMPurifyConfig),
         }}
       ></section>
     </section>

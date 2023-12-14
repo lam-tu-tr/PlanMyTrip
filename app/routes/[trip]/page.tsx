@@ -17,12 +17,13 @@ export default function Trip() {
 
   const [destination, setDestination] = useState<DestinationType>({
     name: "",
+    description: "",
     bbox: "",
     start_date: "",
     end_date: "",
-    duration: "",
-    aiMessage: "",
-    location_list: {},
+    duration: 1,
+    ai_message: "",
+    locations: {},
     created_date: "",
     trip_id: "",
   });
@@ -30,7 +31,7 @@ export default function Trip() {
   useFetchTripInfo({ trip_id, setDestination });
 
   const [currDest, setCurrDest] = useState<[number, number]>();
-  useHandleLocationHover(destination.location_list, setCurrDest);
+  useHandleLocationHover(destination.locations, setCurrDest);
 
   return (
     <div className="TripDetails page-container">
@@ -41,7 +42,7 @@ export default function Trip() {
       />
       <section className="itinerary_container">
         <Itinerary
-          aiMessage={destination.aiMessage}
+          ai_message={destination.ai_message}
           destination={destination.name}
           trip_id={destination.trip_id}
         />

@@ -13,7 +13,7 @@ import { handleSetInitialPrompt } from "./helpers/handleSetInitialPrompt";
 import { handleConversation } from "./helpers/handleConversation";
 import { useHandleLocationHover } from "./hooks/useHandleLocationHover";
 import { useFetchLocation } from "./hooks/useFetchLocations";
-import { useHandleAiStream } from "./hooks/useHandleAiStream";
+import { useAiFetch } from "./hooks/useAiFetch";
 import { handleSaveToDB } from "./helpers/handleSaveToDB";
 
 import "./trip-details.scss";
@@ -21,16 +21,17 @@ import "./trip-details.scss";
 export default function Trip() {
   const [destination, setDestination] = useState<DestinationType>({
     name: useSearchParams().get("destination")!,
+    description: "",
     bbox: useSearchParams().get("bbox")!,
     start_date: useSearchParams().get("start_date")!,
     end_date: useSearchParams().get("end_date")!,
-    duration: useSearchParams().get("duration") || "",
-    aiMessage: "",
+    duration: 1,
+    ai_message: "",
     created_date: "",
-    location_list: {},
+    locations: {},
     trip_id: "",
   });
-
+  console.log(destination);
   const [userMessage, setUserMessage] = useState<string>("");
 
   const [aiComplete, setAiComplete] = useState<boolean>(false);
@@ -58,9 +59,9 @@ export default function Trip() {
 
   useFetchLocation(aiComplete, setDestination, destination.bbox);
 
-  useHandleAiStream(messagePayload, setAiComplete, setDestination);
+  useAiFetch(messagePayload, setAiComplete, setDestination);
 
-  useHandleLocationHover(destination.location_list, setCurrDest);
+  useHandleLocationHover(destination.locations, setCurrDest);
 
   return (
     <div className="TripDetails page-container">
@@ -75,7 +76,7 @@ export default function Trip() {
         onSubmit={(e) => {
           e.preventDefault();
           handleConversation(
-            destination.aiMessage,
+            destination.ai_message,
             userMessage,
             setUserMessage,
             setAiComplete,
@@ -85,7 +86,7 @@ export default function Trip() {
         }}
       >
         <Itinerary
-          aiMessage={destination.aiMessage}
+          ai_message={destination.ai_message}
           destination={destination.name}
           trip_id={destination.trip_id}
         />

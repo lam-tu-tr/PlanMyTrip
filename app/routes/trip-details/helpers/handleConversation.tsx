@@ -1,7 +1,7 @@
 import { Message, DestinationType } from "@/helpers/types";
 
 export function handleConversation(
-  aiMessage: string,
+  ai_message: string,
   userMessage: string,
   setUserMessage: React.Dispatch<React.SetStateAction<string>>,
   setAiComplete: React.Dispatch<React.SetStateAction<boolean>>,
@@ -18,7 +18,7 @@ export function handleConversation(
 
   setMessagePayload((prevMessage) => [
     ...prevMessage,
-    { role: "assistant", content: aiMessage },
+    { role: "assistant", content: ai_message },
     { role: "user", content: userMessage },
   ]);
 }
