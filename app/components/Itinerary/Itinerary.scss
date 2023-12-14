@@ -1,66 +1,66 @@
-// /** chat destination text*/
-// .timeofday {
-//   margin-right: 0.5rem;
-// }
-// .ai-location {
-//   color: aqua;
-//   text-decoration-line: underline;
-//   font-size: medium;
-//   margin-left: 0.5rem;
-// }
+/** chat destination text*/
+.timeofday {
+  margin-right: 0.5rem;
+}
+.ai-location {
+  color: aqua;
+  text-decoration-line: underline;
+  font-size: medium;
+  margin-left: 0.5rem;
+}
 
-// /** chat date text*/
-// .ai-day {
-//   margin: 2rem 0;
-//   aside {
-//     display: flex;
-//     align-items: center;
-//   }
-// }
+/** chat date text*/
+.ai-day {
+  margin: 2rem 0;
+  aside {
+    display: flex;
+    align-items: center;
+  }
+}
 
-// .ai-date {
-//   font-size: 1.3rem;
-//   display: flex;
-//   justify-content: center;
-// }
-// /** chat list text*/
-// .ai-list {
-//   padding-left: 3rem;
-//   list-style-type: disc;
-// }
+.ai-date {
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: center;
+}
+/** chat list text*/
+.ai-list {
+  padding-left: 3rem;
+  list-style-type: disc;
+}
 
-// #itinerary_container {
-//   grid-area: itinerary;
+#itinerary_container {
+  grid-area: itinerary;
 
-//   overflow: auto;
-//   padding: 0 0.5rem;
-//   // scroll-snap-type: y mandatory;
-//   scroll-padding: 0.5rem;
-//   position: relative;
+  overflow: auto;
+  padding: 0 0.5rem;
+  // scroll-snap-type: y mandatory;
+  scroll-padding: 0.5rem;
+  position: relative;
 
-//   margin: 0.5rem 0;
-//   aside {
-//     display: flex;
-//     flex-direction: row;
-//     margin: 0.3rem 0;
-//   }
-//   h1 {
-//     font-size: 1.5rem;
-//     text-wrap: pretty;
-//     text-align: start;
+  margin: 0.5rem 0;
+  aside {
+    display: flex;
+    flex-direction: row;
+    margin: 0.3rem 0;
+  }
+  h1 {
+    font-size: 1.5rem;
+    text-wrap: pretty;
+    text-align: start;
 
-//     padding: 1rem 0;
-//   }
-//   > div {
-//     border-bottom: 1px solid white;
-//     display: flex;
-//     flex-direction: row;
-//     justify-content: space-between;
-//     align-items: center;
-//     gap: 1rem;
-//     button {
-//       width: 2rem;
-//       height: 2rem;
-//     }
-//   }
-// }
+    padding: 1rem 0;
+  }
+  > div {
+    border-bottom: 1px solid white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    button {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+}
