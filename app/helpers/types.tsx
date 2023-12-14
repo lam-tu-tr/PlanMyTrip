@@ -38,9 +38,9 @@ export type DestinationType = {
   locations: DestCoordinateType;
 };
 
-export type CardTripInfoType = {
+export type TripCardType = {
   id: string;
-  destination_name: string;
+  destination: string;
   bbox: string;
   start_date: string;
   end_date: string;

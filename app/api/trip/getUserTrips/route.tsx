@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import supabase from "@/supabase/supabaseClient";
-import { CardTripInfoType } from "@/helpers/types";
+import { TripCardType } from "@/helpers/types";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const { user_email } = await req.json();
 
-  let cardItineraryList: CardTripInfoType[] = [];
+  let cardItineraryList: TripCardType[] = [];
 
   const { data, error } = await supabase
     .from("trip")
-    .select("id, destination_name, bbox, start_date, end_date, created_date")
+    .select("id, destination, bbox, start_date, end_date, created_date")
     .eq("email", user_email)
     .order("created_date", { ascending: false });
 

@@ -1,5 +1,8 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+
 export async function handleDeleteDestination(trip_id: string) {
-  console.log("inside delete api");
   try {
     const res = await fetch("http://localhost:3000/api/trip/deleteTripById", {
       method: "POST",
@@ -12,8 +15,7 @@ export async function handleDeleteDestination(trip_id: string) {
     });
 
     if (!res.ok) throw new Error("Failed to delete trip from db");
-
-    return null;
+    revalidatePath("/routes/account");
   } catch (err) {
     console.log(err);
   }

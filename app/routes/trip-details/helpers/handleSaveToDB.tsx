@@ -11,8 +11,8 @@ export async function handleSaveToDB(destination: DestinationType) {
       body: JSON.stringify({
         dbPayload: {
           name: destination.name,
-          aiMessage: destination.aiMessage,
-          location_list: destination.location_list,
+          ai_message: destination.ai_message,
+          locations: destination.locations,
           bbox: destination.bbox,
           start_date: destination.start_date,
           end_date: destination.end_date,

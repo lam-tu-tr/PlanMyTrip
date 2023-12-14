@@ -21,9 +21,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     .from("trip")
     .insert({
       email: user.email,
-      destination_name: dbPayload.name,
-      ai_response: dbPayload.aiMessage,
-      location_list: dbPayload.location_list,
+      destination: dbPayload.name,
+      ai_message: dbPayload.ai_message,
+      locations: dbPayload.locations,
       bbox: dbPayload.bbox,
       start_date: dbPayload.start_date,
       end_date: dbPayload.end_date,

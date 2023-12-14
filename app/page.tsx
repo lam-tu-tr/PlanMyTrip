@@ -4,7 +4,7 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 
-import { destinationType } from "./helpers/types";
+import { DestinationType } from "./helpers/types";
 import { useRouter } from "next/navigation";
 import { toastError } from "@/helpers/toast";
 
@@ -26,18 +26,19 @@ export default function Home() {
 
   const router = useRouter();
 
-  const [destination, setDestination] = useState<destinationType>({
+  const [destination, setDestination] = useState<DestinationType>({
     trip_id: "",
     name: "",
+    description: "",
     bbox: "",
     start_date: "",
     end_date: "",
-    duration: "",
-    aiMessage: "",
+    duration: 0,
+    ai_message: "",
     created_date: "",
-    location_list: {},
+    locations: {},
   });
-
+  console.log(destination);
   const searchParamsObject = {
     destination_name: destination.name,
     start_date: destination.start_date,

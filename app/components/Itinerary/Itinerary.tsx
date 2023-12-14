@@ -4,6 +4,7 @@ import DOMPurify from "isomorphic-dompurify";
 
 import { copyToClipboard } from "../../helpers/helper-functions";
 import "./Itinerary.scss";
+import { LocationCard } from "../LocationCard/LocationCard";
 
 const DOMPurifyConfig = {
   ADD_ATTR: ["target"], //*allow target attribute on anchor tags to go through
@@ -26,16 +27,18 @@ export function Itinerary({ ai_message, destination, trip_id }: ItineraryType) {
           onClick={() => copyToClipboard(trip_id)}
           type="button"
         >
-          <FaRegCopy className="w-full h-full" />
+          <FaRegCopy className="w-6 h-6" />
         </button>
       </div>
 
       <section
         className="itinerary"
-        dangerouslySetInnerHTML={{
-          __html: DOMPurify.sanitize(ai_message, DOMPurifyConfig),
-        }}
-      ></section>
+        // dangerouslySetInnerHTML={{
+        //   __html: DOMPurify.sanitize(ai_message, DOMPurifyConfig),
+        // }}
+      >
+        <LocationCard />
+      </section>
     </section>
   );
 }

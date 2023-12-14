@@ -68,8 +68,7 @@ export function handleSetInitialPrompt(
         description: short paragraph describing destination
         duration: duration + 1 , 
         locations: {
-            1:{ 
-            name: name of the location,
+            (location-name):{ 
             description: brief sentence that describe the location,
             emoji: give emoji that best describe the location,
           }
