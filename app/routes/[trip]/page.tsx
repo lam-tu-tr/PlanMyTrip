@@ -41,6 +41,7 @@ export default function Trip() {
       />
       <section className="itinerary_container">
         <Itinerary
+          locations={destination.locations}
           destination={destination.name}
           trip_id={destination.trip_id}
         />

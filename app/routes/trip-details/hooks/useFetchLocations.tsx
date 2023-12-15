@@ -16,9 +16,8 @@ export function useFetchLocation(
       isFirstRender.current = false;
       return;
     }
-    //Select all anchor tags from aiMessage
-    //push to destList array the locations found within anchor tag
-    const location_arr = document.querySelectorAll(".ai-location");
+
+    const location_arr = document.querySelectorAll(".location-card");
 
     const fetchCoordinates = async () => {
       //Create array of promises

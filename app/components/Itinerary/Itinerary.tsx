@@ -2,24 +2,24 @@ import { FaRegCopy } from "react-icons/fa";
 import { capitalizeWords } from "@/helpers/helper-functions";
 
 import { copyToClipboard } from "../../helpers/helper-functions";
-import "./Itinerary.scss";
-import { LocationCard } from "../LocationCard/LocationCard";
 
-const DOMPurifyConfig = {
-  ADD_ATTR: ["target"], //*allow target attribute on anchor tags to go through
-};
+import { LocationCard } from "../LocationCard/LocationCard";
+import { LocationType } from "@/helpers/types";
+import { LocationCardSeparator } from "../LocationCardSeparator/LocationCardSeparator";
+
+import "./Itinerary.scss";
 
 type ItineraryType = {
   destination: string;
   trip_id: string;
+  locations: LocationType;
 };
 
-export function Itinerary({ destination, trip_id }: ItineraryType) {
-  //
+export function Itinerary({ destination, trip_id, locations }: ItineraryType) {
   return (
-    <section id="itinerary_container">
-      <div>
-        <h1>Trip to {capitalizeWords(destination!)}</h1>
+    <section className="itinerary_container">
+      <div className="itinerary__header">
+        <h1>{capitalizeWords(destination!)}</h1>
         <button
           title="Copy Trip Link"
           onClick={() => copyToClipboard(trip_id)}
@@ -29,9 +29,14 @@ export function Itinerary({ destination, trip_id }: ItineraryType) {
         </button>
       </div>
 
-      <section className="itinerary">
-        <LocationCard />
-      </section>
+      <ul className="itinerary">
+        {Object.entries(locations).map(([name, info], index) => (
+          <>
+            <LocationCardSeparator />
+            <LocationCard key={index} name={name} info={info} />
+          </>
+        ))}
+      </ul>
     </section>
   );
 }

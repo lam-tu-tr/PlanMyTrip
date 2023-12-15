@@ -1,40 +1,7 @@
-// /** chat destination text*/
-// .timeofday {
-//   margin-right: 0.5rem;
-// }
-// .ai-location {
-//   color: aqua;
-//   text-decoration-line: underline;
-//   font-size: medium;
-//   margin-left: 0.5rem;
-// }
-
-// /** chat date text*/
-// .ai-day {
-//   margin: 2rem 0;
-//   aside {
-//     display: flex;
-//     align-items: center;
-//   }
-// }
-
-// .ai-date {
-//   font-size: 1.3rem;
-//   display: flex;
-//   justify-content: center;
-// }
-// /** chat list text*/
-// .ai-list {
-//   padding-left: 3rem;
-//   list-style-type: disc;
-// }
-
-#itinerary_container {
-  grid-area: itinerary;
-
+.itinerary_container {
   overflow: auto;
   padding: 0 0.5rem;
-  min-width: 100%;
+
   scroll-padding: 0.5rem;
   position: relative;
 
@@ -51,8 +18,13 @@
 
     padding: 1rem 0;
   }
-  > div {
-    border-bottom: 1px solid white;
+  .itinerary__header {
+    padding: 1rem;
+    background-color: hsl(218, 14%, 11%);
+    border: solid hsl(218, 14%, 15%) 1px;
+    border-radius: 0.5rem;
+    min-width: 300px;
+
     display: flex;
     flex-direction: row;
     justify-content: space-between;
