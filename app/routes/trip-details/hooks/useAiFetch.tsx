@@ -1,7 +1,7 @@
 import { Message, DestinationType } from "@/helpers/types";
 import { useEffect } from "react";
 
-export function useHandleAiStream(
+export function useAiFetch(
   messagePayload: Message[],
   setAiComplete: React.Dispatch<React.SetStateAction<boolean>>,
 
@@ -24,22 +24,18 @@ export function useHandleAiStream(
 
         if (!res.body) return;
 
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder();
-        let done = false;
+        const data = await res.json();
 
-        while (!done) {
-          const { value, done: doneReading } = await reader.read();
-          done = doneReading;
+        const ai_message = JSON.parse(data.ai_message);
 
-          if (doneReading) setAiComplete(true);
+        setDestination((prevDest) => ({
+          ...prevDest,
+          description: ai_message.description,
+          duration: ai_message.duration,
+          locations: ai_message.locations,
+        }));
 
-          const chunkValue = decoder.decode(value);
-          setDestination((prevDest) => ({
-            ...prevDest,
-            aiMessage: prevDest.aiMessage + chunkValue,
-          }));
-        }
+        setAiComplete(true);
       } catch (error) {
         console.error(error);
       }
@@ -48,3 +44,21 @@ export function useHandleAiStream(
     handleAiStream();
   }, [messagePayload, setAiComplete, setDestination]);
 }
+
+//old Ai stream code
+// const reader = res.body.getReader();
+// const decoder = new TextDecoder();
+// let done = false;
+
+// while (!done) {
+//   const { value, done: doneReading } = await reader.read();
+//   done = doneReading;
+
+//   if (doneReading) setAiComplete(true);
+
+//   const chunkValue = decoder.decode(value);
+//   setDestination((prevDest) => ({
+//     ...prevDest,
+//     aiMessage: prevDest.aiMessage + chunkValue,
+//   }));
+// }

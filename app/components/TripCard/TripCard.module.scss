@@ -1,0 +1,46 @@
+.card {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem 0 1rem 1rem;
+  background-color: hsl(218, 14%, 11%);
+  border: solid hsl(218, 14%, 15%) 1px;
+  border-radius: 0.5rem;
+  min-width: 300px;
+
+  button {
+    display: grid;
+    place-content: center;
+    padding: 0 1rem;
+  }
+
+  .card_link {
+    flex-grow: 2;
+
+    display: flex;
+    flex-direction: column;
+
+    border-right: 1px dashed gray;
+
+    div {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+
+      padding-right: 3rem;
+      span {
+        margin-right: 1rem;
+      }
+
+      &:first-child {
+        padding-bottom: 1rem;
+      }
+    }
+  }
+}
+
+@media (min-width: 700px) {
+  .card {
+    padding: 2rem 0 2rem 1rem;
+  }
+}

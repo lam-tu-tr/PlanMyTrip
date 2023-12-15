@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import Image from "next/image";
 import styles from "./account.module.scss";
 
-import { LocationCard } from "@/components/LocationCard/LocationCard";
+import { TripCard } from "@/components/TripCard/TripCard";
 import { SignOutButton } from "@/components/Auth/SignOutButton";
 
 import { BsCommand } from "react-icons/bs";
@@ -11,7 +11,7 @@ import { BsCommand } from "react-icons/bs";
 import { getServerSession } from "next-auth";
 
 import { handleFetchLocationList } from "./helpers/handleFetchLocationList";
-import { CardTripInfoType } from "@/helpers/types";
+import { TripCardType } from "@/helpers/types";
 
 export default async function Account() {
   const session = await getServerSession();
@@ -19,7 +19,7 @@ export default async function Account() {
     redirect("/routes/signin");
   }
 
-  const cardItineraryList: CardTripInfoType[] = await handleFetchLocationList();
+  const cardItineraryList: TripCardType[] = await handleFetchLocationList();
 
   return (
     <div className="page-container">
@@ -54,7 +54,7 @@ export default async function Account() {
         ) : (
           <ul className={`${styles["trip-list"]}`}>
             {cardItineraryList?.map((item: any, index: number) => {
-              return <LocationCard key={index} cardItem={item} />;
+              return <TripCard key={index} card={item} />;
             })}
           </ul>
         )}

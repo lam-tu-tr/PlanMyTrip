@@ -2,6 +2,7 @@ import { toastError, toastSuccess } from "@/helpers/toast";
 import { DestinationType } from "@/helpers/types";
 
 export async function handleSaveToDB(destination: DestinationType) {
+  console.log("db", destination);
   try {
     const res = await fetch("../../../api/trip/saveTrip", {
       method: "POST",
@@ -11,8 +12,8 @@ export async function handleSaveToDB(destination: DestinationType) {
       body: JSON.stringify({
         dbPayload: {
           name: destination.name,
-          aiMessage: destination.aiMessage,
-          location_list: destination.location_list,
+          description: destination.description,
+          locations: destination.locations,
           bbox: destination.bbox,
           start_date: destination.start_date,
           end_date: destination.end_date,
@@ -24,7 +25,6 @@ export async function handleSaveToDB(destination: DestinationType) {
 
     const { trip_id } = await res.json();
 
-    //   //TODO separate copy to clipboard, if signed in, look for the unique url from database, otherwise, copy the stringparams url.
     return trip_id;
   } catch (error) {
     console.error(error);

@@ -10,10 +10,10 @@ import { useSearchParams } from "next/navigation";
 import { Message, DestinationType } from "@/helpers/types";
 
 import { handleSetInitialPrompt } from "./helpers/handleSetInitialPrompt";
-import { handleConversation } from "./helpers/handleConversation";
+
 import { useHandleLocationHover } from "./hooks/useHandleLocationHover";
 import { useFetchLocation } from "./hooks/useFetchLocations";
-import { useHandleAiStream } from "./hooks/useHandleAiStream";
+import { useAiFetch } from "./hooks/useAiFetch";
 import { handleSaveToDB } from "./helpers/handleSaveToDB";
 
 import "./trip-details.scss";
@@ -21,13 +21,13 @@ import "./trip-details.scss";
 export default function Trip() {
   const [destination, setDestination] = useState<DestinationType>({
     name: useSearchParams().get("destination")!,
+    description: "",
     bbox: useSearchParams().get("bbox")!,
     start_date: useSearchParams().get("start_date")!,
     end_date: useSearchParams().get("end_date")!,
-    duration: useSearchParams().get("duration") || "",
-    aiMessage: "",
+    duration: 1,
     created_date: "",
-    location_list: {},
+    locations: {},
     trip_id: "",
   });
 
@@ -42,7 +42,12 @@ export default function Trip() {
   );
 
   useEffect(() => {
-    if (!aiComplete || destination.trip_id.length !== 0) return;
+    if (
+      !aiComplete ||
+      destination.trip_id.length !== 0 ||
+      Object.keys(destination.locations).length === 0
+    )
+      return;
 
     //*set debounce to prevent multiple calls when aiComplete and dest trigger renders simutaneously
     const timeoutId = setTimeout(async () => {
@@ -58,9 +63,9 @@ export default function Trip() {
 
   useFetchLocation(aiComplete, setDestination, destination.bbox);
 
-  useHandleAiStream(messagePayload, setAiComplete, setDestination);
+  useAiFetch(messagePayload, setAiComplete, setDestination);
 
-  useHandleLocationHover(destination.location_list, setCurrDest);
+  useHandleLocationHover(destination.locations, setCurrDest);
 
   return (
     <div className="TripDetails page-container">
@@ -74,25 +79,11 @@ export default function Trip() {
         className="trip_form"
         onSubmit={(e) => {
           e.preventDefault();
-          handleConversation(
-            destination.aiMessage,
-            userMessage,
-            setUserMessage,
-            setAiComplete,
-            setDestination,
-            setMessagePayload
-          );
         }}
       >
         <Itinerary
-          aiMessage={destination.aiMessage}
           destination={destination.name}
           trip_id={destination.trip_id}
-        />
-        <AiChatBox
-          userMessage={userMessage}
-          aiComplete={aiComplete}
-          setUserMessage={setUserMessage}
         />
       </form>
     </div>

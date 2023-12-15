@@ -46,7 +46,7 @@ export function useFetchLocation(
 
         setDestination((prev) => ({
           ...prev,
-          location_list: updatedDestList,
+          locations: updatedDestList,
         }));
       } catch (error) {
         console.log("Fetch Coordinate Error", error);

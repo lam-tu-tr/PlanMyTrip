@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { handleDeleteDestination } from "../LocationCard/handleDeleteDestination/handleDeleteDestination";
+import { handleDeleteDestination } from "./handleDeleteDestination/handleDeleteDestination";
 import { TiDelete } from "react-icons/ti";
 
 type TripDeleteButtonProp = {
@@ -10,11 +10,11 @@ type TripDeleteButtonProp = {
 export function TripDeleteButton({ trip_id }: TripDeleteButtonProp) {
   return (
     <button
-      onClick={(e) => {
+      onClick={() => {
         handleDeleteDestination(trip_id);
       }}
     >
-      <TiDelete className="w-6 h-6" />
+      <TiDelete className="w-8 h-8" />
     </button>
   );
 }

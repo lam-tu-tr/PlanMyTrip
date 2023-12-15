@@ -1,21 +1,20 @@
 import { FaRegCopy } from "react-icons/fa";
 import { capitalizeWords } from "@/helpers/helper-functions";
-import DOMPurify from "isomorphic-dompurify";
 
 import { copyToClipboard } from "../../helpers/helper-functions";
 import "./Itinerary.scss";
+import { LocationCard } from "../LocationCard/LocationCard";
 
 const DOMPurifyConfig = {
   ADD_ATTR: ["target"], //*allow target attribute on anchor tags to go through
 };
 
 type ItineraryType = {
-  aiMessage: string;
   destination: string;
   trip_id: string;
 };
 
-export function Itinerary({ aiMessage, destination, trip_id }: ItineraryType) {
+export function Itinerary({ destination, trip_id }: ItineraryType) {
   //
   return (
     <section id="itinerary_container">
@@ -26,16 +25,13 @@ export function Itinerary({ aiMessage, destination, trip_id }: ItineraryType) {
           onClick={() => copyToClipboard(trip_id)}
           type="button"
         >
-          <FaRegCopy className="w-full h-full" />
+          <FaRegCopy className="w-6 h-6" />
         </button>
       </div>
 
-      <section
-        className="itinerary"
-        dangerouslySetInnerHTML={{
-          __html: DOMPurify.sanitize(aiMessage, DOMPurifyConfig),
-        }}
-      ></section>
+      <section className="itinerary">
+        <LocationCard />
+      </section>
     </section>
   );
 }
