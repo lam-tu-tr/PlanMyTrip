@@ -1,6 +1,40 @@
 import { capitalizeWords } from "@/helpers/helper-functions";
 import { Message, DestinationType } from "@/helpers/types";
 
+export function handleSetInitialPrompt(
+  destination: DestinationType
+): Message[] {
+  return [
+    {
+      role: "system",
+      content:
+        "You are TripGPT, you create itineraries for the user based on chosen destination and date range. You will give me a JSON itinerary that has a list of fun attractions and food locations. Make sure that the locations are within 5 miles of each other so that the user won't have to drive long distances between locations",
+    },
+    {
+      role: "user",
+      content: `Create a detailed itinerary for my trip to ${capitalizeWords(
+        destination.name
+      )} from ${destination.start_date} to ${
+        destination.end_date
+      }.  Give a number of options that users can choose. The number of locations should be equal to ((duration + 1) * 3 + 5 ).
+
+      
+      Give the itinerary in this JSON format.
+      {
+        description: short paragraph describing destination
+        duration: duration + 1 , 
+        locations: {
+            (location-name):{ 
+            description: brief sentence that describe the location,
+            emoji: give 1 emoji that best describe the location,
+            coordinate: [longitude, latitude]
+          }
+        }
+      }`,
+    },
+  ];
+}
+
 // export function handleSetInitialPrompt(
 //   destination: DestinationType
 // ): Message[] {
@@ -44,37 +78,3 @@ import { Message, DestinationType } from "@/helpers/types";
 //     },
 //   ];
 // }
-
-export function handleSetInitialPrompt(
-  destination: DestinationType
-): Message[] {
-  return [
-    {
-      role: "system",
-      content:
-        "You are TripGPT, you create itineraries for the user based on chosen destination and date range. You will give me a JSON itinerary that has a list of fun attractions and food locations. Make sure that the locations are within 5 miles of each other so that the user won't have to drive long distances between locations",
-    },
-    {
-      role: "user",
-      content: `Create a detailed itinerary for my trip to ${capitalizeWords(
-        destination.name
-      )} from ${destination.start_date} to ${
-        destination.end_date
-      }.  Give a number of options that users can choose. The number of locations should be equal to ((duration + 1) * 3 + 5 ).
-
-      
-      Give the itinerary in this JSON format.
-      {
-        description: short paragraph describing destination
-        duration: duration + 1 , 
-        locations: {
-            (location-name):{ 
-            description: brief sentence that describe the location,
-            emoji: give emoji that best describe the location,
-            coordinate: [longitude, latitude]
-          }
-        }
-      }`,
-    },
-  ];
-}
