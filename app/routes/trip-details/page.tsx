@@ -75,17 +75,11 @@ export default function Trip() {
         setDestination={setDestination}
       />
 
-      <form
-        className="trip_form"
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
-        <Itinerary
-          destination={destination.name}
-          trip_id={destination.trip_id}
-        />
-      </form>
+      <Itinerary
+        locations={destination.locations}
+        destination={destination.name}
+        trip_id={destination.trip_id}
+      />
     </div>
   );
 }

@@ -1,0 +1,13 @@
+.separator {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 1.5rem;
+  span {
+    min-height: 1.5rem;
+
+    flex-basis: 50%;
+    border-right: 2px dashed white;
+  }
+}

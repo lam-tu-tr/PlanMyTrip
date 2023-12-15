@@ -10,24 +10,12 @@
   color: white;
 
   #map {
-    height: 40%;
+    flex-basis: 40%;
     width: 100%;
   }
 
-  .trip_form {
-    height: 60%;
-
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 10fr 1fr;
-    grid-template-areas:
-      "itinerary"
-      "com ";
-  }
   .itinerary_container {
-    overflow-y: auto;
-    height: 60%;
-    width: 100%;
+    flex-basis: 60%;
   }
 }
 

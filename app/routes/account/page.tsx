@@ -54,7 +54,7 @@ export default async function Account() {
         ) : (
           <ul className={`${styles["trip-list"]}`}>
             {cardItineraryList?.map((item: any, index: number) => {
-              return <TripCard key={index} card={item} />;
+              return <TripCard key={index} trip={item} />;
             })}
           </ul>
         )}
