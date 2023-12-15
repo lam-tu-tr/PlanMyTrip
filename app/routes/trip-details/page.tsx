@@ -61,7 +61,7 @@ export default function Trip() {
     return () => clearTimeout(timeoutId);
   }, [aiComplete, destination]);
 
-  useFetchLocation(aiComplete, setDestination, destination.bbox);
+  // useFetchLocation(aiComplete, setDestination, destination.bbox);
 
   useAiFetch(messagePayload, setAiComplete, setDestination);
 
