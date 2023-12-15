@@ -29,12 +29,7 @@ export function Itinerary({ destination, trip_id }: ItineraryType) {
         </button>
       </div>
 
-      <section
-        className="itinerary"
-        // dangerouslySetInnerHTML={{
-        //   __html: DOMPurify.sanitize(ai_message, DOMPurifyConfig),
-        // }}
-      >
+      <section className="itinerary">
         <LocationCard />
       </section>
     </section>
