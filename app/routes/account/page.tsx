@@ -8,7 +8,7 @@ import { SignOutButton } from "@/components/Auth/SignOutButton";
 
 import { BsCommand } from "react-icons/bs";
 
-import { getServerSession } from "next-auth";
+import getServerSession from "next-auth";
 
 import { handleFetchLocationList } from "./helpers/handleFetchLocationList";
 import { TripCardType } from "@/helpers/types";
