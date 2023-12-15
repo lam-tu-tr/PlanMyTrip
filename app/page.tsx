@@ -34,7 +34,7 @@ export default function Home() {
     start_date: "",
     end_date: "",
     duration: 0,
-    ai_message: "",
+
     created_date: "",
     locations: {},
   });
