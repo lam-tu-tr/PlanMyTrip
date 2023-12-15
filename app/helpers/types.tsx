@@ -21,8 +21,12 @@ export type AntMobileProps = {
 
 export type Coordinate = [longitude: number, latitude: number];
 
-export type DestCoordinateType = {
-  [key: string]: Coordinate;
+export type DestinationCoordinateType = {
+  [location: string]: {
+    description: string;
+    emoji: string;
+    coordinate: Coordinate;
+  };
 };
 
 export type DestinationType = {
@@ -32,10 +36,9 @@ export type DestinationType = {
   bbox: string;
   start_date: string;
   end_date: string;
-  ai_message: string;
   duration: number;
   created_date: string;
-  locations: DestCoordinateType;
+  locations: DestinationCoordinateType;
 };
 
 export type TripCardType = {

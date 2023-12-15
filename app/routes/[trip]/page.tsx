@@ -22,7 +22,6 @@ export default function Trip() {
     start_date: "",
     end_date: "",
     duration: 1,
-    ai_message: "",
     locations: {},
     created_date: "",
     trip_id: "",
@@ -42,7 +41,6 @@ export default function Trip() {
       />
       <section className="itinerary_container">
         <Itinerary
-          ai_message={destination.ai_message}
           destination={destination.name}
           trip_id={destination.trip_id}
         />

@@ -1,6 +1,5 @@
 import { FaRegCopy } from "react-icons/fa";
 import { capitalizeWords } from "@/helpers/helper-functions";
-import DOMPurify from "isomorphic-dompurify";
 
 import { copyToClipboard } from "../../helpers/helper-functions";
 import "./Itinerary.scss";
@@ -11,12 +10,11 @@ const DOMPurifyConfig = {
 };
 
 type ItineraryType = {
-  ai_message: string;
   destination: string;
   trip_id: string;
 };
 
-export function Itinerary({ ai_message, destination, trip_id }: ItineraryType) {
+export function Itinerary({ destination, trip_id }: ItineraryType) {
   //
   return (
     <section id="itinerary_container">

@@ -34,7 +34,7 @@ export function useAddMarkers({
               .slice(2, 8)
               .padStart(6, "0")}`,
           })
-            .setLngLat(value)
+            .setLngLat(value.coordinate)
             .setPopup(new mapboxgl.Popup().setHTML(`${key}`))
             .addTo(map),
         ]);

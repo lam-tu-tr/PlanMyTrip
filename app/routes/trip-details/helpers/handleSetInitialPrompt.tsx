@@ -71,6 +71,7 @@ export function handleSetInitialPrompt(
             (location-name):{ 
             description: brief sentence that describe the location,
             emoji: give emoji that best describe the location,
+            coordinate: [longitude, latitude]
           }
         }
       }`,

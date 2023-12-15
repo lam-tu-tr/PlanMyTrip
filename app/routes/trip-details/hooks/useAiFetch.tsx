@@ -30,7 +30,6 @@ export function useAiFetch(
 
         setDestination((prevDest) => ({
           ...prevDest,
-          ai_message: ai_message,
           description: ai_message.description,
           duration: ai_message.duration,
           locations: ai_message.locations,

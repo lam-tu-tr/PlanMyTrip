@@ -10,7 +10,7 @@ import { useSearchParams } from "next/navigation";
 import { Message, DestinationType } from "@/helpers/types";
 
 import { handleSetInitialPrompt } from "./helpers/handleSetInitialPrompt";
-import { handleConversation } from "./helpers/handleConversation";
+
 import { useHandleLocationHover } from "./hooks/useHandleLocationHover";
 import { useFetchLocation } from "./hooks/useFetchLocations";
 import { useAiFetch } from "./hooks/useAiFetch";
@@ -26,12 +26,11 @@ export default function Trip() {
     start_date: useSearchParams().get("start_date")!,
     end_date: useSearchParams().get("end_date")!,
     duration: 1,
-    ai_message: "",
     created_date: "",
     locations: {},
     trip_id: "",
   });
-  console.log(destination);
+
   const [userMessage, setUserMessage] = useState<string>("");
 
   const [aiComplete, setAiComplete] = useState<boolean>(false);
@@ -43,7 +42,12 @@ export default function Trip() {
   );
 
   useEffect(() => {
-    if (!aiComplete || destination.trip_id.length !== 0) return;
+    if (
+      !aiComplete ||
+      destination.trip_id.length !== 0 ||
+      Object.keys(destination.locations).length === 0
+    )
+      return;
 
     //*set debounce to prevent multiple calls when aiComplete and dest trigger renders simutaneously
     const timeoutId = setTimeout(async () => {
@@ -75,25 +79,11 @@ export default function Trip() {
         className="trip_form"
         onSubmit={(e) => {
           e.preventDefault();
-          handleConversation(
-            destination.ai_message,
-            userMessage,
-            setUserMessage,
-            setAiComplete,
-            setDestination,
-            setMessagePayload
-          );
         }}
       >
         <Itinerary
-          ai_message={destination.ai_message}
           destination={destination.name}
           trip_id={destination.trip_id}
-        />
-        <AiChatBox
-          userMessage={userMessage}
-          aiComplete={aiComplete}
-          setUserMessage={setUserMessage}
         />
       </form>
     </div>

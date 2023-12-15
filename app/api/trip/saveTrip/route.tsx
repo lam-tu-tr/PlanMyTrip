@@ -22,7 +22,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     .insert({
       email: user.email,
       destination: dbPayload.name,
-      ai_message: dbPayload.ai_message,
+      description: dbPayload.description,
       locations: dbPayload.locations,
       bbox: dbPayload.bbox,
       start_date: dbPayload.start_date,
