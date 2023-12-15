@@ -19,13 +19,13 @@ export function useAddMarkers({
   useEffect(() => {
     if (
       map &&
-      destination.location_list &&
-      Object.getOwnPropertyNames(destination.location_list).length > 0
+      destination.locations &&
+      Object.getOwnPropertyNames(destination.locations).length > 0
     ) {
       //*Loop through dest.destList and set a marker for each destination, and pushing
       //*marker into markers array
-      Object.keys(destination.location_list).forEach((key) => {
-        const value = destination.location_list[key];
+      Object.keys(destination.locations).forEach((key) => {
+        const value = destination.locations[key];
         setMarkers((prev) => [
           ...prev,
           new mapboxgl.Marker({
@@ -41,8 +41,8 @@ export function useAddMarkers({
       });
     } else if (
       map &&
-      destination.location_list &&
-      Object.getOwnPropertyNames(destination.location_list).length == 0
+      destination.locations &&
+      Object.getOwnPropertyNames(destination.locations).length == 0
     ) {
       markers.forEach((marker) => {
         marker.remove();

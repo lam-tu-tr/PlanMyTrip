@@ -31,12 +31,13 @@ export function useFetchTripInfo({
           setDestination({
             name: tripData.destination_name,
             bbox: tripData.bbox,
+            description: tripData.description,
             start_date: tripData.start_date,
             end_date: tripData.end_date,
-            aiMessage: tripData.ai_response,
-            location_list: tripData.location_list,
+            ai_message: tripData.ai_response,
+            locations: tripData.locations,
             created_date: new Date().toString(),
-            duration: "",
+            duration: tripData.duration,
             trip_id: tripData.id,
           });
         }

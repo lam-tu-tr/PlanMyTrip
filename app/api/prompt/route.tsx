@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Message } from "@/helpers/types";
-import OpenAI from "openai";
+import { OpenAI } from "openai";
 
 const openai = new OpenAI();
 

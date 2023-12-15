@@ -2,14 +2,14 @@ import { useEffect } from "react";
 
 //** add event delegation, ai-location class mouseover bubbles up to chat class*/
 export function useHandleLocationHover(
-  location_list: any,
+  locations: any,
   setCurrDest: React.Dispatch<
     React.SetStateAction<[number, number] | undefined>
   >
 ) {
   useEffect(() => {
     function handleLocHover(event: any) {
-      setCurrDest(location_list[event.target.innerText]);
+      setCurrDest(locations[event.target.innerText]);
     }
     const chatSection = document.querySelector(".itinerary");
 
@@ -23,5 +23,5 @@ export function useHandleLocationHover(
     return () => {
       chatSection!.removeEventListener("mouseover", handleHoverEvent);
     };
-  }, [location_list, setCurrDest]);
+  }, [locations, setCurrDest]);
 }
