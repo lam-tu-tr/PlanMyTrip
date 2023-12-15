@@ -10,7 +10,7 @@ const openai = new OpenAI();
 //   ReconnectInterval,
 // } from "eventsource-parser";
 
-// export const runtime = "edge";
+export const runtime = "edge";
 
 //* POST a chat request to openAI chatcompletion endpoint
 //* reuseable for additional request for chat conversation
