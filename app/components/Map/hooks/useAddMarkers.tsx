@@ -1,32 +1,36 @@
-import { DestinationType } from "@/helpers/types";
-import mapboxgl from "mapbox-gl";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { LocationType } from "@/helpers/types";
+import mapboxgl, { Marker, LngLatLike } from "mapbox-gl";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 
 type AddMarkersType = {
   map: mapboxgl.Map | null;
-  destination: DestinationType;
-  markers: any[];
+  locations: LocationType;
+  markers: Marker[];
   setMarkers: Dispatch<SetStateAction<any[]>>;
 };
 
 export function useAddMarkers({
   map,
-  destination,
+  locations,
   markers,
   setMarkers,
 }: AddMarkersType) {
-  //* Add markers to map
+  const isFirstRender = useRef(true);
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     if (
       map &&
-      destination.locations &&
-      Object.getOwnPropertyNames(destination.locations).length > 0
+      locations &&
+      Object.getOwnPropertyNames(locations).length > 0 &&
+      markers.length == 0
     ) {
-      //*Loop through dest.destList and set a marker for each destination, and pushing
+      //*Loop through locations and set a marker for each destination, and pushing
       //*marker into markers array
-      Object.keys(destination.locations).forEach((key) => {
-        const value = destination.locations[key];
-        setMarkers((prev) => [
+      Object.entries(locations).forEach(([location, info], index) => {
+        setMarkers((prev: Marker[]) => [
           ...prev,
           new mapboxgl.Marker({
             color: `#${Math.random()
@@ -34,26 +38,20 @@ export function useAddMarkers({
               .slice(2, 8)
               .padStart(6, "0")}`,
           })
-            .setLngLat(value.coordinate)
-            .setPopup(new mapboxgl.Popup().setHTML(`${key}`))
+            .setLngLat(info.coordinate)
+            .setPopup(new mapboxgl.Popup().setHTML(`${location}`))
             .addTo(map),
         ]);
       });
     } else if (
       map &&
-      destination.locations &&
-      Object.getOwnPropertyNames(destination.locations).length == 0
+      locations &&
+      Object.getOwnPropertyNames(locations).length == 0
     ) {
       markers.forEach((marker) => {
         marker.remove();
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    destination,
-    map,
-    mapboxgl.LngLatBounds,
-    mapboxgl.Marker,
-    mapboxgl.Popup,
-  ]);
+  }, [locations, mapboxgl.LngLatBounds, mapboxgl.Marker, mapboxgl.Popup]);
 }

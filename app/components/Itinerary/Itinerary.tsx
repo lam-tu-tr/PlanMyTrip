@@ -1,3 +1,5 @@
+import { Fragment } from "react";
+
 import { FaRegCopy } from "react-icons/fa";
 import { capitalizeWords } from "@/helpers/helper-functions";
 
@@ -31,10 +33,10 @@ export function Itinerary({ destination, trip_id, locations }: ItineraryType) {
 
       <ul className="itinerary">
         {Object.entries(locations).map(([name, info], index) => (
-          <>
+          <Fragment key={index}>
             <LocationCardSeparator />
-            <LocationCard key={index} name={name} info={info} />
-          </>
+            <LocationCard name={name} info={info} />
+          </Fragment>
         ))}
       </ul>
     </section>

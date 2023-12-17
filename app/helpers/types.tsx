@@ -1,3 +1,5 @@
+import { LngLatLike } from "mapbox-gl";
+
 export type Message = {
   role: "user" | "system" | "assistant";
   content: string;
@@ -19,12 +21,10 @@ export type AntMobileProps = {
   setDest: React.Dispatch<React.SetStateAction<DestinationType>>;
 };
 
-export type Coordinate = [longitude: number, latitude: number];
-
 export type LocationInfoType = {
   description: string;
   emoji: string;
-  coordinate: Coordinate;
+  coordinate: LngLatLike;
 };
 export type LocationType = {
   [location: string]: LocationInfoType;

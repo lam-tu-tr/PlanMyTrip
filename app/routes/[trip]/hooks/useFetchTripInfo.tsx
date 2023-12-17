@@ -34,7 +34,6 @@ export function useFetchTripInfo({
             description: tripData.description,
             start_date: tripData.start_date,
             end_date: tripData.end_date,
-
             locations: tripData.locations,
             created_date: new Date().toString(),
             duration: tripData.duration,

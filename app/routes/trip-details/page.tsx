@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 
 import { Map } from "@/components/Map/Map";
 import { Itinerary } from "../../components/Itinerary/Itinerary";
-import { AiChatBox } from "../../components/AiChatBox/AiChatBox";
 
 import { useSearchParams } from "next/navigation";
 import { Message, DestinationType } from "@/helpers/types";
@@ -12,7 +11,7 @@ import { Message, DestinationType } from "@/helpers/types";
 import { handleSetInitialPrompt } from "./helpers/handleSetInitialPrompt";
 
 import { useHandleLocationHover } from "./hooks/useHandleLocationHover";
-import { useFetchLocation } from "./hooks/useFetchLocations";
+// import { useFetchLocation } from "./hooks/useFetchLocations";
 import { useAiFetch } from "./hooks/useAiFetch";
 import { handleSaveToDB } from "./helpers/handleSaveToDB";
 
@@ -30,8 +29,6 @@ export default function Trip() {
     locations: {},
     trip_id: "",
   });
-
-  const [userMessage, setUserMessage] = useState<string>("");
 
   const [aiComplete, setAiComplete] = useState<boolean>(false);
 
@@ -61,7 +58,12 @@ export default function Trip() {
     return () => clearTimeout(timeoutId);
   }, [aiComplete, destination]);
 
-  // useFetchLocation(aiComplete, setDestination, destination.bbox);
+  // useFetchLocation(
+  //   aiComplete,
+  //   setDestination,
+  //   destination.bbox,
+  //   Object.keys(destination.locations)
+  // );
 
   useAiFetch(messagePayload, setAiComplete, setDestination);
 

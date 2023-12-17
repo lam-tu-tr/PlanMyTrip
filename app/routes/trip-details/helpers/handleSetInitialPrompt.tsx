@@ -4,11 +4,12 @@ import { Message, DestinationType } from "@/helpers/types";
 export function handleSetInitialPrompt(
   destination: DestinationType
 ): Message[] {
+  console.log(destination.duration);
   return [
     {
       role: "system",
       content:
-        "You are TripGPT, you create itineraries for the user based on chosen destination and date range. You will give me a JSON itinerary that has a list of fun attractions and food locations. Make sure that the locations are within 5 miles of each other so that the user won't have to drive long distances between locations",
+        "You are TripGPT, you create itineraries for the user based on chosen destination and date range. You will give me a JSON itinerary that has a list of fun attractions and food locations. Make sure that the locations are within 5 miles of each other so that the user won't have to drive long distances between locations. Each day of the trip should have 3 trips to cover it. For example, if I have a 2 days trip. I should have 6 unique locations for the 2 days. Also add in 5 extra locations for me to choose from. Total amount of locations for 2 days is 11 locations.",
     },
     {
       role: "user",
@@ -16,7 +17,7 @@ export function handleSetInitialPrompt(
         destination.name
       )} from ${destination.start_date} to ${
         destination.end_date
-      }.  Give a number of options that users can choose. The number of locations should be equal to ((duration + 1) * 3 + 5 ).
+      }. Duration of the trip is ${destination.duration}. 
 
       
       Give the itinerary in this JSON format.
@@ -26,8 +27,8 @@ export function handleSetInitialPrompt(
         locations: {
             (location-name):{ 
             description: brief sentence that describe the location,
-            emoji: give 1 emoji that best describe the location,
-            coordinate: [longitude, latitude]
+            emoji: give 1 emoji that best describe the location, use JSX,
+            coordinate: [longitude:number, latitude:number]
           }
         }
       }`,

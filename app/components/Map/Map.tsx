@@ -11,6 +11,7 @@ import { useAddMarkers } from "./hooks/useAddMarkers";
 import { useHandleBoundAndHover } from "./hooks/useHandleBoundAndHover";
 (mapboxgl as any).accessToken = process.env.MAPBOX_KEY;
 
+import { Marker } from "mapbox-gl";
 import "./Map.scss";
 
 interface MapCoord {
@@ -29,11 +30,12 @@ export function Map({
 
   const [map, setMap] = useState<mapboxgl.Map | null>(null);
 
-  const [markers, setMarkers] = useState<any[]>([]);
+  const [markers, setMarkers] = useState<Marker[]>([]);
 
+  console.log("markers", markers);
   useCreateMap({ mapContainerRef, setMap, setDestination });
 
-  useAddMarkers({ map, destination, markers, setMarkers });
+  useAddMarkers({ map, locations: destination.locations, markers, setMarkers });
 
   useHandleBoundAndHover({ markers, map, currDest, initialCoord });
 
