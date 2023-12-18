@@ -4,7 +4,6 @@ import { Message, DestinationType } from "@/helpers/types";
 export function handleSetInitialPrompt(
   destination: DestinationType
 ): Message[] {
-  console.log(destination.duration);
   return [
     {
       role: "system",

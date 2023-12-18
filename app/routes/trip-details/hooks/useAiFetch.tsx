@@ -1,13 +1,22 @@
 import { Message, DestinationType } from "@/helpers/types";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export function useAiFetch(
   messagePayload: Message[],
+  aiComplete: boolean,
   setAiComplete: React.Dispatch<React.SetStateAction<boolean>>,
 
   setDestination: React.Dispatch<React.SetStateAction<DestinationType>>
 ) {
+  const isFirstRender = useRef(true);
+
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (aiComplete) return;
+
     async function handleAiStream() {
       try {
         const res = await fetch("/api/prompt", {
@@ -27,7 +36,7 @@ export function useAiFetch(
         const data = await res.json();
 
         const ai_message = JSON.parse(data.ai_message);
-        console.log("ai_message", ai_message);
+
         setDestination((prevDest) => ({
           ...prevDest,
           description: ai_message.description,
@@ -42,7 +51,7 @@ export function useAiFetch(
     }
 
     handleAiStream();
-  }, [messagePayload, setAiComplete, setDestination]);
+  }, [aiComplete, messagePayload, setAiComplete, setDestination]);
 }
 
 //old Ai stream code

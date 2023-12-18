@@ -32,7 +32,6 @@ export function Map({
 
   const [markers, setMarkers] = useState<Marker[]>([]);
 
-  console.log("markers", markers);
   useCreateMap({ mapContainerRef, setMap, setDestination });
 
   useAddMarkers({ map, locations: destination.locations, markers, setMarkers });

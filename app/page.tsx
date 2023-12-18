@@ -38,7 +38,7 @@ export default function Home() {
     created_date: "",
     locations: {},
   });
-  console.log(destination);
+
   const searchParamsObject = {
     destination_name: destination.name,
     start_date: destination.start_date,
@@ -47,7 +47,6 @@ export default function Home() {
   };
 
   function validateSubmit(e: any) {
-    console.log("target", e.target);
     if (e.target.destination_name.value == "") {
       toastError("Please Choose a Destination Using the Map");
     } else if (e.target.start_date.value == "") {
