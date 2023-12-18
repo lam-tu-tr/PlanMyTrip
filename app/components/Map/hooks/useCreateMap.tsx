@@ -24,7 +24,7 @@ export function useCreateMap({
     if (mapContainerRef.current) {
       const newMap = new mapboxgl.Map({
         container: mapContainerRef.current,
-        style: "mapbox://styles/mapbox/streets-v12",
+        style: "mapbox://styles/mapbox/dark-v11",
         center: [-79.2, 21.945],
         zoom: 1.5,
         pitch: 0,

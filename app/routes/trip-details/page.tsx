@@ -24,7 +24,9 @@ export default function Trip() {
     bbox: useSearchParams().get("bbox")!,
     start_date: useSearchParams().get("start_date")!,
     end_date: useSearchParams().get("end_date")!,
-    duration: 1,
+    duration:
+      Number(useSearchParams().get("end_date"))! -
+      Number(useSearchParams().get("start_date"))!,
     created_date: "",
     locations: {},
     trip_id: "",

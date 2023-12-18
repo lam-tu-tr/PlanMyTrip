@@ -29,7 +29,9 @@ export type LocationInfoType = {
 export type LocationType = {
   [location: string]: LocationInfoType;
 };
-
+export type LocationDateType = {
+  [date: string]: LocationType;
+};
 export type DestinationType = {
   name: string;
   description: string;
@@ -39,7 +41,7 @@ export type DestinationType = {
   end_date: string;
   duration: number;
   created_date: string;
-  locations: LocationType;
+  locations: LocationDateType;
 };
 
 export type TripCardType = {

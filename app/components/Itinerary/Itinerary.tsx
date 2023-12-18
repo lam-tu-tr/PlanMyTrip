@@ -6,7 +6,7 @@ import { capitalizeWords } from "@/helpers/helper-functions";
 import { copyToClipboard } from "../../helpers/helper-functions";
 
 import { LocationCard } from "../LocationCard/LocationCard";
-import { LocationType } from "@/helpers/types";
+import { LocationDateType, LocationType } from "@/helpers/types";
 import { LocationCardSeparator } from "../LocationCardSeparator/LocationCardSeparator";
 
 import "./Itinerary.scss";
@@ -14,7 +14,7 @@ import "./Itinerary.scss";
 type ItineraryType = {
   destination: string;
   trip_id: string;
-  locations: LocationType;
+  locations: LocationDateType;
 };
 
 export function Itinerary({ destination, trip_id, locations }: ItineraryType) {
@@ -32,12 +32,12 @@ export function Itinerary({ destination, trip_id, locations }: ItineraryType) {
       </div>
 
       <ul className="itinerary">
-        {Object.entries(locations).map(([name, info], index) => (
+        {/* {Object.entries(locations).map(([date, info], index) => (
           <Fragment key={index}>
             <LocationCardSeparator />
             <LocationCard name={name} info={info} />
           </Fragment>
-        ))}
+        ))} */}
       </ul>
     </section>
   );

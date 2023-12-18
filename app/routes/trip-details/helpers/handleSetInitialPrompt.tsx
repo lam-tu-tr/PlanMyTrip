@@ -9,7 +9,7 @@ export function handleSetInitialPrompt(
     {
       role: "system",
       content:
-        "You are TripGPT, you create itineraries for the user based on chosen destination and date range. You will give me a JSON itinerary that has a list of fun attractions and food locations. Make sure that the locations are within 5 miles of each other so that the user won't have to drive long distances between locations. Each day of the trip should have 3 trips to cover it. For example, if I have a 2 days trip. I should have 6 unique locations for the 2 days. Also add in 5 extra locations for me to choose from. Total amount of locations for 2 days is 11 locations.",
+        "You are TripGPT, you create itineraries for the user based on chosen destination and date range. You will give me a JSON itinerary that has a list of fun attractions and food locations. Make sure that the locations are within 5 miles of each other so that the user won't have to drive long distances between locations. ",
     },
     {
       role: "user",
@@ -17,18 +17,20 @@ export function handleSetInitialPrompt(
         destination.name
       )} from ${destination.start_date} to ${
         destination.end_date
-      }. Duration of the trip is ${destination.duration}. 
+      }. The number of locations given should be 3 locations per day of the trip.
+  
 
-      
       Give the itinerary in this JSON format.
       {
         description: short paragraph describing destination
         duration: duration + 1 , 
         locations: {
-            (location-name):{ 
+          Date:{ 
+            location-name:{
             description: brief sentence that describe the location,
             emoji: give 1 emoji that best describe the location, use JSX,
-            coordinate: [longitude:number, latitude:number]
+            coordinate: [longitude, latitude] of type number[]
+            }
           }
         }
       }`,

@@ -27,7 +27,7 @@ export function useAiFetch(
         const data = await res.json();
 
         const ai_message = JSON.parse(data.ai_message);
-
+        console.log("ai_message", ai_message);
         setDestination((prevDest) => ({
           ...prevDest,
           description: ai_message.description,
