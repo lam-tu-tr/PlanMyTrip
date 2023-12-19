@@ -69,7 +69,7 @@ export default function Trip() {
 
   useAiFetch(messagePayload, aiComplete, setAiComplete, setDestination);
 
-  useHandleLocationHover(destination.locations, setCurrDest);
+  // useHandleLocationHover(destination.locations, setCurrDest);
 
   return (
     <div className="TripDetails page-container">

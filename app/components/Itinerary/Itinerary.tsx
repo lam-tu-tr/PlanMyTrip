@@ -1,15 +1,12 @@
-import { Fragment } from "react";
-
 import { FaRegCopy } from "react-icons/fa";
 import { capitalizeWords } from "@/helpers/helper-functions";
 
 import { copyToClipboard } from "../../helpers/helper-functions";
 
-import { LocationCard } from "../LocationCard/LocationCard";
-import { LocationDateType, LocationType } from "@/helpers/types";
-import { LocationCardSeparator } from "../LocationCardSeparator/LocationCardSeparator";
+import { LocationDateType } from "@/helpers/types";
 
 import "./Itinerary.scss";
+import { ObjAccordion } from "../ObjAccordion/ObjAccordion";
 
 type ItineraryType = {
   destination: string;
@@ -31,14 +28,7 @@ export function Itinerary({ destination, trip_id, locations }: ItineraryType) {
         </button>
       </div>
 
-      <ul className="itinerary">
-        {/* {Object.entries(locations).map(([date, info], index) => (
-          <Fragment key={index}>
-            <LocationCardSeparator />
-            <LocationCard name={name} info={info} />
-          </Fragment>
-        ))} */}
-      </ul>
+      <ObjAccordion accordion_obj={locations} />
     </section>
   );
 }

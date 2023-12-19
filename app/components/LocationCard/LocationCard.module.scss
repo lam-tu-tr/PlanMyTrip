@@ -1,28 +1,32 @@
 .card {
   display: flex;
-  flex-direction: row;
-  padding: 1rem 1rem 1rem 0;
-  background-color: hsl(218, 14%, 11%);
-  border: solid hsl(218, 14%, 15%) 1px;
-  border-radius: 0.5rem;
-  min-width: 300px;
+  flex-direction: column;
 
   .card__link {
+    padding: 1rem 1rem 1rem 0;
+    background-color: hsl(218, 14%, 11%);
+    border: solid hsl(218, 14%, 15%) 1px;
+    border-radius: 0.5rem;
+    min-width: 300px;
     color: white;
+
     .link__info {
       display: flex;
       flex-direction: row;
       align-items: center;
-      div {
+
+      .info__emoji {
         font-size: 2rem;
         padding: 1rem;
       }
-      span {
+
+      .info__description {
         h3 {
           padding-bottom: 0.5rem;
           font-size: 1.1rem;
         }
-        p {
+
+        div {
           font-size: 0.8rem;
         }
       }
@@ -31,7 +35,7 @@
 }
 
 @media (min-width: 700px) {
-  .card {
+  .card__link {
     padding: 2rem 0 2rem 1rem;
   }
 }
