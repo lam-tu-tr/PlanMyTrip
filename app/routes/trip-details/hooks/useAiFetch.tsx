@@ -8,6 +8,7 @@ export function useAiFetch(
 
   setDestination: React.Dispatch<React.SetStateAction<DestinationType>>
 ) {
+  console.log("using aifetch");
   const isFirstRender = useRef(true);
 
   useEffect(() => {

@@ -23,7 +23,7 @@ export default function SignInButton() {
             />
           )}
         </div>
-        <p className="bg-orange-400 text-white rounded-xl px-4 ml-4">
+        <p className="bg-orange-400 text-white rounded-xl px-4 ml-4 z-20">
           Trip List
         </p>
       </a>
