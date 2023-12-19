@@ -17,6 +17,7 @@ export function useAiFetch(
     }
     if (aiComplete) return;
 
+    console.log("begin ai fetch");
     async function handleAiStream() {
       try {
         const res = await fetch("/api/prompt", {
@@ -34,7 +35,7 @@ export function useAiFetch(
         if (!res.body) return;
 
         const data = await res.json();
-
+        console.log("data in aifetch", data);
         const ai_message = JSON.parse(data.ai_message);
 
         setDestination((prevDest) => ({
