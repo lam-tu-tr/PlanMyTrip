@@ -33,7 +33,7 @@ export function useCreateMap({
         setMap(newMap);
       });
 
-      newMap.addControl(new mapboxgl.NavigationControl(), "top-left");
+      newMap.addControl(new mapboxgl.NavigationControl(), "bottom-right");
 
       const geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
@@ -41,6 +41,7 @@ export function useCreateMap({
         placeholder: "Choose a destination",
         zoom: 9,
       });
+
       newMap.addControl(geocoder);
 
       geocoder.on("result", (event) => {
@@ -55,6 +56,5 @@ export function useCreateMap({
         newMap.remove();
       };
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mapboxgl, mapboxgl.Map, setDestination]);
+  }, [mapContainerRef, setDestination, setMap]);
 }

@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 
-import { DestinationType } from "@/helpers/types";
+import { DestinationType, MarkerType } from "@/helpers/types";
 
 import mapboxgl from "mapbox-gl";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
@@ -30,8 +30,9 @@ export function Map({
 
   const [map, setMap] = useState<mapboxgl.Map | null>(null);
 
-  const [markers, setMarkers] = useState<Marker[]>([]);
+  const [markers, setMarkers] = useState<MarkerType[]>([]);
 
+  console.log("markers", markers);
   useCreateMap({ mapContainerRef, setMap, setDestination });
 
   useAddMarkers({ map, locations: destination.locations, markers, setMarkers });

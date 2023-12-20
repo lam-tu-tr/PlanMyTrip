@@ -52,3 +52,8 @@ export type TripCardType = {
   end_date: string;
   created_date: string;
 };
+
+export type MarkerType = {
+  coordinate: LngLatLike;
+  element: HTMLElement;
+};
