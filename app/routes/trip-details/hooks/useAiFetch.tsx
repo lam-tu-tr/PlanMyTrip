@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 
 export function useAiFetch(
   messagePayload: Message[],
-  aiComplete: boolean,
+
   setAiComplete: React.Dispatch<React.SetStateAction<boolean>>,
 
   setDestination: React.Dispatch<React.SetStateAction<DestinationType>>
@@ -16,7 +16,6 @@ export function useAiFetch(
       isFirstRender.current = false;
       return;
     }
-    if (aiComplete) return;
 
     console.log("begin ai fetch");
     async function handleAiStream() {
@@ -53,7 +52,7 @@ export function useAiFetch(
     }
 
     handleAiStream();
-  }, [aiComplete, messagePayload, setAiComplete, setDestination]);
+  }, [messagePayload, setAiComplete, setDestination]);
 }
 
 //old Ai stream code

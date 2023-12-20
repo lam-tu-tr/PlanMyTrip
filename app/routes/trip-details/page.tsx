@@ -67,7 +67,7 @@ export default function Trip() {
   //   Object.keys(destination.locations)
   // );
 
-  useAiFetch(messagePayload, aiComplete, setAiComplete, setDestination);
+  useAiFetch(messagePayload, setAiComplete, setDestination);
 
   // useHandleLocationHover(destination.locations, setCurrDest);
 
