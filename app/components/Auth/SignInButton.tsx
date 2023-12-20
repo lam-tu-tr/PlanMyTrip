@@ -10,7 +10,7 @@ export default function SignInButton() {
     return (
       <a
         href="/routes/account"
-        className="flex flex-row justify-center items-center py-2"
+        className="flex flex-row justify-center items-center py-2 z-20"
       >
         <div className=" relative h-full aspect-square flex justify-center items-center">
           {session.user.image && (
@@ -23,9 +23,9 @@ export default function SignInButton() {
             />
           )}
         </div>
-        <p className="bg-orange-400 text-white rounded-xl px-4 ml-4 z-20">
+        {/* <p className="bg-orange-400 text-white rounded-xl px-4 ml-4 z-20">
           Trip List
-        </p>
+        </p> */}
       </a>
     );
   }
@@ -33,7 +33,7 @@ export default function SignInButton() {
   return (
     <button
       onClick={() => signIn()}
-      className="bg-blue-400 rounded-xl px-4 ml-4"
+      className="bg-blue-400 rounded-xl px-4 ml-4 z-20"
     >
       Sign in
     </button>
