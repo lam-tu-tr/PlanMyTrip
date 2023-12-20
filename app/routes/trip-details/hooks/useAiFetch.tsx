@@ -9,13 +9,13 @@ export function useAiFetch(
   setDestination: React.Dispatch<React.SetStateAction<DestinationType>>
 ) {
   console.log("using aifetch");
-  const isFirstRender = useRef(true);
+  // const isFirstRender = useRef(true);
 
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+    // if (isFirstRender.current) {
+    //   isFirstRender.current = false;
+    //   return;
+    // }
 
     console.log("begin ai fetch");
     async function handleAiStream() {
