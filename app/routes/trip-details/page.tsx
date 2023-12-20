@@ -43,7 +43,7 @@ export default function Trip() {
   useEffect(() => {
     if (
       !aiComplete ||
-      destination.trip_id.length !== 0 ||
+      destination?.trip_id?.length !== 0 ||
       Object.keys(destination.locations).length === 0
     )
       return;
