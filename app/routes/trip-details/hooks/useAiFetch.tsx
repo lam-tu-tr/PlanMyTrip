@@ -8,6 +8,7 @@ export function useAiFetch(
 
   setDestination: React.Dispatch<React.SetStateAction<DestinationType>>
 ) {
+
   useEffect(() => {
     async function handleAiStream() {
       try {
