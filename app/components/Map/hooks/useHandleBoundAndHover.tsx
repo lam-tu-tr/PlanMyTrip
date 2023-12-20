@@ -1,8 +1,9 @@
+import { MarkerType } from "@/helpers/types";
 import mapboxgl from "mapbox-gl";
-import React, { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 type HandleBoundAndHoverType = {
-  markers: any[];
+  markers: MarkerType[];
   map: mapboxgl.Map | null;
   currDest: [number, number] | undefined;
   initialCoord: [number, number] | undefined;
@@ -13,15 +14,16 @@ export function useHandleBoundAndHover({
   currDest,
   initialCoord,
 }: HandleBoundAndHoverType) {
-  // //* iterate through makers and get the boundary box
+  // //* iterate through markers and get the boundary box
+
   const bounds = useMemo(() => {
+    if (markers.length === 0) {
+      return null;
+    }
     const newBounds = new mapboxgl.LngLatBounds();
 
-    if (markers.length === 0) {
-      return null; // Return null if there are no markers
-    }
     markers.forEach((marker) => {
-      newBounds.extend(marker.getLngLat());
+      newBounds.extend(marker.coordinate);
     });
 
     return newBounds;
@@ -31,9 +33,9 @@ export function useHandleBoundAndHover({
     // //*animate zoom & pan to bound box
     if (map && bounds) {
       map.fitBounds(bounds, {
-        padding: 50,
-        maxZoom: 10,
-        pitch: 50,
+        padding: 100,
+        maxZoom: 13,
+        pitch: 0,
       });
     }
   }, [bounds, map]);
