@@ -15,6 +15,7 @@ export async function handleSaveToDB(destination: DestinationType) {
           description: destination.description,
           locations: destination.locations,
           bbox: destination.bbox,
+          created_date: new Date().toString(),
           start_date: destination.start_date,
           end_date: destination.end_date,
         },

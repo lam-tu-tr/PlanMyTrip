@@ -76,6 +76,7 @@ export default function Trip() {
       />
 
       <Itinerary
+        description={destination.description}
         locations={destination.locations}
         destination={destination.name}
         trip_id={destination.trip_id}

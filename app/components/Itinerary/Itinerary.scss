@@ -1,35 +1,31 @@
 .itinerary_container {
   overflow: auto;
-  padding: 0 1rem;
+  padding: 0.5rem;
   width: 100%;
   scroll-padding: 0.5rem;
   position: relative;
 
-  margin: 0.5rem 0;
   aside {
     display: flex;
     flex-direction: row;
     margin: 0.3rem 0;
   }
   h1 {
-    font-size: 1rem;
     text-wrap: pretty;
     text-align: start;
-
-    padding: 1rem 0;
   }
   .itinerary__header {
-    padding: 1rem;
-    background-color: hsl(218, 14%, 11%);
-    border: solid hsl(218, 14%, 15%) 1px;
-    border-radius: 0.5rem;
-    min-width: 300px;
-
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+
     align-items: center;
-    gap: 1rem;
+
+    span {
+      width: 100%;
+    }
+    p {
+      font-size: 0.8rem;
+    }
     button {
       width: 2rem;
       height: 2rem;

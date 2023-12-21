@@ -30,7 +30,7 @@ export default function Trip() {
   useFetchTripInfo({ trip_id, setDestination });
 
   const [currDest, setCurrDest] = useState<[number, number]>();
-  useHandleLocationHover(destination.locations, setCurrDest);
+  // useHandleLocationHover(destination.locations, setCurrDest);
 
   return (
     <div className="TripDetails page-container">
@@ -39,13 +39,13 @@ export default function Trip() {
         destination={destination}
         setDestination={setDestination}
       />
-      <section className="itinerary_container">
-        <Itinerary
-          locations={destination.locations}
-          destination={destination.name}
-          trip_id={destination.trip_id}
-        />
-      </section>
+
+      <Itinerary
+        description={destination.description}
+        locations={destination.locations}
+        destination={destination.name}
+        trip_id={destination.trip_id}
+      />
     </div>
   );
 }

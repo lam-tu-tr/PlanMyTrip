@@ -29,13 +29,13 @@ export function useFetchTripInfo({
 
         if (tripData) {
           setDestination({
-            name: tripData.destination_name,
+            name: tripData.destination,
             bbox: tripData.bbox,
             description: tripData.description,
             start_date: tripData.start_date,
             end_date: tripData.end_date,
             locations: tripData.locations,
-            created_date: new Date().toString(),
+            created_date: tripData.created_date,
             duration: tripData.duration,
             trip_id: tripData.id,
           });
