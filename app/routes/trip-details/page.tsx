@@ -19,7 +19,7 @@ import "./trip-details.scss";
 
 export default function Trip() {
   const searchParams = useSearchParams();
-  const cnt = useRef(0);
+
   const initialDestination = useMemo(() => {
     return {
       name: searchParams.get("destination")!,
@@ -43,26 +43,25 @@ export default function Trip() {
 
   const [currDest, setCurrDest] = useState<[number, number]>();
 
-  console.log("cnt: " + cnt.current++);
-  // useEffect(() => {
-  //   if (
-  //     !aiComplete ||
-  //     destination?.trip_id?.length !== 0 ||
-  //     Object.keys(destination.locations).length === 0
-  //   )
-  //     return;
+  useEffect(() => {
+    if (
+      !aiComplete ||
+      destination?.trip_id?.length !== 0 ||
+      Object.keys(destination.locations).length === 0
+    )
+      return;
 
-  //   //*set debounce to prevent multiple calls when aiComplete and dest trigger renders simutaneously
-  //   const timeoutId = setTimeout(async () => {
-  //     const db_id = await handleSaveToDB(destination);
-  //     setDestination((prevDest: DestinationType) => ({
-  //       ...prevDest,
-  //       trip_id: db_id,
-  //     }));
-  //   }, 300);
+    //*set debounce to prevent multiple calls when aiComplete and dest trigger renders simutaneously
+    const timeoutId = setTimeout(async () => {
+      const db_id = await handleSaveToDB(destination);
+      setDestination((prevDest: DestinationType) => ({
+        ...prevDest,
+        trip_id: db_id,
+      }));
+    }, 300);
 
-  //   return () => clearTimeout(timeoutId);
-  // }, [aiComplete, destination]);
+    return () => clearTimeout(timeoutId);
+  }, [aiComplete, destination]);
 
   useAiFetch(destination, aiComplete, setAiComplete, setDestination);
 
