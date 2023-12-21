@@ -45,7 +45,7 @@ export function useAiFetch(
     }
 
     if (!aiComplete || !destination.name) handleAiFetch();
-  }, []);
+  }, [aiComplete, destination, setAiComplete, setDestination]);
 }
 
 //old Ai stream code

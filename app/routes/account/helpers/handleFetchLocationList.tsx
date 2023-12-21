@@ -1,16 +1,21 @@
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
+import { headers } from "next/headers";
 
 export async function handleFetchLocationList() {
   const session = await getServerSession();
   const user = session?.user;
-  console.log("fetchingLocationList");
-  if (!user) {
+
+  const proto = headers().get("x-forwarded-proto");
+  const host = headers().get("x-forwarded-host");
+  const baseUrl = `${proto}://${host}`;
+
+  if (!user || !baseUrl) {
     return NextResponse.json({ status: 400, error: "Not Logged In" });
   }
 
   try {
-    const res = await fetch("/api/trip/getUserTrips", {
+    const res = await fetch(`${baseUrl}/api/trip/getUserTrips`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

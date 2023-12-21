@@ -4,6 +4,7 @@ const nextConfig = {
   env: {
     MAPBOX_KEY: process.env.MAPBOX_API_KEY,
   },
+  basePath: "",
   reactStrictMode: false,
   images: {
     remotePatterns: [
