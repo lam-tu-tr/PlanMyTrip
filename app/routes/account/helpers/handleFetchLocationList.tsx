@@ -10,7 +10,7 @@ export async function handleFetchLocationList() {
   }
 
   try {
-    const res = await fetch("http://localhost:3000/api/trip/getUserTrips", {
+    const res = await fetch("/api/trip/getUserTrips", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 
 export async function handleDeleteDestination(trip_id: string) {
   try {
-    const res = await fetch("http://localhost:3000/api/trip/deleteTripById", {
+    const res = await fetch("/api/trip/deleteTripById", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
