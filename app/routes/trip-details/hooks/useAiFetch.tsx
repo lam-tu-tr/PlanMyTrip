@@ -10,8 +10,6 @@ export function useAiFetch(
 
   setDestination: React.Dispatch<React.SetStateAction<DestinationType>>
 ) {
-  const cnt_ai = useRef(0);
-
   useEffect(() => {
     async function handleAiFetch() {
       try {
@@ -47,7 +45,6 @@ export function useAiFetch(
     }
 
     if (!aiComplete || !destination.name) handleAiFetch();
-    console.log("cnt_ai", cnt_ai.current++);
   }, []);
 }
 

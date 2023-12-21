@@ -19,8 +19,9 @@ export default async function Account() {
     redirect("/routes/signin");
   }
 
+  console.log("account ");
   const cardItineraryList: TripCardType[] = await handleFetchLocationList();
-
+  console.log("cardlist", cardItineraryList);
   return (
     <div className="page-container">
       <section className={`${styles["account-body"]}`}>
