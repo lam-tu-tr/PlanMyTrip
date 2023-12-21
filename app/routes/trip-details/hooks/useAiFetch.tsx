@@ -1,16 +1,19 @@
 import { Message, DestinationType } from "@/helpers/types";
 import { useEffect, useRef } from "react";
+import { handleSetInitialPrompt } from "../helpers/handleSetInitialPrompt";
 
 export function useAiFetch(
-  messagePayload: Message[],
+  destination: DestinationType,
 
+  aiComplete: boolean,
   setAiComplete: React.Dispatch<React.SetStateAction<boolean>>,
 
   setDestination: React.Dispatch<React.SetStateAction<DestinationType>>
 ) {
+  const cnt_ai = useRef(0);
 
   useEffect(() => {
-    async function handleAiStream() {
+    async function handleAiFetch() {
       try {
         const res = await fetch("/api/prompt", {
           method: "POST",
@@ -18,7 +21,7 @@ export function useAiFetch(
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            messages: messagePayload,
+            messages: handleSetInitialPrompt(destination),
           }),
         });
 
@@ -43,8 +46,9 @@ export function useAiFetch(
       }
     }
 
-    handleAiStream();
-  }, [messagePayload, setAiComplete, setDestination]);
+    if (!aiComplete || !destination.name) handleAiFetch();
+    console.log("cnt_ai", cnt_ai.current++);
+  }, []);
 }
 
 //old Ai stream code

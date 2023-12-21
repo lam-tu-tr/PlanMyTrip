@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function handleFetchLocationList() {
   const session = await getServerSession();
   const user = session?.user;
-
+  console.log("fetchingLocationList");
   if (!user) {
     return NextResponse.json({ status: 400, error: "Not Logged In" });
   }

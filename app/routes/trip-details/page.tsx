@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import { Map } from "@/components/Map/Map";
 import { Itinerary } from "../../components/Itinerary/Itinerary";
@@ -11,63 +11,60 @@ import { Message, DestinationType } from "@/helpers/types";
 import { handleSetInitialPrompt } from "./helpers/handleSetInitialPrompt";
 
 import { useHandleLocationHover } from "./hooks/useHandleLocationHover";
-// import { useFetchLocation } from "./hooks/useFetchLocations";
+
 import { useAiFetch } from "./hooks/useAiFetch";
 import { handleSaveToDB } from "./helpers/handleSaveToDB";
 
 import "./trip-details.scss";
 
 export default function Trip() {
-  const [destination, setDestination] = useState<DestinationType>({
-    name: useSearchParams().get("destination")!,
-    description: "",
-    bbox: useSearchParams().get("bbox")!,
-    start_date: useSearchParams().get("start_date")!,
-    end_date: useSearchParams().get("end_date")!,
-    duration:
-      Number(useSearchParams().get("end_date"))! -
-      Number(useSearchParams().get("start_date"))!,
-    created_date: "",
-    locations: {},
-    trip_id: "",
-  });
+  const searchParams = useSearchParams();
+  const cnt = useRef(0);
+  const initialDestination = useMemo(() => {
+    return {
+      name: searchParams.get("destination")!,
+      description: "",
+      bbox: searchParams.get("bbox")!,
+      start_date: searchParams.get("start_date")!,
+      end_date: searchParams.get("end_date")!,
+      duration:
+        Number(searchParams.get("start_date"))! -
+        Number(searchParams.get("end_date"))!,
+      created_date: "",
+      locations: {}, // Initial empty locations object
+      trip_id: "",
+    };
+  }, [searchParams]);
+
+  const [destination, setDestination] =
+    useState<DestinationType>(initialDestination);
 
   const [aiComplete, setAiComplete] = useState<boolean>(false);
 
   const [currDest, setCurrDest] = useState<[number, number]>();
 
-  const [messagePayload, setMessagePayload] = useState<Message[]>(
-    handleSetInitialPrompt(destination)
-  );
+  console.log("cnt: " + cnt.current++);
+  // useEffect(() => {
+  //   if (
+  //     !aiComplete ||
+  //     destination?.trip_id?.length !== 0 ||
+  //     Object.keys(destination.locations).length === 0
+  //   )
+  //     return;
 
-  useEffect(() => {
-    if (
-      !aiComplete ||
-      destination?.trip_id?.length !== 0 ||
-      Object.keys(destination.locations).length === 0
-    )
-      return;
+  //   //*set debounce to prevent multiple calls when aiComplete and dest trigger renders simutaneously
+  //   const timeoutId = setTimeout(async () => {
+  //     const db_id = await handleSaveToDB(destination);
+  //     setDestination((prevDest: DestinationType) => ({
+  //       ...prevDest,
+  //       trip_id: db_id,
+  //     }));
+  //   }, 300);
 
-    //*set debounce to prevent multiple calls when aiComplete and dest trigger renders simutaneously
-    const timeoutId = setTimeout(async () => {
-      const db_id = await handleSaveToDB(destination);
-      setDestination((prevDest: DestinationType) => ({
-        ...prevDest,
-        trip_id: db_id,
-      }));
-    }, 300);
+  //   return () => clearTimeout(timeoutId);
+  // }, [aiComplete, destination]);
 
-    return () => clearTimeout(timeoutId);
-  }, [aiComplete, destination]);
-
-  // useFetchLocation(
-  //   aiComplete,
-  //   setDestination,
-  //   destination.bbox,
-  //   Object.keys(destination.locations)
-  // );
-
-  useAiFetch(messagePayload, setAiComplete, setDestination);
+  useAiFetch(destination, aiComplete, setAiComplete, setDestination);
 
   // useHandleLocationHover(destination.locations, setCurrDest);
 
