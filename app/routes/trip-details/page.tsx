@@ -75,12 +75,7 @@ export default function Trip() {
         setDestination={setDestination}
       />
 
-      <Itinerary
-        description={destination.description}
-        locations={destination.locations}
-        destination={destination.name}
-        trip_id={destination.trip_id}
-      />
+      <Itinerary destination={destination} />
     </div>
   );
 }

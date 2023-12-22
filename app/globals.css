@@ -33,7 +33,7 @@ body {
 }
 h1 {
   font-size: clamp(1.5rem, 1.2855rem + 0.9535vw, 2rem);
-  padding-bottom: 1rem;
+
   text-align: center;
   color: white;
 }

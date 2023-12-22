@@ -52,7 +52,6 @@
   .TripDetails {
     flex-direction: row-reverse;
     padding: 1rem;
-    gap: 1rem;
 
     #map {
       height: 100%;
@@ -91,7 +90,6 @@
 }
 @media (min-width: 1400px) {
   .TripDetails {
-    gap: 2rem;
     #map {
       flex-basis: 70%;
     }

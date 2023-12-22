@@ -10,6 +10,8 @@ import { BsCommand } from "react-icons/bs";
 
 import { getServerSession } from "next-auth";
 
+import { ScrollArea } from "@/components/ui/scroll-area";
+
 import { handleFetchLocationList } from "./helpers/handleFetchLocationList";
 import { TripCardType } from "@/helpers/types";
 
@@ -54,11 +56,13 @@ export default async function Account() {
             </div>
           </section>
         ) : (
-          <ul className={`${styles["trip-list"]}`}>
-            {cardItineraryList?.map((item: any, index: number) => {
-              return <TripCard key={index} trip={item} />;
-            })}
-          </ul>
+          <ScrollArea>
+            <ul className={`${styles["trip-list"]}`}>
+              {cardItineraryList?.map((item: any, index: number) => {
+                return <TripCard key={index} trip={item} />;
+              })}
+            </ul>
+          </ScrollArea>
         )}
       </section>
     </div>
