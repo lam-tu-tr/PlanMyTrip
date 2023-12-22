@@ -8,7 +8,7 @@ import { Itinerary } from "../../components/Itinerary/Itinerary";
 import { useSearchParams } from "next/navigation";
 import { DestinationType } from "@/helpers/types";
 
-import { useHandleLocationHover } from "./hooks/useHandleLocationHover";
+import { useHandleLocationCardClick } from "./hooks/useHandleLocationCardClick";
 
 import { useAiFetch } from "./hooks/useAiFetch";
 import { handleSaveToDB } from "./helpers/handleSaveToDB";
@@ -64,7 +64,7 @@ export default function Trip() {
 
   useAiFetch(destination, aiComplete, setAiComplete, setDestination);
 
-  useHandleLocationHover(destination.locations, setCurrDest);
+  useHandleLocationCardClick(destination.locations, setCurrDest);
 
   return (
     <div className="TripDetails page-container">

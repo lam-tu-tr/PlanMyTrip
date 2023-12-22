@@ -8,7 +8,7 @@ import { Map } from "@/components/Map/Map";
 import { Itinerary } from "@/components/Itinerary/Itinerary";
 
 import { useFetchTripInfo } from "./hooks/useFetchTripInfo";
-import { useHandleLocationHover } from "../trip-details/hooks/useHandleLocationHover";
+import { useHandleLocationCardClick } from "../trip-details/hooks/useHandleLocationCardClick";
 
 import "../trip-details/trip-details.scss"; //same style sheet as trip-details
 import { LngLatLike } from "mapbox-gl";
@@ -32,7 +32,7 @@ export default function Trip() {
 
   useFetchTripInfo({ trip_id, setDestination });
 
-  useHandleLocationHover(destination.locations, setCurrDest);
+  useHandleLocationCardClick(destination.locations, setCurrDest);
 
   // useHandleLocationHover(destination.locations, setCurrDest);
 

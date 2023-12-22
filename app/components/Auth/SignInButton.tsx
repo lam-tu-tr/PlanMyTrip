@@ -13,7 +13,7 @@ export default function SignInButton() {
     return (
       <a
         href="/routes/account"
-        className="flex flex-row justify-center items-center py-2 z-20 gap-4"
+        className="flex flex-row justify-center items-center py-2 z-20 gap-2"
       >
         <div className=" relative h-full aspect-square flex justify-center items-center">
           {session.user.image && (
@@ -34,7 +34,7 @@ export default function SignInButton() {
   return (
     <button
       onClick={() => signIn()}
-      className="bg-blue-400 rounded-xl ml-4 z-20 flex gap-2 items-center"
+      className="bg-blue-400 rounded-xl px-2 z-20 flex gap-2 items-center"
     >
       <IoMdLogIn /> Sign in
     </button>

@@ -1,4 +1,6 @@
 import { FaRegCalendarAlt, FaRegCopy } from "react-icons/fa";
+import { MdOutlineZoomOutMap } from "react-icons/md";
+
 import { capitalizeWords } from "@/helpers/helper-functions";
 
 import { copyToClipboard } from "../../helpers/helper-functions";
@@ -38,6 +40,13 @@ export function Itinerary({ destination }: ItineraryType) {
       <Spacer type={"dashed"} />
 
       <div className="card_style itinerary__links">
+        <button
+          title="Copy Trip Link"
+          onClick={() => copyToClipboard(destination.trip_id)}
+          type="button"
+        >
+          <MdOutlineZoomOutMap className="w-6 h-6" />
+        </button>
         <button
           title="Copy Trip Link"
           onClick={() => copyToClipboard(destination.trip_id)}

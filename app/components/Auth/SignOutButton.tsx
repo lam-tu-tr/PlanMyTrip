@@ -13,9 +13,8 @@ export function SignOutButton() {
     <button
       type="button"
       onClick={handleSignOut}
-      className="bg-orange-400 rounded-xl px-4 z-20 flex gap-2 items-center"
+      className="bg-orange-500 rounded-full p-2 z-20 flex items-center"
     >
-      Sign Out
       <IoMdLogOut />
     </button>
   );

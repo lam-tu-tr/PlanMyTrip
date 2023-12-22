@@ -1,5 +1,5 @@
-import { Message, DestinationType } from "@/helpers/types";
-import { useEffect, useRef } from "react";
+import { DestinationType } from "@/helpers/types";
+import { useEffect } from "react";
 import { handleSetInitialPrompt } from "../helpers/handleSetInitialPrompt";
 
 export function useAiFetch(

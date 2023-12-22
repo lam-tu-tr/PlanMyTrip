@@ -45,7 +45,6 @@ export default function Home() {
     bbox: destination.bbox,
   };
 
-  console.log(destination);
   function validateSubmit(e: any) {
     if (e.target.destination_name.value == "") {
       toastError("Please Choose a Destination Using the Map");

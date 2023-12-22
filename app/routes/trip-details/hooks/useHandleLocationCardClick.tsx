@@ -3,7 +3,7 @@ import { LngLatLike } from "mapbox-gl";
 import { useEffect } from "react";
 
 //** add event delegation, location_card class on click bubbles up to itinerary_container class*/
-export function useHandleLocationHover(
+export function useHandleLocationCardClick(
   locations_dates: LocationDateType,
   setCurrDest: React.Dispatch<React.SetStateAction<LngLatLike | undefined>>
 ) {
