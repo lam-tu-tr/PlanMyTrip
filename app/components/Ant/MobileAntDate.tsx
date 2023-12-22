@@ -13,26 +13,25 @@ import { AntMobileProps } from "@/helpers/types";
 //     ssr: false,
 //   }
 // );
-export default function MobileAntDate({ setDest }: AntMobileProps) {
+export default function MobileAntDate({ setDestination }: AntMobileProps) {
   const [visible, setVisible] = useState(false);
   const [startDate, setStartDate] = useState("");
 
   return (
-
     <div
       className={`home-button ${
         startDate.length == 0 ? "pre-select-color" : ""
       }`}
     >
-
       <ConfigProvider locale={enUS}>
         <Button
           onClick={() => {
             setVisible(true);
           }}
         >
-          StartDate{startDate.length > 0 ? `: ${startDate}` : ``}
+          Start Date{startDate.length > 0 ? `: ${startDate}` : ``}
         </Button>
+
         <DatePicker
           visible={visible}
           onClose={() => {
@@ -41,9 +40,9 @@ export default function MobileAntDate({ setDest }: AntMobileProps) {
           precision="day"
           onConfirm={(val) => {
             setStartDate(dayjs(val).format("MMM DD, YYYY"));
-            setDest((prev) => ({
+            setDestination((prev) => ({
               ...prev,
-              startDate: dayjs(val).format("MMM DD, YYYY"),
+              start_date: dayjs(val).format("MMM DD, YYYY"),
             }));
           }}
         />

@@ -15,7 +15,9 @@ const durationOptions = [
   ],
 ];
 
-export default function MobileAntDurationPicker({ setDest }: AntMobileProps) {
+export default function MobileAntDurationPicker({
+  setDestination,
+}: AntMobileProps) {
   const [value, setValue] = useState<string[]>([]);
   return (
     <div
@@ -27,7 +29,7 @@ export default function MobileAntDurationPicker({ setDest }: AntMobileProps) {
           value={value}
           onConfirm={(value) => {
             setValue([value.toString()]);
-            setDest((prev) => ({
+            setDestination((prev) => ({
               ...prev,
               duration: Number(value),
             }));

@@ -34,7 +34,6 @@ export default function Home() {
     start_date: "",
     end_date: "",
     duration: 0,
-
     created_date: "",
     locations: {},
   });
@@ -46,6 +45,7 @@ export default function Home() {
     bbox: destination.bbox,
   };
 
+  console.log(destination);
   function validateSubmit(e: any) {
     if (e.target.destination_name.value == "") {
       toastError("Please Choose a Destination Using the Map");
@@ -75,7 +75,10 @@ export default function Home() {
           <SearchParams params={searchParamsObject} />
 
           {isMobile ? (
-            <MobileAnt dest={destination} setDest={setDestination} />
+            <MobileAnt
+              destination={destination}
+              setDestination={setDestination}
+            />
           ) : (
             <AntDateRange setDest={setDestination} />
           )}

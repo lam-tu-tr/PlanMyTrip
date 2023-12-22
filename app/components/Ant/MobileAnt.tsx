@@ -7,37 +7,40 @@ import { AntMobileProps, DestinationType } from "@/helpers/types";
 import dayjs from "dayjs";
 import "./Ant.scss";
 
-type extendedAntMobileProps = AntMobileProps & { dest: DestinationType };
+type extendedAntMobileProps = AntMobileProps & { destination: DestinationType };
 
-export default function MobileAnt({ dest, setDest }: extendedAntMobileProps) {
+export default function MobileAnt({
+  destination,
+  setDestination,
+}: extendedAntMobileProps) {
   //* Set end date based on selected duration for mobile
   useEffect(() => {
-    if (dest.duration > 0 && dest.start_date.length > 0) {
-      setDest((prev) => ({
+    if (destination.duration > 0 && destination.start_date.length > 0) {
+      setDestination((prev) => ({
         ...prev,
-        endDate: dayjs(dest.start_date)
-          .add(Number(dest.duration), "day")
+        end_date: dayjs(destination.start_date)
+          .add(Number(destination.duration - 1), "day")
           .format("MMM DD, YYYY"),
       }));
     }
-  }, [dest.duration, dest.start_date, setDest]);
+  }, [destination.duration, destination.start_date, setDestination]);
 
   return (
     <div>
-      <MobileAntDate setDest={setDest} />
+      <MobileAntDate setDestination={setDestination} />
 
-      <MobileAntDurationPicker setDest={setDest} />
+      <MobileAntDurationPicker setDestination={setDestination} />
       <div
         className={` home-button
             ${
-              dest.end_date.length == 0
+              destination.end_date.length == 0
                 ? "border-dashed border-white border-2 text-[##dfdfdf]"
                 : "bg-white color"
             }
           `}
       >
-        {dest.end_date.length !== 0
-          ? `End Date: ${dest.end_date}`
+        {destination.end_date.length !== 0
+          ? `End Date: ${destination.end_date}`
           : `End Date `}
       </div>
     </div>

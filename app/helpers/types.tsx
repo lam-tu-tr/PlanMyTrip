@@ -18,7 +18,7 @@ export type AiStreamPayload = {
 };
 
 export type AntMobileProps = {
-  setDest: React.Dispatch<React.SetStateAction<DestinationType>>;
+  setDestination: React.Dispatch<React.SetStateAction<DestinationType>>;
 };
 
 export type LocationInfoType = {
