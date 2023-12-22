@@ -11,6 +11,7 @@ import { useFetchTripInfo } from "./hooks/useFetchTripInfo";
 import { useHandleLocationHover } from "../trip-details/hooks/useHandleLocationHover";
 
 import "../trip-details/trip-details.scss"; //same style sheet as trip-details
+import { LngLatLike } from "mapbox-gl";
 
 export default function Trip() {
   const trip_id = useSearchParams().get("id")!;
@@ -27,9 +28,12 @@ export default function Trip() {
     trip_id: "",
   });
 
+  const [currDest, setCurrDest] = useState<LngLatLike>();
+
   useFetchTripInfo({ trip_id, setDestination });
 
-  const [currDest, setCurrDest] = useState<[number, number]>();
+  useHandleLocationHover(destination.locations, setCurrDest);
+
   // useHandleLocationHover(destination.locations, setCurrDest);
 
   return (

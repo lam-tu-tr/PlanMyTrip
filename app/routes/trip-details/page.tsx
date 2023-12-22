@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import { Map } from "@/components/Map/Map";
 import { Itinerary } from "../../components/Itinerary/Itinerary";
 
 import { useSearchParams } from "next/navigation";
-import { Message, DestinationType } from "@/helpers/types";
-
-import { handleSetInitialPrompt } from "./helpers/handleSetInitialPrompt";
+import { DestinationType } from "@/helpers/types";
 
 import { useHandleLocationHover } from "./hooks/useHandleLocationHover";
 
@@ -16,6 +14,7 @@ import { useAiFetch } from "./hooks/useAiFetch";
 import { handleSaveToDB } from "./helpers/handleSaveToDB";
 
 import "./trip-details.scss";
+import { LngLatLike } from "mapbox-gl";
 
 export default function Trip() {
   const searchParams = useSearchParams();
@@ -41,7 +40,7 @@ export default function Trip() {
 
   const [aiComplete, setAiComplete] = useState<boolean>(false);
 
-  const [currDest, setCurrDest] = useState<[number, number]>();
+  const [currDest, setCurrDest] = useState<LngLatLike>();
 
   useEffect(() => {
     if (
@@ -65,7 +64,7 @@ export default function Trip() {
 
   useAiFetch(destination, aiComplete, setAiComplete, setDestination);
 
-  // useHandleLocationHover(destination.locations, setCurrDest);
+  useHandleLocationHover(destination.locations, setCurrDest);
 
   return (
     <div className="TripDetails page-container">

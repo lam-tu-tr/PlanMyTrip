@@ -1,14 +1,10 @@
-.card {
+.card_container {
   display: flex;
   flex-direction: column;
-
-  .card__link {
+  cursor: pointer;
+  .card {
     padding: 1rem 1rem 1rem 0;
-    background-color: hsl(218, 14%, 11%);
-    border: solid hsl(218, 14%, 15%) 1px;
-    border-radius: 0.5rem;
-    min-width: 300px;
-    color: white;
+    text-align: left;
 
     .link__info {
       display: flex;

@@ -1,8 +1,7 @@
-import { toastError, toastSuccess } from "@/helpers/toast";
+import { toastError } from "@/helpers/toast";
 import { DestinationType } from "@/helpers/types";
 
 export async function handleSaveToDB(destination: DestinationType) {
-  console.log("db", destination);
   try {
     const res = await fetch("../../../api/trip/saveTrip", {
       method: "POST",

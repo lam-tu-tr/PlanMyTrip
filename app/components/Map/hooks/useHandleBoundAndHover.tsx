@@ -1,11 +1,11 @@
 import { MarkerType } from "@/helpers/types";
-import mapboxgl from "mapbox-gl";
+import mapboxgl, { LngLatLike } from "mapbox-gl";
 import { useEffect, useMemo } from "react";
 
 type HandleBoundAndHoverType = {
   markers: MarkerType[];
   map: mapboxgl.Map | null;
-  currDest: [number, number] | undefined;
+  currDest: LngLatLike | undefined;
   initialCoord: [number, number] | undefined;
 };
 export function useHandleBoundAndHover({
@@ -49,7 +49,7 @@ export function useHandleBoundAndHover({
           zoom: 14,
           curve: 1.8,
           speed: 1.5,
-          pitch: 50,
+
           easing(t) {
             return t;
           },

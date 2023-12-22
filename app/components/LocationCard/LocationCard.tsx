@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 
 import { LocationType } from "@/helpers/types";
 
@@ -17,10 +16,10 @@ export function LocationCard({ locations }: TripCardProps) {
   return (
     <ul>
       {Object.entries(locations).map(([name, info], index) => (
-        <li className={`${styles.card} location-card`} key={index}>
+        <li className={`${styles.card_container}`} key={index}>
           <Spacer type="dashed" />
 
-          <Link href={`location`} className={styles.card__link}>
+          <section className={`${styles.card} card_style location_card`}>
             <div className={styles.link__info}>
               <div className={styles.info__emoji}>{info.emoji}</div>
               <span className={styles.info__description}>
@@ -28,7 +27,7 @@ export function LocationCard({ locations }: TripCardProps) {
                 <div>{info.description}</div>
               </span>
             </div>
-          </Link>
+          </section>
         </li>
       ))}
     </ul>
@@ -39,10 +38,10 @@ const PlaceHolder = (
   <ul>
     {Array.from({ length: 3 }, (_, index) => {
       return (
-        <li className={`${styles.card} location-card`} key={index}>
+        <li className={`${styles.card_container} location-card`} key={index}>
           <Spacer type={"dashed"} />
 
-          <section className={styles.card__link}>
+          <section className={`${styles.card} card_style`}>
             <div className={styles.link__info}>
               <div className={styles.info__emoji}>
                 <Skeleton className="w-8 h-8 rounded-full" />

@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 
 import { DestinationType, MarkerType } from "@/helpers/types";
 
-import mapboxgl from "mapbox-gl";
+import mapboxgl, { LngLatLike } from "mapbox-gl";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -15,7 +15,7 @@ import { Marker } from "mapbox-gl";
 import "./Map.scss";
 
 interface MapCoord {
-  currDest?: [number, number];
+  currDest?: LngLatLike;
   initialCoord?: [number, number];
   destination: DestinationType;
   setDestination: React.Dispatch<React.SetStateAction<DestinationType>>;
