@@ -15,10 +15,10 @@ const providerList: providerType[] = [
     name: "Google",
     icon: <FcGoogle className="icon" />,
   },
-  {
-    name: "GitHub",
-    icon: <BsGithub className="icon" />,
-  },
+  // {
+  //   name: "GitHub",
+  //   icon: <BsGithub className="icon" />,
+  // },
 ];
 
 export function ExtProviderButton() {

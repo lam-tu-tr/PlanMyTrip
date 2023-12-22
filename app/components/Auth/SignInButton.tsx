@@ -2,6 +2,9 @@
 
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
+import { SignOutButton } from "./SignOutButton";
+
+import { IoMdLogIn } from "react-icons/io";
 
 export default function SignInButton() {
   const { data: session } = useSession();
@@ -10,7 +13,7 @@ export default function SignInButton() {
     return (
       <a
         href="/routes/account"
-        className="flex flex-row justify-center items-center py-2 z-20"
+        className="flex flex-row justify-center items-center py-2 z-20 gap-4"
       >
         <div className=" relative h-full aspect-square flex justify-center items-center">
           {session.user.image && (
@@ -23,9 +26,7 @@ export default function SignInButton() {
             />
           )}
         </div>
-        {/* <p className="bg-orange-400 text-white rounded-xl px-4 ml-4 z-20">
-          Trip List
-        </p> */}
+        <SignOutButton />
       </a>
     );
   }
@@ -33,9 +34,9 @@ export default function SignInButton() {
   return (
     <button
       onClick={() => signIn()}
-      className="bg-blue-400 rounded-xl px-4 ml-4 z-20"
+      className="bg-blue-400 rounded-xl ml-4 z-20 flex gap-2 items-center"
     >
-      Sign in
+      <IoMdLogIn /> Sign in
     </button>
   );
 }

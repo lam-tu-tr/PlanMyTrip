@@ -42,8 +42,6 @@ export default async function Account() {
             <h2>{session.user.name}</h2>
             <p>{session.user.email}</p>
           </span>
-
-          <SignOutButton />
         </section>
 
         <h1>Itineraries</h1>

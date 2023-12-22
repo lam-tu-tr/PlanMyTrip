@@ -1,7 +1,8 @@
 "use client";
 
 import { signOut } from "next-auth/react";
-import { TbLogout } from "react-icons/tb";
+
+import { IoMdLogOut } from "react-icons/io";
 
 export function SignOutButton() {
   const handleSignOut = async () => {
@@ -9,8 +10,13 @@ export function SignOutButton() {
   };
 
   return (
-    <button type="button" onClick={handleSignOut}>
-      <TbLogout className="w-8 h-8" />
+    <button
+      type="button"
+      onClick={handleSignOut}
+      className="bg-orange-400 rounded-xl px-4 z-20 flex gap-2 items-center"
+    >
+      Sign Out
+      <IoMdLogOut />
     </button>
   );
 }
