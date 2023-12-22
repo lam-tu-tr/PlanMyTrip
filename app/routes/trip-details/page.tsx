@@ -72,6 +72,7 @@ export default function Trip() {
         currDest={currDest}
         destination={destination}
         setDestination={setDestination}
+        geocoder_visible={false}
       />
 
       <Itinerary destination={destination} />

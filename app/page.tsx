@@ -64,7 +64,11 @@ export default function Home() {
     <main id="home-main" className="page-container">
       <h1>Your Travel Plans Reimagined with AI-driven itineraries.</h1>
       <div id="home_content">
-        <Map setDestination={setDestination} destination={destination} />
+        <Map
+          setDestination={setDestination}
+          destination={destination}
+          geocoder_visible={true}
+        />
         <form
           action="./routes/tripDetails"
           onSubmit={(e) => {

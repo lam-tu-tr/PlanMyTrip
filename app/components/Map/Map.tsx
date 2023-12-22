@@ -11,7 +11,6 @@ import { useAddMarkers } from "./hooks/useAddMarkers";
 import { useHandleBoundAndHover } from "./hooks/useHandleBoundAndHover";
 (mapboxgl as any).accessToken = process.env.MAPBOX_KEY;
 
-import { Marker } from "mapbox-gl";
 import "./Map.scss";
 
 interface MapCoord {
@@ -19,12 +18,14 @@ interface MapCoord {
   initialCoord?: [number, number];
   destination: DestinationType;
   setDestination: React.Dispatch<React.SetStateAction<DestinationType>>;
+  geocoder_visible: boolean;
 }
 export function Map({
   currDest,
   initialCoord,
   destination,
   setDestination,
+  geocoder_visible,
 }: MapCoord) {
   const mapContainerRef = useRef(null);
 
@@ -32,7 +33,7 @@ export function Map({
 
   const [markers, setMarkers] = useState<MarkerType[]>([]);
 
-  useCreateMap({ mapContainerRef, setMap, setDestination });
+  useCreateMap({ mapContainerRef, setMap, setDestination, geocoder_visible });
 
   useAddMarkers({ map, locations: destination.locations, markers, setMarkers });
 

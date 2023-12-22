@@ -8,11 +8,13 @@ type CreateMapType = {
   mapContainerRef: MutableRefObject<null>;
   setMap: Dispatch<SetStateAction<mapboxgl.Map | null>>;
   setDestination: Dispatch<SetStateAction<DestinationType>>;
+  geocoder_visible: boolean;
 };
 export function useCreateMap({
   mapContainerRef,
   setMap,
   setDestination,
+  geocoder_visible,
 }: CreateMapType) {
   //* Create the map
   useEffect(() => {
@@ -35,26 +37,34 @@ export function useCreateMap({
 
       newMap.addControl(new mapboxgl.NavigationControl(), "bottom-right");
 
-      const geocoder = new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl,
-        placeholder: "Choose a destination",
-        zoom: 9,
-      });
-
-      newMap.addControl(geocoder);
-
-      geocoder.on("result", (event) => {
-        setDestination((prevState: any) => ({
-          ...prevState,
-          name: event.result.place_name,
-          bbox: event.result.bbox.toString(),
-        }));
-      });
+      if (geocoder_visible === true) {
+        handleGeoCoder(newMap, setDestination);
+      }
 
       return () => {
         newMap.remove();
       };
     }
-  }, [mapContainerRef, setDestination, setMap]);
+  }, [geocoder_visible, mapContainerRef, setDestination, setMap]);
+}
+function handleGeoCoder(
+  newMap: mapboxgl.Map,
+  setDestination: Dispatch<SetStateAction<DestinationType>>
+) {
+  const geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl,
+    placeholder: "Choose a destination",
+    zoom: 9,
+  });
+
+  newMap.addControl(geocoder);
+
+  geocoder.on("result", (event) => {
+    setDestination((prevState: any) => ({
+      ...prevState,
+      name: event.result.place_name,
+      bbox: event.result.bbox.toString(),
+    }));
+  });
 }
