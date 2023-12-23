@@ -42,13 +42,11 @@ export default async function Account() {
           </span>
         </section>
 
-        <h1>Itineraries</h1>
-
         {cardItineraryList?.length == 0 ? (
           <section className={styles.empty}>
             <div>
               <BsCommand className="w-48 h-48" />
-              <h2>View your generated itineraries here</h2>
+              <h2>View your saved itineraries here</h2>
             </div>
           </section>
         ) : (

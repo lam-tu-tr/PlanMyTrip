@@ -1,14 +1,10 @@
 .TripDetails {
-  display: flex;
-  flex-direction: column;
-
-  background-color: #0e1012;
-  opacity: 1;
-  background-image: linear-gradient(#161719 1.1px, transparent 1.1px),
-    linear-gradient(to right, #161719 1.1px, #0e1012 1.1px);
-  background-size: 22px 22px;
+  // background-color: #0e1012;
+  // opacity: 1;
+  // background-image: linear-gradient(#161719 1.1px, transparent 1.1px),
+  //   linear-gradient(to right, #161719 1.1px, #0e1012 1.1px);
+  // background-size: 22px 22px;
   color: white;
-
   #map {
     flex-basis: 40%;
     width: 100%;
