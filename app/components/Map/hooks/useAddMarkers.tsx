@@ -21,12 +21,11 @@ export function useAddMarkers({
       isFirstRender.current = false;
       return;
     }
-    if (
-      map &&
-      locations &&
-      Object.getOwnPropertyNames(locations).length > 0 &&
-      markers.length == 0
-    ) {
+
+    if (map && locations && Object.getOwnPropertyNames(locations).length > 0) {
+      markers.forEach((marker) => {
+        marker.element.remove();
+      });
       //*Loop through locations and set a marker for each destination, and pushing
       //*marker into markers array
       Object.values(locations).forEach((date) => {

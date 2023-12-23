@@ -1,5 +1,7 @@
+"use client";
 import { FaRegCalendarAlt, FaRegCopy } from "react-icons/fa";
-import { MdOutlineZoomOutMap } from "react-icons/md";
+
+import { GrRefresh } from "react-icons/gr";
 
 import { capitalizeWords } from "@/helpers/helper-functions";
 
@@ -14,12 +16,21 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import "./Itinerary.scss";
 import dayjs from "dayjs";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useRouter } from "next/navigation";
 
 type ItineraryType = {
   destination: DestinationType;
+  setAiComplete: React.Dispatch<React.SetStateAction<boolean>>;
+  setDestination: React.Dispatch<React.SetStateAction<DestinationType>>;
 };
 
-export function Itinerary({ destination }: ItineraryType) {
+export function Itinerary({
+  destination,
+  setAiComplete,
+  setDestination,
+}: ItineraryType) {
+  const router = useRouter();
+
   if (Object.keys(destination.locations).length === 0) {
     return PlaceHolder;
   }
@@ -41,12 +52,19 @@ export function Itinerary({ destination }: ItineraryType) {
 
       <div className="card_style itinerary__links">
         <button
-          title="Copy Trip Link"
-          onClick={() => copyToClipboard(destination.trip_id)}
+          title="Generate another"
+          onClick={() => {
+            setAiComplete(false);
+            setDestination((prevDest) => ({
+              ...prevDest,
+              locations: {},
+            }));
+          }}
           type="button"
         >
-          <MdOutlineZoomOutMap className="w-6 h-6" />
+          <GrRefresh className="w-6 h-6" />
         </button>
+
         <button
           title="Copy Trip Link"
           onClick={() => copyToClipboard(destination.trip_id)}

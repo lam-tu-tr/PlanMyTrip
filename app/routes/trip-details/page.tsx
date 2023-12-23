@@ -68,14 +68,20 @@ export default function Trip() {
 
   return (
     <div className="TripDetails page-container">
-      <Map
-        currDest={currDest}
+      <div className="map-container">
+        <Map
+          currDest={currDest}
+          destination={destination}
+          setDestination={setDestination}
+          geocoder_visible={false}
+        />
+      </div>
+
+      <Itinerary
         destination={destination}
         setDestination={setDestination}
-        geocoder_visible={false}
+        setAiComplete={setAiComplete}
       />
-
-      <Itinerary destination={destination} />
     </div>
   );
 }
