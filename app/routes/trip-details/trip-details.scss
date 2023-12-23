@@ -54,7 +54,7 @@
     flex-direction: row-reverse;
     padding: 0 1rem 1rem 0;
     gap: 0.5rem;
-    #map {
+    .map-container {
       height: 100%;
       flex-basis: 50%;
       border-radius: 1rem;
@@ -91,7 +91,7 @@
 }
 @media (min-width: 1400px) {
   .TripDetails {
-    #map {
+    .map-container {
       flex-basis: 70%;
     }
     .trip_form {

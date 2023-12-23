@@ -13,14 +13,13 @@ export default function SignInButton() {
     return (
       <a
         href="/routes/account"
-        className="flex flex-row justify-center items-center py-2 z-20 gap-2"
+        className="flex flex-row justify-center items-center py-2 z-20 gap-4"
       >
-        <div className=" relative h-full aspect-square flex justify-center items-center">
+        <div className="relative h-full aspect-square">
           {session.user.image && (
             <Image
               src={session.user.image}
-              width={40}
-              height={40}
+              fill={true}
               alt="User Profile Pic"
               className="rounded-3xl "
             />

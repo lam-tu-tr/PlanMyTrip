@@ -1,6 +1,5 @@
-"use client";
 import { FaRegCalendarAlt, FaRegCopy } from "react-icons/fa";
-
+import { LuSave } from "react-icons/lu";
 import { GrRefresh } from "react-icons/gr";
 
 import { capitalizeWords } from "@/helpers/helper-functions";
@@ -13,14 +12,16 @@ import { ObjAccordion } from "../ObjAccordion/ObjAccordion";
 import { Spacer } from "../Spacer/Spacer";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-import "./Itinerary.scss";
 import dayjs from "dayjs";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useRouter } from "next/navigation";
+
+import "./Itinerary.scss";
+import { handleSaveToDB } from "@/routes/trip-details/helpers/handleSaveToDB";
+import { toastError } from "@/helpers/toast";
 
 type ItineraryType = {
   destination: DestinationType;
-  setAiComplete: React.Dispatch<React.SetStateAction<boolean>>;
+  setAiComplete: React.Dispatch<React.SetStateAction<boolean>> | null;
   setDestination: React.Dispatch<React.SetStateAction<DestinationType>>;
 };
 
@@ -29,8 +30,6 @@ export function Itinerary({
   setAiComplete,
   setDestination,
 }: ItineraryType) {
-  const router = useRouter();
-
   if (Object.keys(destination.locations).length === 0) {
     return PlaceHolder;
   }
@@ -48,31 +47,51 @@ export function Itinerary({
         <span>{destination.description}</span>
       </div>
 
-      <Spacer type={"dashed"} />
+      {setAiComplete && <Spacer type={"dashed"} />}
 
-      <div className="card_style itinerary__links">
-        <button
-          title="Generate another"
-          onClick={() => {
-            setAiComplete(false);
-            setDestination((prevDest) => ({
-              ...prevDest,
-              locations: {},
-            }));
-          }}
-          type="button"
-        >
-          <GrRefresh className="w-6 h-6" />
-        </button>
+      {setAiComplete && (
+        <div className="card_style itinerary__links">
+          <button
+            title="Regenerate trip"
+            onClick={() => {
+              setAiComplete(false);
+              setDestination((prevDest) => ({
+                ...prevDest,
+                locations: {},
+              }));
+            }}
+            type="button"
+          >
+            <GrRefresh className="w-6 h-6" />
+          </button>
 
-        <button
-          title="Copy Trip Link"
-          onClick={() => copyToClipboard(destination.trip_id)}
-          type="button"
-        >
-          <FaRegCopy className="w-6 h-6" />
-        </button>
-      </div>
+          <button
+            title="Save trip to account"
+            onClick={async () => {
+              const trip_id = await handleSaveToDB(destination);
+              setDestination((prevDest) => ({
+                ...prevDest,
+                trip_id: trip_id,
+              }));
+            }}
+            type="button"
+          >
+            <LuSave className="w-6 h-6" />
+          </button>
+
+          <button
+            title="Copy Trip Link"
+            onClick={() => {
+              if (destination.trip_id !== "")
+                copyToClipboard(destination.trip_id);
+              else toastError("Save trip to share link");
+            }}
+            type="button"
+          >
+            <FaRegCopy className="w-6 h-6" />
+          </button>
+        </div>
+      )}
 
       <ObjAccordion accordion_obj={destination.locations} />
     </ScrollArea>
@@ -96,14 +115,6 @@ const PlaceHolder = (
         <Skeleton className="w-full h-4" />
         <Skeleton className="w-full h-4" />
       </div>
-    </div>
-
-    <Spacer type={"dashed"} />
-
-    <div className="card_style itinerary__links">
-      <button title="Copy Trip Link" type="button">
-        <FaRegCopy className="w-6 h-6" />
-      </button>
     </div>
 
     <ObjAccordion accordion_obj={{}} />
