@@ -22,12 +22,12 @@ export default function Trip() {
     bbox: "",
     start_date: "",
     end_date: "",
-    duration: 1,
+    duration: 0,
     locations: {},
     created_date: "",
     trip_id: "",
   });
-
+  console.log(destination);
   const [currDest, setCurrDest] = useState<LngLatLike>();
 
   useFetchTripInfo({ trip_id, setDestination });

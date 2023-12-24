@@ -15,12 +15,12 @@ export function useAddMarkers({
   markers,
   setMarkers,
 }: AddMarkersType) {
-  const isFirstRender = useRef(true);
+  // const isFirstRender = useRef(true);
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+    // if (isFirstRender.current) {
+    //   isFirstRender.current = false;
+    //   return;
+    // }
 
     if (map && locations && Object.getOwnPropertyNames(locations).length > 0) {
       markers.forEach((marker) => {
@@ -56,15 +56,15 @@ export function useAddMarkers({
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locations, mapboxgl.LngLatBounds, mapboxgl.Marker, mapboxgl.Popup]);
+  }, [locations, map, mapboxgl.LngLatBounds, mapboxgl.Marker, mapboxgl.Popup]);
 }
 
 function getRandomColor() {
   const hue = Math.floor(Math.random() * 360);
 
   // Set lower saturation and brightness for muted colors
-  const saturation = Math.floor(Math.random() * 30) + 20;
-  const lightness = Math.floor(Math.random() * 30) + 50;
+  const saturation = Math.floor(Math.random() * 30) + 10;
+  const lightness = Math.floor(Math.random() * 30) + 20;
 
   const rgbColor = `hsl(${hue},${saturation}%,${lightness}%)`;
 
