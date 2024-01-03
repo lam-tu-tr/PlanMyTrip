@@ -37,7 +37,7 @@ export default function Home() {
     created_date: "",
     locations: {},
   });
-  console.log("dest", destination);
+
   const searchParamsObject = {
     destination_name: destination.name,
     start_date: destination.start_date,

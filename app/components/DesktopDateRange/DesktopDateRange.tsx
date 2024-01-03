@@ -31,7 +31,6 @@ export function DesktopDateRange({
   });
   const firstRender = React.useRef(true);
 
-  console.log("date", date);
   React.useEffect(() => {
     if (firstRender.current) {
       firstRender.current = false;
