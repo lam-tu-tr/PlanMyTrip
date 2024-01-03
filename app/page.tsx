@@ -16,11 +16,6 @@ import { DesktopDateRange } from "./components/DesktopDateRange/DesktopDateRange
 import { useGlobalContext } from "@/Context";
 import "./home.scss";
 
-//*Force AntDesign component to be imported as client instead of SSR
-// const AntDateRange = dynamic(() => import("@/components/Ant/AntDateRange"), {
-//   ssr: false,
-// });
-
 export default function Home() {
   const { isMobile } = useGlobalContext();
 

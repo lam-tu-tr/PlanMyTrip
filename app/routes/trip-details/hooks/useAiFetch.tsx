@@ -47,21 +47,3 @@ export function useAiFetch(
     if (!aiComplete || !destination.name) handleAiFetch();
   }, [aiComplete, destination, setAiComplete, setDestination]);
 }
-
-//old Ai stream code
-// const reader = res.body.getReader();
-// const decoder = new TextDecoder();
-// let done = false;
-
-// while (!done) {
-//   const { value, done: doneReading } = await reader.read();
-//   done = doneReading;
-
-//   if (doneReading) setAiComplete(true);
-
-//   const chunkValue = decoder.decode(value);
-//   setDestination((prevDest) => ({
-//     ...prevDest,
-//     aiMessage: prevDest.aiMessage + chunkValue,
-//   }));
-// }

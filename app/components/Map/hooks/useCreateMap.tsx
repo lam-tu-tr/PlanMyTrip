@@ -56,6 +56,7 @@ function handleGeoCoder(
     mapboxgl: mapboxgl,
     placeholder: "Choose a destination",
     zoom: 9,
+    types: "country, place",
   });
 
   newMap.addControl(geocoder);

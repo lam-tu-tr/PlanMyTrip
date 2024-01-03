@@ -10,7 +10,6 @@ export function useFetchTripInfo({
   trip_id,
   setDestination,
 }: useFetchTripInfoProp) {
-  console.log("fetchTripInfo");
   useEffect(() => {
     async function fetchTripInfo() {
       try {
