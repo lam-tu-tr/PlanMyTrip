@@ -25,7 +25,6 @@ export default function SignInButton() {
             />
           )}
         </div>
-        <SignOutButton />
       </a>
     );
   }

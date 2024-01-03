@@ -6,6 +6,9 @@
     padding: 1rem 1rem 1rem 0;
     text-align: left;
 
+    &:hover {
+      background-color: hsl(12, 6.5%, 15.1%);
+    }
     .link__info {
       display: flex;
       flex-direction: row;

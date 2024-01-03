@@ -11,11 +11,17 @@ import { Analytics } from "@vercel/analytics/react";
 import { Topography } from "./components/Topography/Topography";
 import { getServerSession } from "next-auth/next";
 import SessionProvider from "./components/Auth/SessionProvider";
+import { ShadcnThemeProvider } from "./components/ShadcnThemeProvider/ShacnThemeProvider";
 
 export const metadata: Metadata = {
+  generator: "Next.js",
   title: "Itinerary Genie",
 
   description: "Generate trip itinerary using AI",
+  authors: [
+    { name: "Lam Tran", url: "https://www.linkedin.com/in/lam-t-tran/" },
+  ],
+  creator: "Lam Tran",
 
   keywords: [
     "next.js",
@@ -32,9 +38,9 @@ export const metadata: Metadata = {
     "planner",
   ],
 
-  authors: [
-    { name: "Lam Tran", url: "https://www.linkedin.com/in/lam-t-tran/" },
-  ],
+  icons: {
+    icon: "./assets/itinerarygenie_favicon.png",
+  },
 };
 
 export default async function RootLayout({
@@ -51,7 +57,14 @@ export default async function RootLayout({
           <GlobalContextProvider>
             <Topography />
             <Navbar />
-            {children}
+            <ShadcnThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ShadcnThemeProvider>
           </GlobalContextProvider>
         </SessionProvider>
         <Analytics />

@@ -40,6 +40,8 @@ export default async function Account() {
             <h2>{session.user.name}</h2>
             <p>{session.user.email}</p>
           </span>
+
+          <SignOutButton />
         </section>
 
         {cardItineraryList?.length == 0 ? (

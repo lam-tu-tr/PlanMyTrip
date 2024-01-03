@@ -1,4 +1,3 @@
-
 .submit-button {
   padding: 0 !important;
 }
@@ -46,7 +45,7 @@
   border: none;
   outline: none;
   color: #fff;
-  background: #232323;
+  background: hsl(218, 14%, 15%);
   cursor: pointer;
   position: relative;
   z-index: 0;
@@ -71,8 +70,8 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  background: #232323;
-  border: 2px solid #3a3a3a;
+  background: hsl(218, 14%, 11%);
+  border: 1px solid hsl(218 14% 15%);
   left: 0;
   top: 0;
   border-radius: 10px;

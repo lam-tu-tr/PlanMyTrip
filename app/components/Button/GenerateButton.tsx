@@ -5,6 +5,7 @@ interface ButtonProps {
 }
 
 export function GenerateButton({ endDate }: ButtonProps) {
+  console.log(endDate);
   return (
     <button
       className={`home-button submit-button  ${

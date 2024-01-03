@@ -12,14 +12,14 @@ import { Map } from "@/components/Map/Map";
 import { GenerateButton } from "@/components/Button/GenerateButton";
 import MobileAnt from "@/components/Ant/MobileAnt";
 import { SearchParams } from "@/components/SearchParams/SearchParams";
-
+import { DesktopDateRange } from "./components/DesktopDateRange/DesktopDateRange";
 import { useGlobalContext } from "@/Context";
 import "./home.scss";
 
 //*Force AntDesign component to be imported as client instead of SSR
-const AntDateRange = dynamic(() => import("@/components/Ant/AntDateRange"), {
-  ssr: false,
-});
+// const AntDateRange = dynamic(() => import("@/components/Ant/AntDateRange"), {
+//   ssr: false,
+// });
 
 export default function Home() {
   const { isMobile } = useGlobalContext();
@@ -37,7 +37,7 @@ export default function Home() {
     created_date: "",
     locations: {},
   });
-
+  console.log("dest", destination);
   const searchParamsObject = {
     destination_name: destination.name,
     start_date: destination.start_date,
@@ -83,7 +83,11 @@ export default function Home() {
               setDestination={setDestination}
             />
           ) : (
-            <AntDateRange setDest={setDestination} />
+            // <AntDateRange setDest={setDestination} />
+            <DesktopDateRange
+              destination={destination}
+              setDestination={setDestination}
+            />
           )}
           <GenerateButton endDate={destination.end_date} />
         </form>

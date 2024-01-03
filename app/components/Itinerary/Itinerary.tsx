@@ -17,7 +17,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import "./Itinerary.scss";
 import { handleSaveToDB } from "@/routes/trip-details/helpers/handleSaveToDB";
-import { toastError } from "@/helpers/toast";
+import { toastError, toastSuccess } from "@/helpers/toast";
 
 type ItineraryType = {
   destination: DestinationType;
@@ -73,6 +73,7 @@ export function Itinerary({
                 ...prevDest,
                 trip_id: trip_id,
               }));
+              toastSuccess("Trip saved");
             }}
             type="button"
           >
@@ -82,9 +83,10 @@ export function Itinerary({
           <button
             title="Copy Trip Link"
             onClick={() => {
-              if (destination.trip_id !== "")
+              if (destination.trip_id !== "") {
                 copyToClipboard(destination.trip_id);
-              else toastError("Save trip to share link");
+                toastSuccess("Trip link copied");
+              } else toastError("Save trip to share link");
             }}
             type="button"
           >
