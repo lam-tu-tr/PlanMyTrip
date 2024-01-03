@@ -62,14 +62,14 @@ export function DesktopDateRange({
   }, [date, setDestination]);
 
   return (
-    <div className={cn("grid gap-2 h-full", className)}>
+    <div className={cn("grid gap-2 h-full ", className)}>
       <Popover>
         <PopoverTrigger asChild>
           <Button
             id="date"
             variant={"outline"}
             className={cn(
-              "w-[300px] justify-start text-left font-normal h-full mr-4 text-[1rem] text-white",
+              "w-[300px] justify-start text-left font-normal h-full mr-4 text-[1rem] text-white date-range",
               !date && "text-muted-foreground"
             )}
           >

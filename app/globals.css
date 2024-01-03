@@ -26,7 +26,7 @@ body {
 .card_style {
   padding: 1rem;
   background-color: hsl(218, 14%, 11%);
-  border: solid hsl(218, 14%, 15%) 1px;
+  border: solid hsl(218, 14%, 30%) 1px;
   border-radius: 0.5rem;
   /* min-width: 300px; */
   color: white;
@@ -80,7 +80,7 @@ h3 {
     --card-foreground: 60 9.1% 97.8%;
     --popover: 20 14.3% 4.1%;
     --popover-foreground: 60 9.1% 97.8%;
-    --primary: 60 9.1% 97.8%;
+    --primary: 60 9.1% 40%;
     --primary-foreground: 24 9.8% 10%;
     --secondary: 12 6.5% 15.1%;
     --secondary-foreground: 60 9.1% 97.8%;

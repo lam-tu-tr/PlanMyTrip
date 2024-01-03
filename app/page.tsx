@@ -83,7 +83,6 @@ export default function Home() {
               setDestination={setDestination}
             />
           ) : (
-            // <AntDateRange setDest={setDestination} />
             <DesktopDateRange
               destination={destination}
               setDestination={setDestination}
