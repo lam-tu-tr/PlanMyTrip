@@ -2,16 +2,14 @@ import { toastError } from "@/helpers/toast";
 import { DestinationType } from "@/helpers/types";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import mapboxgl from "mapbox-gl";
-import { Dispatch, MutableRefObject, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
 type CreateMapType = {
-  mapContainerRef: MutableRefObject<null>;
   setMap: Dispatch<SetStateAction<mapboxgl.Map | null>>;
   setDestination: Dispatch<SetStateAction<DestinationType>>;
   geocoder_visible: boolean;
 };
 export function useCreateMap({
-  mapContainerRef,
   setMap,
   setDestination,
   geocoder_visible,
@@ -23,29 +21,28 @@ export function useCreateMap({
       return;
     }
     //*if there is a map Ref found, create new map
-    if (mapContainerRef.current) {
-      const newMap = new mapboxgl.Map({
-        container: mapContainerRef.current,
-        style: "mapbox://styles/mapbox/dark-v11",
-        center: [-79.2, 21.945],
-        zoom: 1.5,
-        pitch: 0,
-      });
-      newMap.on("load", () => {
-        setMap(newMap);
-      });
 
-      newMap.addControl(new mapboxgl.NavigationControl(), "bottom-right");
+    const newMap = new mapboxgl.Map({
+      container: "map",
+      style: "mapbox://styles/mapbox/dark-v11",
+      center: [-79.2, 21.945],
+      zoom: 1.5,
+      pitch: 0,
+    });
+    newMap.on("load", () => {
+      setMap(newMap);
+    });
 
-      if (geocoder_visible === true) {
-        handleGeoCoder(newMap, setDestination);
-      }
+    newMap.addControl(new mapboxgl.NavigationControl(), "bottom-right");
 
-      return () => {
-        newMap.remove();
-      };
+    if (geocoder_visible === true) {
+      handleGeoCoder(newMap, setDestination);
     }
-  }, [geocoder_visible, mapContainerRef, setDestination, setMap]);
+
+    return () => {
+      newMap.remove();
+    };
+  }, [geocoder_visible, setDestination, setMap]);
 }
 function handleGeoCoder(
   newMap: mapboxgl.Map,

@@ -27,17 +27,15 @@ export function Map({
   setDestination,
   geocoder_visible,
 }: MapCoord) {
-  const mapContainerRef = useRef(null);
-
   const [map, setMap] = useState<mapboxgl.Map | null>(null);
 
   const [markers, setMarkers] = useState<MarkerType[]>([]);
 
-  useCreateMap({ mapContainerRef, setMap, setDestination, geocoder_visible });
+  useCreateMap({ setMap, setDestination, geocoder_visible });
 
   useAddMarkers({ map, locations: destination.locations, markers, setMarkers });
 
   useHandleBoundAndHover({ markers, map, currDest, initialCoord });
 
-  return <div ref={mapContainerRef} id="map"></div>;
+  return <div id="map"></div>;
 }
