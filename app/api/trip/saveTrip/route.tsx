@@ -11,16 +11,18 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   const user = session?.user;
 
   let trip_id: string = "";
+  let current_user = "";
 
-  if (!user) {
-    console.error("Not logged in");
-    return NextResponse.json({ status: 400 });
+  if (!user || !user.email) current_user = "AnonymousUser";
+  else {
+    current_user = user.email;
   }
+  // return NextResponse.json({ status: 400 });
 
   const { data, error } = await supabase
     .from("trip")
     .insert({
-      email: user.email,
+      email: current_user,
       destination: dbPayload.name,
       description: dbPayload.description,
       locations: dbPayload.locations,

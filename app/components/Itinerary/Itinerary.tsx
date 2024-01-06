@@ -18,6 +18,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import "./Itinerary.scss";
 import { handleSaveToDB } from "@/routes/trip-details/helpers/handleSaveToDB";
 import { toastError, toastSuccess } from "@/helpers/toast";
+import { useSession } from "next-auth/react";
 
 type ItineraryType = {
   destination: DestinationType;
@@ -30,6 +31,8 @@ export function Itinerary({
   setAiComplete,
   setDestination,
 }: ItineraryType) {
+  const { data: session } = useSession();
+
   if (Object.keys(destination.locations).length === 0) {
     return PlaceHolder;
   }
@@ -73,7 +76,8 @@ export function Itinerary({
                 ...prevDest,
                 trip_id: trip_id,
               }));
-              toastSuccess("Trip saved");
+              if (!session) toastError("Login to save your itineraries");
+              else toastSuccess("Trip saved");
             }}
             type="button"
           >
