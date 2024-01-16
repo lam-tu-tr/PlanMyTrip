@@ -1,10 +1,11 @@
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
+import { User } from "@supabase/supabase-js";
 
-export async function handleFetchLocationList() {
-  const session = await getServerSession();
-  const user = session?.user;
+export async function handleFetchLocationList({ user }: { user: User }) {
+  // const session = await getServerSession();
+  // const user = session?.user;
 
   const proto = headers().get("x-forwarded-proto");
   const host = headers().get("x-forwarded-host");

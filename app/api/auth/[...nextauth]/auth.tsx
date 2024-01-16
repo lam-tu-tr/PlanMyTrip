@@ -1,7 +1,9 @@
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
-import supabase from "@/supabase/supabaseClient";
+import { createSupabaseFrontendClient } from "@/supabase/createSupabaseFrontendClient";
+
+const supabase = createSupabaseFrontendClient();
 const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({

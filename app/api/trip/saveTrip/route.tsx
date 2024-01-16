@@ -13,7 +13,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   let trip_id: string = "";
   let current_user = "";
 
-  if (!user || !user.email) current_user = "AnonymousUser";
+  if (!user || !user.email) current_user = process.env.SECRET_USER!;
   else {
     current_user = user.email;
   }

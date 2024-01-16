@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import supabase from "@/supabase/supabaseClient";
+import { createSupabaseFrontendClient } from "@/supabase/createSupabaseFrontendClient";
 import { TripCardType } from "@/helpers/types";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const { user_email } = await req.json();
+
+  const supabase = createSupabaseFrontendClient();
 
   let cardItineraryList: TripCardType[] = [];
 
