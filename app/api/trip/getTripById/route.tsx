@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import supabase from "@/supabase/supabaseClient";
+
+import { createSupabaseServerClient } from "@/supabase/createSupabaseServerClient";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const { trip_id } = await req.json();
+
+  const supabase = createSupabaseServerClient();
 
   let tripData = [];
 

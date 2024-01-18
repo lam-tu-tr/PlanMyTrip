@@ -6,8 +6,6 @@ export async function POST(req: NextRequest) {
   const cookieStore = cookies();
   const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
 
-  console.log(req.nextUrl.origin);
-  console.log("in signout");
   // Check if we have a session
   const {
     data: { user },

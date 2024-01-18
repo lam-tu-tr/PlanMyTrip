@@ -10,7 +10,7 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { Topography } from "./components/Topography/Topography";
 import { getServerSession } from "next-auth/next";
-import SessionProvider from "./components/Auth/SessionProvider";
+
 import { ShadcnThemeProvider } from "./components/ShadcnThemeProvider/ShacnThemeProvider";
 
 export const metadata: Metadata = {
@@ -53,20 +53,19 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={ubuntu.className}>
-        <SessionProvider session={session}>
-          <GlobalContextProvider>
-            <Topography />
-            <Navbar />
-            <ShadcnThemeProvider
-              attribute="class"
-              defaultTheme="dark"
-              enableSystem
-              disableTransitionOnChange
-            >
-              {children}
-            </ShadcnThemeProvider>
-          </GlobalContextProvider>
-        </SessionProvider>
+        <GlobalContextProvider>
+          <Topography />
+          <Navbar />
+          <ShadcnThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ShadcnThemeProvider>
+        </GlobalContextProvider>
+
         <Analytics />
       </body>
     </html>

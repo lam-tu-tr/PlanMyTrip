@@ -1,37 +1,23 @@
-import { getServerSession } from "next-auth";
-import { NextResponse } from "next/server";
-import { headers } from "next/headers";
-import { User } from "@supabase/supabase-js";
+import { TripCardType } from "@/helpers/types";
+import { createSupabaseServerClient } from "@/supabase/createSupabaseServerClient";
 
-export async function handleFetchLocationList({ user }: { user: User }) {
-  // const session = await getServerSession();
-  // const user = session?.user;
+export async function handleFetchLocationList({
+  user_id,
+}: {
+  user_id: string;
+}) {
+  const supabase = createSupabaseServerClient();
+  let cardItineraryList: TripCardType[] = [];
 
-  const proto = headers().get("x-forwarded-proto");
-  const host = headers().get("x-forwarded-host");
-  const baseUrl = `${proto}://${host}`;
+  const { data, error } = await supabase
+    .from("trip")
+    .select("id, destination, bbox, start_date, end_date, created_date")
+    .eq("user_id", user_id)
+    .order("created_date", { ascending: false });
 
-  if (!user || !baseUrl) {
-    return NextResponse.json({ status: 400, error: "Not Logged In" });
-  }
+  if (data) cardItineraryList = data as TripCardType[];
 
-  try {
-    const res = await fetch(`${baseUrl}/api/trip/getUserTrips`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user_email: user.email,
-      }),
-    });
+  if (error) throw new Error("Failed to fetch location list");
 
-    if (!res.ok) throw new Error("Failed to get itinerary list from db");
-
-    const { cardItineraryList } = await res.json();
-
-    return cardItineraryList;
-  } catch (err) {
-    console.log(err);
-  }
+  return cardItineraryList;
 }

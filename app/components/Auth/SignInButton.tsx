@@ -3,15 +3,27 @@
 import Image from "next/image";
 import { IoMdLogIn } from "react-icons/io";
 import { User } from "@supabase/supabase-js";
+
+import { useEffect, useState } from "react";
+
+import Link from "next/link";
+
 import { createSupabaseFrontendClient } from "@/supabase/createSupabaseFrontendClient";
-import { useState } from "react";
-import { useGetUser } from "@/supabase/useGetUser";
 
 export default function SignInButton() {
-  const [user, setUser] = useState<User | null>();
-
   const supabase = createSupabaseFrontendClient();
-  useGetUser({ setUser });
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    async function fetchUser() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUser(user);
+    }
+
+    fetchUser();
+  }, [supabase.auth]);
 
   if (user) {
     return (
@@ -22,8 +34,8 @@ export default function SignInButton() {
         <div className="relative h-full aspect-square">
           <Image
             src={user.user_metadata.avatar_url}
-            width={50}
-            height={50}
+            width={40}
+            height={40}
             alt="Profile Picture"
             className="rounded-3xl "
           />
@@ -33,18 +45,11 @@ export default function SignInButton() {
   }
 
   return (
-    <button
-      onClick={async () => {
-        const { data, error } = await supabase.auth.signInWithOAuth({
-          provider: "google",
-          options: {
-            redirectTo: "https://itinerarygenie.app/",
-          },
-        });
-      }}
-      className="bg-blue-400 rounded-xl px-2 z-20 flex gap-2 items-center"
+    <Link
+      href="/routes/signin"
+      className="bg-blue-400 text-white rounded-xl px-2 z-20 gap-2"
     >
       <IoMdLogIn /> Sign in
-    </button>
+    </Link>
   );
 }

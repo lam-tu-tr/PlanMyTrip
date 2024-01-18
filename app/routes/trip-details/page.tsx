@@ -15,8 +15,26 @@ import { handleSaveToDB } from "./helpers/handleSaveToDB";
 
 import "./trip-details.scss";
 import { LngLatLike } from "mapbox-gl";
+import { createSupabaseFrontendClient } from "@/supabase/createSupabaseFrontendClient";
+import { User } from "@supabase/supabase-js";
+import { toastError } from "@/helpers/toast";
 
 export default function Trip() {
+  const [user, setUser] = useState<User | null>(null);
+
+  const supabase = createSupabaseFrontendClient();
+
+  useEffect(() => {
+    async function fetchUser() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUser(user);
+    }
+
+    fetchUser();
+  }, [supabase.auth]);
+
   const searchParams = useSearchParams();
 
   const initialDestination = useMemo(() => {
@@ -43,12 +61,9 @@ export default function Trip() {
   const [currDest, setCurrDest] = useState<LngLatLike>();
 
   useEffect(() => {
-    if (
-      !aiComplete ||
-      destination?.trip_id?.length !== 0 ||
-      Object.keys(destination.locations).length === 0
-    )
-      return;
+    if (user) return;
+
+    if (!aiComplete || destination.trip_id.length !== 0) return;
 
     //*set debounce to prevent multiple calls when aiComplete and dest trigger renders simutaneously
     const timeoutId = setTimeout(async () => {
@@ -56,7 +71,7 @@ export default function Trip() {
     }, 300);
 
     return () => clearTimeout(timeoutId);
-  }, [aiComplete, destination]);
+  }, [aiComplete, destination, user]);
 
   useAiFetch(destination, aiComplete, setAiComplete, setDestination);
 

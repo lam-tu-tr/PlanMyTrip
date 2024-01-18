@@ -8,21 +8,13 @@ import { SignOutButton } from "@/components/Auth/SignOutButton";
 
 import { BsCommand } from "react-icons/bs";
 
-import { getServerSession } from "next-auth";
-
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { handleFetchLocationList } from "./helpers/handleFetchLocationList";
-import { TripCardType } from "@/helpers/types";
-import { cookies } from "next/headers";
+
 import { createSupabaseServerClient } from "@/supabase/createSupabaseServerClient";
 
 export default async function Account() {
-  // const session = await getServerSession();
-  // if (!session || !session.user) {
-  //   redirect("/routes/signin");
-  // }
-
   const supabase = createSupabaseServerClient();
   const {
     data: { user },
@@ -32,8 +24,8 @@ export default async function Account() {
     redirect("/routes/signin");
   }
 
-  const cardItineraryList: TripCardType[] = await handleFetchLocationList({
-    user,
+  const cardItineraryList = await handleFetchLocationList({
+    user_id: user.id,
   });
 
   return (

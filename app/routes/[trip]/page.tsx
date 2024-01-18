@@ -27,14 +27,12 @@ export default function Trip() {
     created_date: "",
     trip_id: "",
   });
-  console.log(destination);
+
   const [currDest, setCurrDest] = useState<LngLatLike>();
 
   useFetchTripInfo({ trip_id, setDestination });
 
   useHandleLocationCardClick(destination.locations, setCurrDest);
-
-  // useHandleLocationHover(destination.locations, setCurrDest);
 
   return (
     <div className="TripDetails page-container">

@@ -19,6 +19,9 @@ import "./Itinerary.scss";
 import { handleSaveToDB } from "@/routes/trip-details/helpers/handleSaveToDB";
 import { toastError, toastSuccess } from "@/helpers/toast";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { createSupabaseFrontendClient } from "@/supabase/createSupabaseFrontendClient";
+import { User } from "@supabase/supabase-js";
 
 type ItineraryType = {
   destination: DestinationType;
@@ -31,7 +34,20 @@ export function Itinerary({
   setAiComplete,
   setDestination,
 }: ItineraryType) {
-  const { data: session } = useSession();
+  const [user, setUser] = useState<User | null>();
+
+  const supabase = createSupabaseFrontendClient();
+
+  useEffect(() => {
+    async function fetchUser() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUser(user);
+    }
+
+    fetchUser();
+  }, [supabase.auth]);
 
   if (Object.keys(destination.locations).length === 0) {
     return PlaceHolder;
@@ -69,15 +85,16 @@ export function Itinerary({
           </button>
 
           <button
-            title="Save trip to account"
+            title="Save trip"
             onClick={async () => {
-              const trip_id = await handleSaveToDB(destination);
-              setDestination((prevDest) => ({
-                ...prevDest,
-                trip_id: trip_id,
-              }));
-              if (!session) toastError("Login to save your itineraries");
-              else toastSuccess("Trip saved");
+              if (user) {
+                const trip_id = await handleSaveToDB(destination);
+                setDestination((prevDest) => ({
+                  ...prevDest,
+                  trip_id: trip_id,
+                }));
+                toastSuccess("Trip saved to account");
+              } else toastError("Login to save trip to account");
             }}
             type="button"
           >
