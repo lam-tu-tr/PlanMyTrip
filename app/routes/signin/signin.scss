@@ -1,19 +1,8 @@
 .signin-container {
-  color: white;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
+  border-radius: 20px;
 
-  button {
-    padding: 1rem 2rem;
-    background-color: #232323;
-    margin-bottom: 1rem;
-    border-radius: 5rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    font-size: 1.2rem;
-  }
+  min-width: 300px;
+  background-color: #0e1012;
+  padding: 1rem;
+  border: solid hsl(218, 14%, 30%) 1px;
 }

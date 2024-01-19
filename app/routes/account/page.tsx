@@ -8,20 +8,25 @@ import { SignOutButton } from "@/components/Auth/SignOutButton";
 
 import { BsCommand } from "react-icons/bs";
 
-import { getServerSession } from "next-auth";
-
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { handleFetchLocationList } from "./helpers/handleFetchLocationList";
-import { TripCardType } from "@/helpers/types";
+
+import { createSupabaseServerClient } from "@/supabase/createSupabaseServerClient";
 
 export default async function Account() {
-  const session = await getServerSession();
-  if (!session || !session.user) {
+  const supabase = createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
     redirect("/routes/signin");
   }
 
-  const cardItineraryList: TripCardType[] = await handleFetchLocationList();
+  const cardItineraryList = await handleFetchLocationList({
+    user_id: user.id,
+  });
 
   return (
     <div className="page-container">
@@ -29,7 +34,7 @@ export default async function Account() {
         <section className={`${styles["user-profile"]}`}>
           <div>
             <Image
-              src={session.user.image!}
+              src={user.user_metadata.avatar_url}
               width={50}
               height={50}
               alt="Profile Picture"
@@ -37,8 +42,8 @@ export default async function Account() {
           </div>
 
           <span>
-            <h2>{session.user.name}</h2>
-            <p>{session.user.email}</p>
+            <h2>{user.user_metadata.name}</h2>
+            <p>{user.user_metadata.email}</p>
           </span>
 
           <SignOutButton />

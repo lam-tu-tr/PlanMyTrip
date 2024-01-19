@@ -1,28 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
-import supabase from "@/supabase/supabaseClient";
+import { createSupabaseServerClient } from "@/supabase/createSupabaseServerClient";
 
-import { getServerSession } from "next-auth";
 import { DestinationType } from "@/helpers/types";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const { dbPayload }: { dbPayload: DestinationType } = await req.json();
 
-  const session = await getServerSession();
-  const user = session?.user;
+  let current_user_id: string | null = null;
+  let trip_id: string = process.env.SECRET_USER_ID!;
 
-  let trip_id: string = "";
-  let current_user = "";
+  const supabase = createSupabaseServerClient();
 
-  if (!user || !user.email) current_user = "AnonymousUser";
-  else {
-    current_user = user.email;
-  }
-  // return NextResponse.json({ status: 400 });
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) current_user_id = user.id;
 
   const { data, error } = await supabase
     .from("trip")
     .insert({
-      email: current_user,
       destination: dbPayload.name,
       description: dbPayload.description,
       locations: dbPayload.locations,
@@ -30,6 +27,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       start_date: dbPayload.start_date,
       end_date: dbPayload.end_date,
       created_date: new Date(),
+      user_id: current_user_id,
     })
     .select("id");
 

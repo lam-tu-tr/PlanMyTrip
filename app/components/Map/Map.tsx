@@ -12,6 +12,7 @@ import { useHandleBoundAndHover } from "./hooks/useHandleBoundAndHover";
 (mapboxgl as any).accessToken = process.env.MAPBOX_KEY;
 
 import "./Map.scss";
+import { Skeleton } from "antd-mobile";
 
 interface MapCoord {
   currDest?: LngLatLike;
